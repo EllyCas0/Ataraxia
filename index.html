@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ataraxia | Filosofia viva</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="rail" aria-label="Navegacion principal">
+        <div class="brand">
+          <span class="brand-mark">A</span>
+          <span>
+            <strong>Ataraxia</strong>
+            <small>Filosofia viva</small>
+          </span>
+        </div>
+        <nav id="side-nav" class="side-nav"></nav>
+      </aside>
+
+      <main class="phone-frame">
+        <header class="topbar">
+          <button class="icon-button" id="menu-button" type="button" aria-label="Abrir navegacion">☰</button>
+          <div>
+            <p class="eyebrow" id="screen-kicker">Hoy</p>
+            <h1 id="screen-title">Pregunta del dia</h1>
+          </div>
+          <button class="icon-button" id="search-button" type="button" aria-label="Buscar">⌕</button>
+        </header>
+
+        <section class="drawer" id="drawer" aria-label="Menu movil"></section>
+        <section id="app" class="screen" aria-live="polite"></section>
+
+        <nav id="bottom-nav" class="bottom-nav" aria-label="Navegacion rapida"></nav>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
