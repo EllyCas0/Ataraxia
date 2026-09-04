@@ -1,0 +1,437 @@
+[
+  {
+    "slug": "stoicism",
+    "name": "Stoicism",
+    "tradition": "Western",
+    "emoji": "🟢",
+    "period": "c. 300 BCE – 180 CE (Hellenistic Greece, Imperial Rome)",
+    "coreQuestion": "How can we live well and remain at peace, given that so much of life is outside our control?",
+    "coreIdea": "Well-being comes from mastering our judgments and responses, not from controlling outside events — most of which we can't.",
+    "centralIdeas": [
+      "The dichotomy of control: separate what is 'up to us' (judgments, choices, effort) from what is not (outcomes, others' opinions, fortune).",
+      "Virtue — wisdom, courage, justice, temperance — is the only true good; everything else is 'preferred' but not necessary for a good life.",
+      "Negative visualization: imagining loss in advance builds resilience and gratitude.",
+      "Live according to nature and reason, accepting the larger order of things (amor fati).",
+      "Emotional disturbance comes from false judgments about what is good or bad, not from events themselves."
+    ],
+    "keyThinkers": ["Zeno of Citium", "Epictetus", "Seneca", "Marcus Aurelius"],
+    "historicalContext": "Founded in Athens around 300 BCE by Zeno, Stoicism became the practical philosophy of Roman statesmen, slaves, and emperors alike — from the enslaved Epictetus to the emperor Marcus Aurelius — during a period of political instability across the Mediterranean world.",
+    "application": "Widely used today in resilience training, CBT-adjacent self-help, and executive coaching: focus effort on your actions and attitudes, release attachment to outcomes, prepare mentally for setbacks.",
+    "criticisms": [
+      "Can tip into emotional suppression rather than healthy processing of feeling.",
+      "Risks a passivity toward genuinely changeable injustice by over-emphasizing 'acceptance'.",
+      "The line between 'not in our control' and 'insufficiently tried to control' is often unclear."
+    ],
+    "relatedPhilosophies": {
+      "agrees": ["buddhism", "taoism"],
+      "disagrees": ["existentialism", "utilitarianism"]
+    },
+    "furtherQuestions": ["What is truly within my control?", "What would it mean to want what happens, rather than what I wish had happened?", "Can virtue alone be sufficient for a good life?"]
+  },
+  {
+    "slug": "existentialism",
+    "name": "Existentialism",
+    "tradition": "Western",
+    "emoji": "🟣",
+    "period": "c. 1840s–1960s (Denmark, Germany, France)",
+    "coreQuestion": "Given that existence has no pre-given essence or purpose, how should we live authentically and take responsibility for who we become?",
+    "coreIdea": "Meaning is not necessarily discovered — humans may participate in creating it through choices and actions, and bear full responsibility for those choices.",
+    "centralIdeas": [
+      "\"Existence precedes essence\": we exist first, without a predetermined nature, and define ourselves through action.",
+      "Radical freedom: even refusing to choose is a choice; we cannot escape responsibility.",
+      "Authenticity: living according to values you've examined and own, rather than roles imposed by society ('bad faith').",
+      "Absurdity: the universe offers no inherent answers to our need for meaning — we must create meaning within that silence.",
+      "Anxiety (angst) is a natural response to the weight of freedom, not a malfunction to be cured."
+    ],
+    "keyThinkers": ["Søren Kierkegaard", "Friedrich Nietzsche", "Jean-Paul Sartre", "Simone de Beauvoir", "Albert Camus"],
+    "historicalContext": "Emerged from 19th-century responses to religious doubt and industrialization, and crystallized in France during and after WWII, as thinkers confronted the collapse of inherited moral and political certainties.",
+    "application": "Useful in moments of transition, crisis, or freedom-overload — career change, loss of faith, grief — where old scripts no longer apply and a person must author new values deliberately.",
+    "criticisms": [
+      "Can overstate individual freedom while underweighting social, economic, and biological constraints.",
+      "Emphasis on self-creation can tip into isolating individualism, neglecting relational and communal sources of meaning.",
+      "Offers little positive content about *which* values to choose, only that we must choose."
+    ],
+    "relatedPhilosophies": {
+      "agrees": ["pragmatism"],
+      "disagrees": ["stoicism", "vedanta", "confucianism"]
+    },
+    "furtherQuestions": ["What is freedom, really?", "What does responsibility require of me?", "What would it mean to live authentically in my own life?"]
+  },
+  {
+    "slug": "buddhism",
+    "name": "Buddhism",
+    "tradition": "Eastern",
+    "emoji": "🔵",
+    "period": "c. 5th century BCE – present (India, spreading across Asia and globally)",
+    "coreQuestion": "Why do humans suffer, and how can suffering be understood and released?",
+    "coreIdea": "Suffering arises from craving and attachment, often rooted in a mistaken sense of a fixed, independent self; freedom comes from seeing clearly and releasing that grasping.",
+    "centralIdeas": [
+      "The Four Noble Truths: suffering exists, it has a cause (craving/attachment), it can cease, and there is a path to its cessation.",
+      "Impermanence (anicca): all things, including the self, are in constant change.",
+      "Non-self (anatta): the sense of a fixed, separate 'I' may itself be a construction worth examining, not an unquestionable given.",
+      "Dependent origination: things arise in interdependence, not in isolation.",
+      "The Eightfold Path — including right view, intention, and mindfulness — as a practical training, not merely a belief system."
+    ],
+    "keyThinkers": ["Siddhartha Gautama (the Buddha)", "Nagarjuna", "Thich Nhat Hanh", "the Dalai Lama"],
+    "historicalContext": "Originated in the 5th century BCE in the Ganges plain of India as one of several 'renunciant' movements questioning Vedic ritualism, later diversifying into Theravada, Mahayana, and Vajrayana traditions across Asia.",
+    "application": "Underpins contemporary mindfulness and meditation practice; offers tools for working with anxiety, grief, and craving by observing mental patterns rather than being swept up in them.",
+    "criticisms": [
+      "Secular adaptations sometimes strip out the ethical and communal framework the practices were embedded in.",
+      "Some critics argue 'non-self' can be misapplied to dismiss legitimate psychological needs or trauma.",
+      "Traditions vary enormously; treating 'Buddhism' as one monolithic view can flatten real doctrinal disagreement."
+    ],
+    "relatedPhilosophies": {
+      "agrees": ["taoism", "stoicism"],
+      "disagrees": ["existentialism", "vedanta"]
+    },
+    "furtherQuestions": ["What am I calling 'myself,' exactly?", "What am I grasping at, and what would it feel like to loosen that grip?", "Is craving the same thing as desire, or something narrower?"]
+  },
+  {
+    "slug": "utilitarianism",
+    "name": "Utilitarianism",
+    "tradition": "Western",
+    "emoji": "🟠",
+    "period": "c. 1780s–present (England)",
+    "coreQuestion": "What makes an action morally right — and can we measure it?",
+    "coreIdea": "An action is right to the extent it maximizes well-being (or minimizes suffering) for everyone affected, not just the actor.",
+    "centralIdeas": [
+      "The greatest happiness principle: seek the greatest good for the greatest number.",
+      "Consequences, not intentions or rules, are what ultimately determine moral rightness.",
+      "Everyone's well-being counts equally — no person's happiness is inherently worth more than another's.",
+      "Later versions distinguish act utilitarianism (judge each act) from rule utilitarianism (judge the rule the act follows).",
+      "Modern effective altruism extends this into practical calculations about doing the most good per resource spent."
+    ],
+    "keyThinkers": ["Jeremy Bentham", "John Stuart Mill", "Peter Singer"],
+    "historicalContext": "Developed in Enlightenment England as a secular, egalitarian alternative to religious and aristocratic moral authority, later shaping public policy, law, and economics via cost-benefit reasoning.",
+    "application": "Used explicitly in public health policy, cost-benefit analysis, and effective altruism; implicitly whenever we ask 'what does the most good here?'",
+    "criticisms": [
+      "Can justify harming a minority if it maximizes aggregate welfare — the 'utility monster' and scapegoat problems.",
+      "Suffering and happiness are hard to measure or compare across people.",
+      "May demand more self-sacrifice than most people find humanly sustainable."
+    ],
+    "relatedPhilosophies": {
+      "agrees": ["pragmatism"],
+      "disagrees": ["aristotelianism", "existentialism"]
+    },
+    "furtherQuestions": ["Who counts, and how far does that circle extend?", "Can outcomes alone justify any means?", "How do we weigh one person's suffering against another's happiness?"]
+  },
+  {
+    "slug": "aristotelianism",
+    "name": "Aristotelianism",
+    "tradition": "Western",
+    "emoji": "🟡",
+    "period": "c. 335–322 BCE (Athens)",
+    "coreQuestion": "What is the good life for a human being, and how is it achieved?",
+    "coreIdea": "Human flourishing (eudaimonia) comes from living in accordance with reason and cultivating virtues as stable character traits, exercised through practice over a lifetime.",
+    "centralIdeas": [
+      "Eudaimonia — often translated 'flourishing' rather than 'happiness' — is the ultimate human good, achieved through activity, not mere feeling.",
+      "Virtue is a mean between two extremes (e.g., courage between cowardice and recklessness), discovered through practical wisdom (phronesis).",
+      "Character is built by habituation: we become virtuous by repeatedly acting virtuously, not by understanding virtue abstractly.",
+      "Humans are inherently social ('political animals'); flourishing is bound up with community and friendship.",
+      "A good life requires some external goods (health, resources, relationships) alongside virtue — flourishing isn't purely internal."
+    ],
+    "keyThinkers": ["Aristotle", "Thomas Aquinas (later synthesis)", "Alasdair MacIntyre (contemporary revival)"],
+    "historicalContext": "Developed in Aristotle's Lyceum in Athens as a systematic alternative to Plato's more otherworldly forms, grounding ethics in observation of how humans actually function and flourish.",
+    "application": "Underlies modern 'virtue ethics' and character-based approaches to leadership, education, and habit formation — asking not 'what rule should I follow' but 'what kind of person am I becoming?'",
+    "criticisms": [
+      "Its account of human nature and 'flourishing' can smuggle in the biases of Aristotle's own time and place (e.g., his views on women and slavery).",
+      "Offers less clear guidance in genuine moral dilemmas than rule- or outcome-based systems.",
+      "Dependence on external goods for flourishing can seem to make a good life partly a matter of luck."
+    ],
+    "relatedPhilosophies": {
+      "agrees": ["confucianism", "stoicism"],
+      "disagrees": ["utilitarianism", "existentialism"]
+    },
+    "furtherQuestions": ["What does it mean to flourish, as opposed to merely feel good?", "What virtues am I actively practicing, versus merely admiring?", "What role does community play in my own sense of a good life?"]
+  },
+  {
+    "slug": "taoism",
+    "name": "Taoism",
+    "tradition": "Eastern",
+    "emoji": "☯️",
+    "period": "c. 4th century BCE – present (China)",
+    "coreQuestion": "How can we live in harmony with the natural order of things, rather than against it?",
+    "coreIdea": "The Tao — the underlying way or flow of the universe — cannot be fully captured in words; wisdom lies in aligning with it through effortless action (wu wei) rather than forceful striving.",
+    "centralIdeas": [
+      "Wu wei: 'non-forcing' or effortless action — acting in harmony with circumstances rather than against the grain.",
+      "The Tao that can be named is not the eternal Tao — ultimate reality resists full conceptual capture.",
+      "Complementary opposites (yin and yang) generate each other rather than opposing in simple conflict.",
+      "Softness and yielding often outlast rigidity and force ('water is the softest thing, yet it wears down the hardest').",
+      "Simplicity and naturalness are preferred over elaborate social convention and ambition."
+    ],
+    "keyThinkers": ["Laozi", "Zhuangzi"],
+    "historicalContext": "Emerged in China alongside Confucianism during the Warring States period, offering a naturalistic, often anti-authoritarian counterpoint to Confucian social ritual and hierarchy.",
+    "application": "Informs contemporary ideas about minimal intervention in leadership and design, going 'with the grain' of a situation, and letting go of forced outcomes in favor of adaptive responsiveness.",
+    "criticisms": [
+      "Its embrace of 'letting things be' can be read as fatalism or as an excuse for inaction in the face of injustice.",
+      "The concept of the Tao is intentionally elusive, making the philosophy hard to pin down or apply consistently.",
+      "Historically entangled with folk religion and alchemy in ways that complicate a purely philosophical reading."
+    ],
+    "relatedPhilosophies": {
+      "agrees": ["buddhism", "stoicism"],
+      "disagrees": ["confucianism", "utilitarianism"]
+    },
+    "furtherQuestions": ["Where am I forcing something that wants to flow?", "What would 'non-forcing' look like in this specific situation?", "What do I gain by yielding rather than resisting?"]
+  },
+  {
+    "slug": "confucianism",
+    "name": "Confucianism",
+    "tradition": "Eastern",
+    "emoji": "🏮",
+    "period": "c. 6th century BCE – present (China)",
+    "coreQuestion": "How should we cultivate ourselves and relate to others to create a harmonious, well-ordered society?",
+    "coreIdea": "Moral and social order begins with self-cultivation, expressed through proper relationships, ritual propriety, and reciprocal duties across family and society.",
+    "centralIdeas": [
+      "Ren (benevolence/humaneness): the core virtue of genuine care for others, cultivated through practice.",
+      "Li (ritual propriety): social forms and etiquette that structure respectful relationships and hold society together.",
+      "Xiao (filial piety): respect and duty toward parents and ancestors as the root of broader social virtue.",
+      "The Five Relationships (ruler-subject, parent-child, husband-wife, elder-younger sibling, friend-friend) each carry reciprocal, not one-sided, obligations.",
+      "Self-cultivation through learning and reflection is a lifelong project, not a fixed state."
+    ],
+    "keyThinkers": ["Confucius (Kongzi)", "Mencius", "Xunzi"],
+    "historicalContext": "Arose during the socially turbulent Warring States period in China as a proposal for restoring social harmony through cultivated virtue and proper relationships rather than law or force alone.",
+    "application": "Shapes East Asian approaches to education, family duty, and institutional respect today; offers a relational alternative to individualist Western ethics — asking 'what do I owe this relationship?' rather than only 'what are my rights?'",
+    "criticisms": [
+      "Traditional versions have been used to justify rigid hierarchy, including patriarchal family and gender roles.",
+      "Emphasis on social harmony can suppress dissent or individual conscience in tension with the collective.",
+      "Its relational ethics can struggle to address obligations to strangers outside one's named relationships."
+    ],
+    "relatedPhilosophies": {
+      "agrees": ["aristotelianism"],
+      "disagrees": ["taoism", "existentialism"]
+    },
+    "furtherQuestions": ["What do I owe the people closest to me, and what do they owe me?", "How does ritual or habit shape who I become?", "Where is my sense of self inseparable from my relationships?"]
+  },
+  {
+    "slug": "vedanta",
+    "name": "Vedanta",
+    "tradition": "Eastern",
+    "emoji": "🕉️",
+    "period": "c. 800 BCE (Upanishads) – present (India)",
+    "coreQuestion": "What is the ultimate nature of reality and the self, and how does understanding it liberate us?",
+    "coreIdea": "The individual self (Atman) is, at its deepest level, identical with or intimately related to ultimate reality (Brahman); ignorance of this identity is the root of suffering.",
+    "centralIdeas": [
+      "Brahman: the single, ultimate, unchanging reality underlying the apparent multiplicity of the world.",
+      "Atman: the innermost self, which different Vedanta schools describe as identical to, part of, or in loving relationship with Brahman.",
+      "Maya: the world of appearances can obscure ultimate reality, functioning like a veil rather than being wholly illusory.",
+      "Moksha: liberation from the cycle of rebirth (samsara), achieved through self-knowledge, devotion, or disciplined practice depending on the school.",
+      "Multiple schools (Advaita's non-dualism, Vishishtadvaita's qualified non-dualism, Dvaita's dualism) disagree on exactly how self and ultimate reality relate."
+    ],
+    "keyThinkers": ["Badarayana", "Adi Shankara", "Ramanuja", "Madhva"],
+    "historicalContext": "Rooted in the Upanishads (concluding portions of the Vedas) from roughly 800–200 BCE, systematized into distinct schools over the following centuries and remaining a living, actively practiced tradition today.",
+    "application": "Informs contemporary meditation, yoga philosophy, and 'non-dual' spirituality; offers a framework for questioning where the boundary of 'self' actually lies.",
+    "criticisms": [
+      "Different schools of Vedanta directly contradict one another on core metaphysical claims, so 'Vedanta' isn't a single settled position.",
+      "Its metaphysical claims about Brahman and Atman are, by nature, not empirically testable.",
+      "Popularized Western versions sometimes strip out the disciplined practice and community context the tradition assumes."
+    ],
+    "relatedPhilosophies": {
+      "agrees": ["buddhism"],
+      "disagrees": ["existentialism", "utilitarianism"]
+    },
+    "furtherQuestions": ["Where do I draw the boundary between 'myself' and 'everything else,' and why there?", "What would change if I questioned that boundary?", "Is there a difference between believing something and directly perceiving it?"]
+  },
+  {
+    "slug": "pragmatism",
+    "name": "Pragmatism",
+    "tradition": "Western",
+    "emoji": "🔨",
+    "period": "c. 1870s–present (United States)",
+    "coreQuestion": "What is the practical difference an idea makes in lived experience — and shouldn't that guide how we evaluate it?",
+    "coreIdea": "The meaning and truth of an idea are found in its practical consequences when acted upon, not in abstract correspondence to a fixed, final reality.",
+    "centralIdeas": [
+      "Truth is what 'works' — what proves reliable and useful when tested against experience over time — not a static, once-and-for-all correspondence.",
+      "Ideas are tools for solving problems and coping with an ever-changing world, not mirrors of a fixed reality.",
+      "Inquiry is fallibilist and communal: our best current beliefs remain open to revision as evidence accumulates.",
+      "Doubt, not certainty, is the engine of genuine inquiry — we only really investigate what we're not sure of.",
+      "Philosophy should clarify concepts by their practical effects, not chase purely abstract distinctions."
+    ],
+    "keyThinkers": ["Charles Sanders Peirce", "William James", "John Dewey", "Richard Rorty"],
+    "historicalContext": "Developed in the late 19th-century United States amid rapid scientific and industrial change, as an attempt to root philosophy in experimental method and lived consequence rather than rationalist system-building.",
+    "application": "Underlies modern experimental approaches to policy, education (learning by doing), and iterative product design — treating beliefs and plans as hypotheses to test and revise.",
+    "criticisms": [
+      "Critics argue 'what works' can be too permissive — some things that 'work' (in a narrow sense) are still false or unjust.",
+      "Can seem to lack a stable standard for truth beyond current usefulness, inviting relativism.",
+      "Less equipped to address questions (metaphysical, aesthetic) that resist practical cash-value framing."
+    ],
+    "relatedPhilosophies": {
+      "agrees": ["existentialism", "utilitarianism"],
+      "disagrees": ["vedanta", "platonism"]
+    },
+    "furtherQuestions": ["What practical difference does this belief actually make in how I act?", "What would change my mind, and have I looked for it?", "Am I holding this idea because it's true, or because it's comfortable?"]
+  },
+  {
+    "slug": "platonism",
+    "name": "Platonism",
+    "tradition": "Western",
+    "emoji": "🔺",
+    "period": "c. 380 BCE (Athens)",
+    "coreQuestion": "What is truly real, and how can we know it beyond the shifting appearances of the senses?",
+    "coreIdea": "Behind the changing world of appearances lies a realm of perfect, unchanging Forms (e.g., Justice, Beauty, the Good) that the physical world only imperfectly reflects.",
+    "centralIdeas": [
+      "The Theory of Forms: abstract, perfect templates (Justice itself, Beauty itself) exist independently of any particular just or beautiful thing.",
+      "The Allegory of the Cave: most people mistake shadows (appearances) for reality, and philosophy is the difficult ascent toward truth.",
+      "Knowledge (episteme) is distinct from and superior to mere opinion (doxa), which is based on unreliable sensory impressions.",
+      "The soul is tripartite (reason, spirit, appetite), and justice — in the person and the state — is achieved when reason rightly governs the other parts.",
+      "The Form of the Good is the highest reality, giving all other Forms their intelligibility and value."
+    ],
+    "keyThinkers": ["Plato", "Plotinus (Neoplatonism)"],
+    "historicalContext": "Developed in Plato's Academy in Athens, deeply shaped by the trial and execution of his teacher Socrates, which convinced Plato that public opinion is an unreliable guide to truth and justice.",
+    "application": "Underlies enduring habits of thought that distinguish 'ideal' standards (justice, beauty, truth) from their flawed real-world instances, and the belief that reasoned inquiry can access truths beyond immediate appearances.",
+    "criticisms": [
+      "The independent existence of abstract Forms is difficult to verify or even coherently locate ('where' do Forms exist?).",
+      "Can devalue the physical, embodied, and sensory world as a mere flawed copy of something 'more real.'",
+      "Its ideal of a reason-governed elite (philosopher-kings) sits uneasily with democratic and pluralistic values."
+    ],
+    "relatedPhilosophies": {
+      "agrees": ["vedanta"],
+      "disagrees": ["pragmatism", "taoism"]
+    },
+    "furtherQuestions": ["Am I mistaking an appearance for the real thing?", "What would a 'perfect' version of this concept even look like?", "How do I tell reasoned knowledge apart from mere opinion?"]
+  },
+  {
+    "slug": "feminist-philosophy",
+    "name": "Feminist Philosophy",
+    "tradition": "Modern & Contemporary",
+    "emoji": "♀️",
+    "period": "c. 1790s–present, with major growth from the 1960s onward",
+    "coreQuestion": "How have gender, power, and perspective shaped what philosophy has counted as 'universal' truth — and what changes when we take that seriously?",
+    "coreIdea": "Knowledge, ethics, and social structures are shaped by the standpoints of those who produce them; making previously marginalized standpoints visible reveals blind spots in supposedly neutral or universal ideas.",
+    "centralIdeas": [
+      "Standpoint theory: social position shapes what one can and cannot easily see, so diverse standpoints improve collective understanding.",
+      "The personal is philosophical: lived, embodied experience (care, reproduction, relationships) is legitimate philosophical subject matter, not merely private.",
+      "Critique of false universality: ideas presented as neutral ('the rational individual') often quietly encode one group's experience as the default.",
+      "Intersectionality: gender intersects with race, class, and other axes of power, producing distinct, non-additive experiences of oppression and privilege.",
+      "An ethics of care as a genuine alternative to abstract, rule- or outcome-based ethics — grounded in relationship and responsiveness to particular others."
+    ],
+    "keyThinkers": ["Mary Wollstonecraft", "Simone de Beauvoir", "bell hooks", "Kimberlé Crenshaw", "Carol Gilligan"],
+    "historicalContext": "Traces from Enlightenment-era arguments for women's rational equality through 20th-century waves of feminist theory that increasingly examined how gender interacts with race, class, sexuality, and colonial history.",
+    "application": "Shapes contemporary debates on workplace equity, care work's economic invisibility, representation in institutions, and how bias can hide inside seemingly neutral policies or technologies.",
+    "criticisms": [
+      "Internally diverse and sometimes contentious — no single 'feminist philosophy' speaks for the whole field.",
+      "Critics on the left and right dispute how far standpoint claims should extend, and whether they risk their own new orthodoxies.",
+      "Balancing attention to group identity with respect for individual variation within any group remains genuinely difficult."
+    ],
+    "relatedPhilosophies": {
+      "agrees": ["pragmatism"],
+      "disagrees": ["platonism"]
+    },
+    "furtherQuestions": ["Whose experience was assumed as 'default' when this idea was first framed?", "What does care, rather than abstract rule-following, ask of me here?", "How might my position shape what I do and don't notice?"]
+  },
+  {
+    "slug": "philosophy-of-mind",
+    "name": "Philosophy of Mind",
+    "tradition": "Modern & Contemporary",
+    "emoji": "🧠",
+    "period": "c. 1640s–present, with rapid growth alongside cognitive science since the 1950s",
+    "coreQuestion": "What is consciousness, and how does subjective experience relate to the physical brain?",
+    "coreIdea": "The relationship between subjective, felt experience ('what it's like' to see red or feel pain) and objective physical processes in the brain remains deeply contested — this is the 'hard problem' of consciousness.",
+    "centralIdeas": [
+      "The mind-body problem: how (or whether) mental states are identical to, caused by, or distinct from physical brain states.",
+      "The 'hard problem' of consciousness: explaining brain function is different from explaining why there is subjective experience ('qualia') at all.",
+      "Functionalism: mental states might be defined by their functional role (what they do), not their physical substrate — potentially allowing non-biological minds.",
+      "The Chinese Room and other thought experiments probe whether symbol manipulation (as in AI) could ever constitute genuine understanding.",
+      "Debates about free will and determinism increasingly draw on neuroscience findings about the timing of conscious decisions."
+    ],
+    "keyThinkers": ["René Descartes", "David Chalmers", "Daniel Dennett", "Thomas Nagel", "John Searle"],
+    "historicalContext": "Rooted in Descartes' 17th-century mind-body dualism, transformed by 20th-century advances in neuroscience, computing, and cognitive science that made the mind an object of empirical as well as philosophical study.",
+    "application": "Directly relevant to debates about AI consciousness, moral status of animals and machines, psychiatric treatment, and how we understand agency and identity in light of neuroscience.",
+    "criticisms": [
+      "Some argue the 'hard problem' is a confusion rather than a genuine open question (illusionism).",
+      "Thought experiments (like the Chinese Room) are contested on whether they prove what they claim to.",
+      "Progress is unusually slow and disputed compared to other empirical fields, due to the difficulty of studying subjective experience objectively."
+    ],
+    "relatedPhilosophies": {
+      "agrees": ["vedanta"],
+      "disagrees": ["platonism"]
+    },
+    "furtherQuestions": ["Could a system that behaves exactly like it understands, actually not understand?", "Is subjective experience something a description of physical facts could ever fully capture?", "What would convince me that a machine was conscious?"]
+  },
+  {
+    "slug": "environmental-philosophy",
+    "name": "Environmental Philosophy",
+    "tradition": "Modern & Contemporary",
+    "emoji": "🌱",
+    "period": "c. 1960s–present",
+    "coreQuestion": "What do humans owe the natural world, and does nature have value independent of its usefulness to us?",
+    "coreIdea": "Ecosystems, species, and possibly individual non-human beings may have intrinsic value — not merely instrumental value as resources for human use — reshaping our ethical obligations.",
+    "centralIdeas": [
+      "Anthropocentrism vs. ecocentrism: should ethics center exclusively on human interests, or extend intrinsic value to ecosystems and non-human life?",
+      "The land ethic: humans as 'plain members' of a biotic community, with obligations to its health and stability, not just its dominant species.",
+      "Deep ecology: questioning whether human flourishing should be assumed as the automatic priority over non-human flourishing.",
+      "Intergenerational justice: obligations to future humans who cannot yet advocate for their own interests.",
+      "Critiques of treating nature purely as a resource ('standing reserve') to be optimized and extracted."
+    ],
+    "keyThinkers": ["Aldo Leopold", "Arne Næss", "Val Plumwood", "Peter Singer (animal ethics)"],
+    "historicalContext": "Emerged alongside the 20th-century environmental movement, as ecological science revealed the scale of human impact on climate, species loss, and ecosystem stability.",
+    "application": "Directly informs climate policy debates, conservation ethics, animal welfare law, and corporate sustainability commitments — asking what obligations extend beyond direct human benefit.",
+    "criticisms": [
+      "Critics argue ecocentric views can undervalue urgent human needs, especially in poorer regions least responsible for environmental harm.",
+      "Assigning 'intrinsic value' to ecosystems is philosophically contested — value to whom, and how measured?",
+      "Deep ecology in particular has been accused of an anti-humanism that some find ethically troubling."
+    ],
+    "relatedPhilosophies": {
+      "agrees": ["taoism", "utilitarianism"],
+      "disagrees": ["platonism"]
+    },
+    "furtherQuestions": ["Does a forest have value if no human ever benefits from it?", "What do I owe to generations who don't yet exist?", "Where is the line between using nature and belonging to it?"]
+  },
+  {
+    "slug": "evolutionary-psychology",
+    "name": "Evolutionary Psychology",
+    "tradition": "Interdisciplinary (Science)",
+    "emoji": "🧬",
+    "period": "c. 1970s–present",
+    "coreQuestion": "How might our evolutionary history shape the psychological tendencies we experience today?",
+    "coreIdea": "Many recurring patterns in human thought, emotion, and behavior can be studied as adaptations (or by-products of adaptations) shaped by ancestral survival and reproductive pressures — a scientific, not philosophical, lens on 'why we're built this way.'",
+    "centralIdeas": [
+      "Psychological traits, like physical traits, may have been shaped by natural and sexual selection over evolutionary timescales.",
+      "Many modern mismatches (e.g., cravings for sugar, status anxiety) may reflect adaptations to ancestral environments now applied in very different modern contexts.",
+      "Kin selection and reciprocal altruism offer evolutionary accounts of cooperation and care beyond simple self-interest.",
+      "Mate preferences, in-group/out-group dynamics, and status-seeking are studied as candidate evolved tendencies, tested against cross-cultural data.",
+      "This is an empirical, falsifiable research program — not a philosophy of what we *should* value, only a hypothesis about why certain patterns are common."
+    ],
+    "keyThinkers": ["Charles Darwin (foundational)", "Leda Cosmides", "John Tooby", "David Buss"],
+    "historicalContext": "Developed from the 1970s onward as researchers applied Darwinian evolutionary theory systematically to human cognition and behavior, building on earlier sociobiology while trying to avoid its more deterministic overreach.",
+    "application": "Offers testable hypotheses (not moral conclusions) about tendencies in attraction, conflict, cooperation, and parenting — useful for distinguishing 'this pattern is common and has a plausible causal story' from 'this pattern is good or inevitable.'",
+    "criticisms": [
+      "Many specific hypotheses are difficult to test rigorously and have been criticized as 'just-so stories' that fit any outcome after the fact.",
+      "Risk of naturalistic fallacy: mistaking 'this may have been adaptive' for 'this is good or should be preserved.'",
+      "Historically entangled with contested claims about sex differences that require careful, evidence-based scrutiny rather than assumption."
+    ],
+    "relatedPhilosophies": {
+      "agrees": [],
+      "disagrees": ["existentialism"]
+    },
+    "furtherQuestions": ["Is this pattern actually adaptive, or just common?", "Does an evolutionary explanation for a feeling change whether I should act on it?", "What's the difference between explaining a behavior and justifying it?"]
+  },
+  {
+    "slug": "neuroscience",
+    "name": "Neuroscience",
+    "tradition": "Interdisciplinary (Science)",
+    "emoji": "🔬",
+    "period": "c. 1800s–present, with major acceleration since the 1990s",
+    "coreQuestion": "What can the physical structure and activity of the brain tell us about mind, decision-making, and experience?",
+    "coreIdea": "Mental phenomena — perception, emotion, decision-making, even the felt sense of a unified self — are studied as processes implemented in neural circuitry, using empirical, falsifiable methods.",
+    "centralIdeas": [
+      "Neuroplasticity: the brain's structure and connections change in response to experience throughout life, not only in childhood.",
+      "Distributed processing: many mental functions arise from networks of interacting brain regions, not single 'centers.'",
+      "Studies on decision timing (e.g., Libet-style experiments) raise empirical questions about when and how conscious intention arises relative to neural activity — actively debated, not settled.",
+      "Neurochemical systems (dopamine, serotonin, and others) modulate motivation, mood, and reward in ways relevant to habit and craving.",
+      "This is a scientific field describing mechanisms — it does not by itself settle philosophical questions about free will, meaning, or value."
+    ],
+    "keyThinkers": ["Santiago Ramón y Cajal (foundational)", "Antonio Damasio", "Benjamin Libet", "contemporary cognitive neuroscience researchers"],
+    "historicalContext": "Grew from 19th-century neuroanatomy into a major empirical discipline accelerated by 20th- and 21st-century brain imaging technology (EEG, fMRI), increasingly intersecting with psychology and philosophy of mind.",
+    "application": "Informs mental health treatment, understanding of addiction and habit, and evidence-based scrutiny of claims about willpower, memory, and decision-making — while its philosophical implications (e.g., for free will) remain actively debated rather than settled by the data alone.",
+    "criticisms": [
+      "Findings are sometimes overstated in popular coverage ('neuro-hype'), claiming more philosophical resolution than the data supports.",
+      "Correlating brain activity with mental states doesn't automatically explain subjective experience itself (the 'hard problem').",
+      "Individual studies (especially older ones) sometimes fail to replicate at the scale popular claims suggest."
+    ],
+    "relatedPhilosophies": {
+      "agrees": ["evolutionary-psychology"],
+      "disagrees": ["vedanta"]
+    },
+    "furtherQuestions": ["What does the current evidence actually show, versus what is often claimed on its behalf?", "Does a mechanistic explanation of a choice make it less 'mine'?", "Where does neuroscience stop and philosophical interpretation begin?"]
+  }
+]
