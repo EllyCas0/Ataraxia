@@ -15,7 +15,7 @@ export default function PerspectiveCard({
   return (
     <Link
       href={href}
-      className="group block rounded-xl border border-border bg-surface p-5 transition-all hover:border-ring hover:shadow-sm"
+      className="group block rounded-lg border border-border bg-surface p-5 transition-all hover:border-ring hover:shadow-sm"
     >
       <div className="flex items-start justify-between gap-3">
         <div>

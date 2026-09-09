@@ -47,7 +47,7 @@ export default async function PerspectivePage({
         <p className="prose-calm text-lg font-serif">{p.coreQuestion}</p>
       </section>
 
-      <section className="mb-8 rounded-xl border border-border bg-surface p-5">
+      <section className="mb-8 rounded-lg border border-border bg-surface p-5">
         <h2 className="text-sm font-medium uppercase tracking-wide text-foreground-muted mb-2">
           The core idea
         </h2>

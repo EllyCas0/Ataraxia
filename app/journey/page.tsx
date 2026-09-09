@@ -16,7 +16,15 @@ export default function JourneyPage() {
     setEntries(getReflections());
   }, []);
 
-  if (entries === null) return null;
+  if (entries === null) {
+    return (
+      <div className="max-w-2xl mx-auto px-6 pt-14 pb-24">
+        <p className="text-sm text-foreground-muted" role="status">
+          Loading your journey...
+        </p>
+      </div>
+    );
+  }
 
   if (entries.length === 0) {
     return (
@@ -73,7 +81,7 @@ export default function JourneyPage() {
                   day: "numeric",
                 })}
               </p>
-              <div className="rounded-xl border border-border bg-surface p-4">
+              <div className="rounded-lg border border-border bg-surface p-4">
                 <div className="flex items-start justify-between gap-2">
                   <div>
                     <p className="text-xs uppercase tracking-wide text-foreground-muted mb-1">
@@ -134,7 +142,7 @@ export default function JourneyPage() {
 
 function Stat({ value, label }: { value: number; label: string }) {
   return (
-    <div className="rounded-xl border border-border bg-surface p-4 text-center">
+    <div className="rounded-lg border border-border bg-surface p-4 text-center">
       <p className="font-serif text-2xl">{value}</p>
       <p className="text-xs text-foreground-muted mt-1 leading-tight">{label}</p>
     </div>

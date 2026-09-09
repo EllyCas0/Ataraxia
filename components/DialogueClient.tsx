@@ -40,16 +40,18 @@ export default function DialogueClient({
 
   function send(e: React.FormEvent) {
     e.preventDefault();
+    if (thinking) return;
     const text = input.trim();
     if (!text) return;
+    const responseMode = mode;
     setMessages((m) => [...m, { role: "user", text }]);
     setInput("");
     setThinking(true);
     const delay = 500 + Math.random() * 500;
     window.setTimeout(() => {
-      const reply = respond(mode, perspective, text, turnRef.current);
+      const reply = respond(responseMode, perspective, text, turnRef.current);
       turnRef.current += 1;
-      setMessages((m) => [...m, { role: "ai", text: reply, mode }]);
+      setMessages((m) => [...m, { role: "ai", text: reply, mode: responseMode }]);
       setThinking(false);
     }, delay);
   }
@@ -69,7 +71,7 @@ export default function DialogueClient({
         </div>
       </div>
 
-      <div className="flex-1 space-y-4">
+      <div className="flex-1 space-y-4" aria-live="polite">
         {messages.map((m, i) => (
           <ChatBubble key={i} message={m} />
         ))}
@@ -89,6 +91,7 @@ export default function DialogueClient({
                 key={dm.id}
                 onClick={() => switchMode(dm.id)}
                 title={dm.description}
+                aria-pressed={mode === dm.id}
                 className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
                   mode === dm.id
                     ? "border-accent-strong bg-accent-strong text-background"
@@ -100,17 +103,23 @@ export default function DialogueClient({
             ))}
           </div>
           <form onSubmit={send} className="flex gap-2">
+            <label htmlFor="dialogue-input" className="sr-only">
+              Your response
+            </label>
             <input
+              id="dialogue-input"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Share what you think…"
+              placeholder="Share what you think..."
+              disabled={thinking}
               className="flex-1 rounded-lg border border-border bg-surface px-4 py-2.5 text-sm outline-none focus:border-ring focus:ring-1 focus:ring-ring"
             />
             <button
               type="submit"
+              disabled={thinking || !input.trim()}
               className="rounded-lg bg-accent-strong text-background text-sm font-medium px-5 hover:opacity-90 transition-opacity"
             >
-              Send
+              {thinking ? "Thinking" : "Send"}
             </button>
           </form>
           <div className="flex justify-between mt-2.5 text-xs">
@@ -139,10 +148,10 @@ function ChatBubble({ message }: { message: ChatMessage }) {
           </p>
         )}
         <div
-          className={`rounded-2xl px-4 py-2.5 text-sm prose-calm ${
+          className={`rounded-lg px-4 py-2.5 text-sm prose-calm ${
             isUser
-              ? "bg-accent-strong text-background rounded-br-sm"
-              : "bg-surface border border-border rounded-bl-sm"
+              ? "bg-accent-strong text-background"
+              : "bg-surface border border-border"
           }`}
         >
           {message.text}

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import QuestionInput from "@/components/QuestionInput";
 import { questionLibrary } from "@/lib/questions";
 
@@ -31,12 +32,12 @@ export default function Home() {
               <ul className="space-y-1.5">
                 {cat.questions.map((q) => (
                   <li key={q}>
-                    <a
+                    <Link
                       href={`/explore?q=${encodeURIComponent(q)}`}
                       className="text-sm text-foreground-muted hover:text-accent-strong hover:underline underline-offset-2"
                     >
                       {q}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
