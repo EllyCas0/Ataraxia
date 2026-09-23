@@ -1,16 +1,21 @@
-# Ask — The Philosophy App (MVP)
+# The Agora
 
-> Bring a question about life, humanity, reality, or meaning. We won't hand
-> you a single answer — we'll help you explore how different traditions of
-> thought have approached it.
+> Think better. Understand yourself. Understand civilization.
 
-This is a working build of the MVP described in the product spec: the
-five-step core loop —
+An AI-assisted philosophical thinking platform. Bring a question, meet a council of thinkers across traditions, articulate your own position, get challenged, and record how your thinking moves — without ever being told what to believe.
 
-**Ask → 3–5 perspectives → Explore one → Socratic dialogue → Reflect**
+This build implements exactly the MVP scope the product spec itself defines (§22), not the full long-term vision (no community/Agora layer, no Civilization Simulator, no knowledge-graph visualization — the spec calls those later-stage).
 
-— plus a browsable philosophy library and a private "Philosophy Journey"
-timeline, all scoped to spec §18 "Phase 1: Validate the Idea."
+## The core loop
+
+Ask → Compare → Think → Articulate → Challenge → Reflect → Revise
+
+1. **Ask** a question, or start from the daily question / browse the library.
+2. **Meet the Council** — 5 thinkers matched to your question, viewable in 4 modes (Compare, Socratic, Steelman, Historical).
+3. **State your position**, and optionally why.
+4. **See a challenge** — a council member pushes back, and your own wording is scanned for absolute language, values, and assumptions worth examining.
+5. **Revise** your position and note what's still uncertain.
+6. **Save** to your private Philosophy Journal.
 
 ## Run it
 
@@ -19,69 +24,54 @@ npm install
 npm run dev
 ```
 
-Then open `http://localhost:3000`.
+Open http://localhost:3000.
 
-## What's implemented
+## Modules built (spec §22 core)
 
-| Spec feature | Status |
-|---|---|
-| **Question Explorer** — free-text question → 3–5 matched perspectives | ✅ `lib/match.ts`, `/explore` |
-| **Philosophy library** — 15 perspectives with full structured metadata (core question, central ideas, key thinkers, history, application, criticisms, related traditions) | ✅ `lib/perspectives.json`, `/perspective/[slug]`, `/library` |
-| **Question library** — 8 categories (Self, Love, Society, Ethics, Meaning, Death, Technology, Knowledge) | ✅ `lib/questions.ts`, home page |
-| **Socratic Companion** — all 4 modes (Socratic, Compassionate Scientist, Devil's Advocate, Perspective Taking) | ✅ `lib/dialogue.ts`, `/dialogue/[slug]` |
-| **Reflection Journal** — initial/current position, insights, remaining questions, resonated ideas | ✅ `/reflect/[slug]` |
-| **My Philosophy Journey** — private timeline + stats (questions explored, perspectives encountered, traditions crossed) | ✅ `/journey` |
-| Calm, contemplative, non-gamified UX | ✅ serif headings, muted palette, light/dark, no streaks/badges/points |
+| Spec module | Route | File |
+|---|---|---|
+| Philosophical Question Engine | `/`, `/questions` | `lib/questions.ts` |
+| Philosophy Explorer | `/philosophers`, `/philosophers/[slug]` | `lib/philosophers.json` |
+| AI Council | `/council` | `lib/council.ts`, `components/CouncilClient.tsx` |
+| Argument Analyzer | `/analyze` | `lib/analyzer.ts` |
+| Philosophy Journal | `/journal` | `lib/journal.ts` |
+| Personal Philosophy profile | `/profile` | `lib/profile.ts` |
+| Search | built into Questions & Philosophers pages | `lib/search.ts` |
+| "User accounts" | — | see tradeoff below |
 
-## Deliberate MVP tradeoffs
+## Content (spec §22 targets, scoped down deliberately)
 
-Per the spec's own instruction not to overengineer the MVP AI architecture,
-two things are **templated rather than backed by a live model call**, with
-a single clean seam to swap in the real thing later:
+- **27 philosophers** (spec target: ~50) — full structured profiles (dates, region, period, traditions, central questions, key concepts, major arguments, influences/influenced, context, criticisms, contemporary relevance, primary & secondary sources), spanning all traditions the spec requires: Europe, the Middle East, South Asia, East Asia, Africa, Indigenous America, and contemporary global philosophy. Chosen for breadth and accuracy over hitting a raw count — see `lib/philosophers.json`, trivially extendable.
+- **15 traditions** (spec target: 10) — `lib/traditions.ts`.
+- **30 questions** (spec target: 100) across 8 domains — `lib/questions.ts`.
+- **Concepts and sources** are embedded per-philosopher (key concepts, primary/secondary sources) rather than built as separate 300-concept / 500-source standalone databases — the spec's numbers there describe a much larger content operation than one build pass can respect with real accuracy; embedding keeps every concept and source tied to a specific, correct attribution.
 
-- **Question → perspective matching** (`lib/match.ts`) uses a transparent
-  keyword/topic map instead of an LLM classifier + RAG retrieval agent.
-  Swap the body of `matchQuestion()` for a real classifier call — the
-  return shape (`{ perspectives, blurb }`) is what every caller expects.
-- **Socratic/Scientist/Devil's-Advocate/Perspective-Taking dialogue**
-  (`lib/dialogue.ts`) uses curated prompt banks with light keyword
-  extraction from the user's last message, instead of a live LLM turn.
-  Swap the body of `respond()` for a real model call — callers only need
-  `respond(mode, perspective, userText, turnIndex): string`.
+## The honest tradeoffs
 
-There is also **no backend/database**: reflections persist to
-`localStorage` (`lib/journal.ts`), matching spec §18 Phase 1 scope (accounts,
-conversation history, and Postgres-backed persistence are Phase 2).
+Three things are deliberately not backed by a live model or backend, each behind one function so the real thing can be swapped in without touching UI code — consistent with the spec's own instruction (§19) to build specialized AI components with an orchestrator, not to overengineer the MVP:
 
-## Content model
+- **`matchPhilosophers()`** (`lib/council.ts`) — keyword/domain scoring, not the spec's real retrieval system. It also tries to keep the council cross-civilizational rather than five variations on one school.
+- **`speak()` / `challenge()`** (`lib/council.ts`) — templated per-mode framing built from each philosopher's real, hand-written `frame`, `criticisms`, and `coreQuestion` fields. Every perspective is explicitly labeled "generalized from each thinker's philosophy — not a literal quotation," per spec §8's hard requirement not to impersonate historical thinkers.
+- **`analyze()`** (`lib/analyzer.ts`) — pattern-matching (absolute language, hedges, evidence words, charged language, value-keyword groups), not real NLP. The Analyzer page says so explicitly; it flags patterns worth a second look, it doesn't adjudicate whether an argument is right.
 
-`lib/perspectives.json` holds all 15 traditions (Stoicism, Existentialism,
-Buddhism, Utilitarianism, Aristotelianism, Taoism, Confucianism, Vedanta,
-Pragmatism, Platonism, Feminist Philosophy, Philosophy of Mind,
-Environmental Philosophy, Evolutionary Psychology, Neuroscience), each with
-the exact metadata shape from spec §10:
+**No backend or accounts.** The Journal and Personal Philosophy profile live in the browser's `localStorage`. This satisfies spec §22's "user accounts" bullet only partially — there's no cross-device sync, no real auth. Both modules are already shaped as the data a Postgres-backed version would use.
 
-```
-name, tradition, period, coreQuestion, coreIdea, centralIdeas[],
-keyThinkers[], historicalContext, application, criticisms[],
-relatedPhilosophies { agrees[], disagrees[] }, furtherQuestions[]
-```
+## What's intentionally not in this build
 
-Add a new perspective by appending an object with this shape — no code
-changes required elsewhere.
+Explicitly later-stage or out-of-§22-scope per the spec itself:
 
-## Next (per spec §18 roadmap)
+- Module H, the Agora community layer (structured discussions, salons)
+- Civilization Mode and the Civilization Simulator
+- The interactive Philosophical Family Tree graph visualization (relationship data exists per-philosopher; no zoomable graph UI)
+- Media Literacy Mode (separate from the Argument Analyzer)
+- A general-purpose Contradiction Engine — a small, honest version exists on the Profile page (`findTensions()` in `lib/profile.ts`), checking a fixed table of classic tension pairs, not open-ended contradiction detection
+- Fact verification / live source retrieval for current-events claims
+- Community safety architecture (moot without a community layer yet)
 
-- **Phase 1 validation**: ship this to 20–50 real users, watch which
-  questions/perspectives get explored and whether reflections get completed.
-- **Phase 2**: real accounts + Postgres persistence, an actual LLM-backed
-  classifier and dialogue agent (the two seams noted above), pgvector-backed
-  retrieval so dialogue quotes real primary-source content instead of
-  curated summaries.
-- **Phase 3**: personalized recommendations, richer journey visualization.
-- **Phase 4**: Philosophical Salons (AI-facilitated group discussion).
+## Known limitations worth knowing about
 
-## Stack
+- Council matching is keyword-based; niche or very specific questions won't always surface the most topically perfect five thinkers.
+- The Argument Analyzer's value-word lists are a small, fixed vocabulary — it will miss values expressed in less common phrasing.
+- No hamburger menu yet; on very narrow phone widths the top nav scrolls horizontally rather than collapsing.
 
-Next.js 16 (App Router, Turbopack) · React 19 · TypeScript · Tailwind CSS v4
-· no backend, no external API keys required.
+Stack: Next.js 16 (App Router, Turbopack), React 19, TypeScript, Tailwind CSS v4. No backend, no external API keys required.

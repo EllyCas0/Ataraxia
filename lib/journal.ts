@@ -1,37 +1,33 @@
 "use client";
 
-import type { ReflectionEntry } from "./types";
+import type { JournalEntry } from "./types";
 
-// Phase-1 MVP scope keeps this local to the browser (localStorage) rather
-// than a backend/database — see spec §18 "Phase 1: Validate the Idea".
-// The shape mirrors what a `reflections` Postgres table would hold, so this
-// can be swapped for real persistence in Phase 2 without changing callers.
+// Per spec §22's MVP scope, this ships without real user accounts — see
+// README for that tradeoff. Entries live in this browser only.
 
-const KEY = "philosophy-app:reflections";
+const KEY = "agora:journal";
 
-export function getReflections(): ReflectionEntry[] {
+export function getEntries(): JournalEntry[] {
   if (typeof window === "undefined") return [];
   try {
     const raw = window.localStorage.getItem(KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw) as ReflectionEntry[];
+    const parsed = raw ? JSON.parse(raw) : [];
     return Array.isArray(parsed) ? parsed : [];
   } catch {
     return [];
   }
 }
 
-export function saveReflection(entry: ReflectionEntry): void {
+export function saveEntry(entry: JournalEntry): void {
   if (typeof window === "undefined") return;
-  const all = getReflections();
+  const all = getEntries();
   all.push(entry);
   window.localStorage.setItem(KEY, JSON.stringify(all));
 }
 
-export function deleteReflection(id: string): void {
+export function deleteEntry(id: string): void {
   if (typeof window === "undefined") return;
-  const all = getReflections().filter((r) => r.id !== id);
-  window.localStorage.setItem(KEY, JSON.stringify(all));
+  window.localStorage.setItem(KEY, JSON.stringify(getEntries().filter((e) => e.id !== id)));
 }
 
 export function makeId(): string {

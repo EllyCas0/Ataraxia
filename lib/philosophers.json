@@ -1,0 +1,831 @@
+[
+  {
+    "slug": "socrates",
+    "name": "Socrates",
+    "dates": "c. 470–399 BCE",
+    "region": "Athens, Greece",
+    "period": "Classical Antiquity",
+    "traditions": ["ancient-greek"],
+    "domains": ["ethics", "epistemology"],
+    "majorWorks": ["Wrote nothing himself; known through Plato's dialogues and Xenophon"],
+    "centralQuestions": ["How should one live?", "What is virtue, and can it be taught?"],
+    "keyConcepts": [
+      { "term": "Socratic method", "definition": "Reaching clarity by relentlessly questioning claims and definitions rather than asserting doctrine." },
+      { "term": "Elenchus", "definition": "Cross-examination that exposes contradictions in a person's stated beliefs." },
+      { "term": "Aporia", "definition": "A state of productive puzzlement reached when confident beliefs turn out to be confused." }
+    ],
+    "majorArguments": [
+      "Claimed his only wisdom was knowing that he did not know — genuine inquiry starts by admitting ignorance.",
+      "Argued that no one knowingly does wrong; wrongdoing comes from mistaken beliefs about what is good."
+    ],
+    "frame": "asks you to define your terms precisely, then tests that definition against hard cases until it either survives or breaks",
+    "influences": ["Athenian democratic culture", "the Sophists (as a foil)"],
+    "influenced": ["Plato", "Aristotle", "the Cynics", "the Stoics", "the entire Western philosophical tradition"],
+    "context": "Athens during its democratic and imperial peak, followed by defeat in the Peloponnesian War; Socrates was tried and executed for 'corrupting the youth' and impiety.",
+    "criticisms": [
+      "We only know him through others' writings, so it's unclear how much is Socrates and how much is Plato's invention.",
+      "His method is better at dismantling bad definitions than building positive knowledge."
+    ],
+    "relevance": "The template for treating a conversation partner's confidence as a starting point for inquiry, not a conclusion.",
+    "primarySources": ["Plato, Apology", "Plato, Euthyphro"],
+    "secondarySources": ["Gregory Vlastos, Socrates: Ironist and Moral Philosopher"]
+  },
+  {
+    "slug": "plato",
+    "name": "Plato",
+    "dates": "c. 428–348 BCE",
+    "region": "Athens, Greece",
+    "period": "Classical Antiquity",
+    "traditions": ["ancient-greek"],
+    "domains": ["metaphysics", "political-philosophy", "epistemology"],
+    "majorWorks": ["The Republic", "Phaedo", "Symposium", "Timaeus"],
+    "centralQuestions": ["What is justice?", "What is truly real, behind changing appearances?"],
+    "keyConcepts": [
+      { "term": "Theory of Forms", "definition": "Perfect, unchanging templates (Justice, Beauty) that particular things only imperfectly reflect." },
+      { "term": "The tripartite soul", "definition": "Reason, spirit, and appetite, whose right ordering constitutes personal justice." },
+      { "term": "Philosopher-king", "definition": "The idea that political rule should belong to those who understand the Good, not those who merely want power." }
+    ],
+    "majorArguments": [
+      "In the Allegory of the Cave, argued most people mistake shadows for reality and that philosophy is the difficult ascent toward truth.",
+      "Argued that justice in a person mirrors justice in a city: both require reason governing the other parts well."
+    ],
+    "frame": "asks you to distinguish the appearance of a thing from its true, stable Form, and treats reasoned knowledge as categorically different from opinion",
+    "influences": ["Socrates", "Pythagoras", "Parmenides"],
+    "influenced": ["Aristotle", "Neoplatonism", "Augustine", "Islamic and Christian philosophy", "the entire Western metaphysical tradition"],
+    "context": "Wrote in the aftermath of Athens's defeat and Socrates's execution, deeply distrustful of democratic opinion as a guide to truth or justice.",
+    "criticisms": [
+      "The independent existence of abstract Forms is hard to verify or even coherently locate.",
+      "His ideal of rule by a reasoning elite sits uneasily with democratic and pluralistic values."
+    ],
+    "relevance": "Still the reference point for any argument that draws a line between how things seem and how they really are.",
+    "primarySources": ["Plato, The Republic", "Plato, Phaedo"],
+    "secondarySources": ["Julia Annas, An Introduction to Plato's Republic"]
+  },
+  {
+    "slug": "aristotle",
+    "name": "Aristotle",
+    "dates": "384–322 BCE",
+    "region": "Stagira / Athens, Greece",
+    "period": "Classical Antiquity",
+    "traditions": ["ancient-greek"],
+    "domains": ["ethics", "metaphysics", "political-philosophy", "aesthetics"],
+    "majorWorks": ["Nicomachean Ethics", "Politics", "Metaphysics", "Poetics"],
+    "centralQuestions": ["What is the good life for a human being?", "What makes something what it is?"],
+    "keyConcepts": [
+      { "term": "Eudaimonia", "definition": "Human flourishing achieved through virtuous activity over a full life, not a fleeting feeling." },
+      { "term": "The golden mean", "definition": "Virtue as a balance between two extremes, e.g. courage between cowardice and recklessness." },
+      { "term": "Telos", "definition": "The purpose or end toward which a thing's nature directs it." }
+    ],
+    "majorArguments": [
+      "Argued that virtue is built through habituation — we become just by repeatedly acting justly, not by grasping justice in the abstract.",
+      "Argued humans are naturally social ('political animals'), so flourishing is bound up with community, not achieved in isolation."
+    ],
+    "frame": "asks what a thing's proper function or purpose is, and evaluates it by how well it fulfills that function through practiced habit",
+    "influences": ["Plato", "empirical observation of nature"],
+    "influenced": ["Islamic philosophy (Al-Farabi, Avicenna, Averroes)", "Aquinas and Scholasticism", "virtue ethics revivals"],
+    "context": "Studied under Plato for twenty years, later tutored Alexander the Great, and founded his own school, the Lyceum, grounding ethics in observation rather than pure abstraction.",
+    "criticisms": [
+      "His account of human nature reflects the biases of his time, including his views on women and slavery.",
+      "Offers less clear-cut guidance in genuine moral dilemmas than rule-based ethical systems."
+    ],
+    "relevance": "The basis of modern virtue ethics: asking not 'what rule applies' but 'what kind of person is this action making me?'",
+    "primarySources": ["Aristotle, Nicomachean Ethics", "Aristotle, Politics"],
+    "secondarySources": ["Jonathan Barnes, Aristotle: A Very Short Introduction"]
+  },
+  {
+    "slug": "epictetus",
+    "name": "Epictetus",
+    "dates": "c. 50–135 CE",
+    "region": "Hierapolis / Rome / Nicopolis",
+    "period": "Roman Imperial Period",
+    "traditions": ["hellenistic"],
+    "domains": ["ethics"],
+    "majorWorks": ["Discourses (recorded by Arrian)", "Enchiridion"],
+    "centralQuestions": ["What is actually within our control?", "How do we stay at peace amid what we can't control?"],
+    "keyConcepts": [
+      { "term": "Dichotomy of control", "definition": "The core Stoic distinction between what is 'up to us' (judgments, choices) and what is not (outcomes, others' actions)." },
+      { "term": "Prohairesis", "definition": "The faculty of moral choice — the one thing genuinely ours, regardless of circumstance." }
+    ],
+    "majorArguments": [
+      "Argued that disturbance comes not from events but from our judgments about events — a view Stoics thought empowering, not fatalistic.",
+      "Argued that external goods (health, reputation, wealth) are 'preferred' but never necessary for a good life."
+    ],
+    "frame": "asks whether a given worry concerns something genuinely within your control, and redirects effort there instead of toward outcomes",
+    "influences": ["Zeno of Citium", "Chrysippus", "early Stoicism"],
+    "influenced": ["Marcus Aurelius", "modern cognitive behavioral therapy", "contemporary resilience training"],
+    "context": "Born enslaved in Hierapolis, later freed; taught in Rome until philosophers were banished by Domitian, then founded a school in Nicopolis.",
+    "criticisms": [
+      "The practice can tip into emotional suppression rather than healthy processing of feeling.",
+      "Risks passivity toward genuinely changeable injustice by over-emphasizing 'acceptance'."
+    ],
+    "relevance": "The direct ancestor of modern stress-resilience and cognitive-reframing techniques.",
+    "primarySources": ["Epictetus, Enchiridion", "Epictetus, Discourses"],
+    "secondarySources": ["A.A. Long, Epictetus: A Stoic and Socratic Guide to Life"]
+  },
+  {
+    "slug": "al-farabi",
+    "name": "Al-Farabi",
+    "dates": "c. 872–950 CE",
+    "region": "Central Asia / Baghdad / Damascus",
+    "period": "Islamic Golden Age",
+    "traditions": ["islamic"],
+    "domains": ["political-philosophy", "metaphysics"],
+    "majorWorks": ["The Virtuous City", "The Attainment of Happiness"],
+    "centralQuestions": ["What makes a political community truly virtuous?", "How does reason relate to revelation?"],
+    "keyConcepts": [
+      { "term": "The Virtuous City", "definition": "A political community organized around the pursuit of genuine happiness through shared knowledge and virtue." },
+      { "term": "Active Intellect", "definition": "A universal source of intelligibility that the human mind connects with in acts of understanding." }
+    ],
+    "majorArguments": [
+      "Argued that political philosophy and prophetic religion aim at the same truths through different methods — reasoned demonstration versus imaginative persuasion.",
+      "Argued that a genuinely virtuous city requires a ruler who combines philosophical understanding with practical and rhetorical skill."
+    ],
+    "frame": "asks whether an institution or belief is organized around genuine understanding of the good, or merely around persuasion and habit",
+    "influences": ["Aristotle", "Plato", "Islamic theology"],
+    "influenced": ["Avicenna", "Averroes", "Maimonides", "later Islamic and Jewish political philosophy"],
+    "context": "Wrote during the Abbasid Caliphate's major translation movement, which brought Greek philosophy into sustained dialogue with Islamic thought.",
+    "criticisms": [
+      "His ideal 'virtuous city' is highly abstract and gives little practical guidance for actual governance.",
+      "Later thinkers questioned how cleanly he could align Aristotelian reason with revealed religion."
+    ],
+    "relevance": "A key bridge figure showing philosophy as a genuinely cross-civilizational conversation, not a Western-only inheritance.",
+    "primarySources": ["Al-Farabi, The Virtuous City"],
+    "secondarySources": ["Majid Fakhry, Al-Farabi, Founder of Islamic Neoplatonism"]
+  },
+  {
+    "slug": "avicenna",
+    "name": "Avicenna (Ibn Sina)",
+    "dates": "980–1037 CE",
+    "region": "Bukhara / Persia",
+    "period": "Islamic Golden Age",
+    "traditions": ["islamic"],
+    "domains": ["metaphysics", "philosophy-of-mind"],
+    "majorWorks": ["The Book of Healing", "The Canon of Medicine"],
+    "centralQuestions": ["What distinguishes necessary existence from contingent existence?", "What is the relationship between soul and body?"],
+    "keyConcepts": [
+      { "term": "Necessary vs. contingent existence", "definition": "The distinction between a being whose existence is self-sufficient and beings that depend on something else to exist." },
+      { "term": "The Flying Man argument", "definition": "A thought experiment suggesting self-awareness is immediate and independent of sensing one's own body." }
+    ],
+    "majorArguments": [
+      "Argued that a chain of contingent causes cannot explain itself and must terminate in a necessary existent.",
+      "Argued, via the Flying Man thought experiment, that self-awareness does not depend on perceiving any part of the body."
+    ],
+    "frame": "asks whether something's existence is self-explanatory or depends on something further, tracing dependency back to what does not",
+    "influences": ["Aristotle", "Al-Farabi", "Neoplatonism"],
+    "influenced": ["Averroes", "Aquinas and Scholasticism", "later Islamic philosophy and medicine"],
+    "context": "A polymath physician and philosopher in the Persian intellectual world, whose medical and philosophical works were standard texts in both the Islamic world and medieval Europe for centuries.",
+    "criticisms": [
+      "His metaphysical system is highly technical and was heavily contested by later thinkers like Al-Ghazali.",
+      "Critics argue the Flying Man argument proves less about the soul's independence than Avicenna claimed."
+    ],
+    "relevance": "His causal argument for a necessary being remains a reference point in philosophy of religion.",
+    "primarySources": ["Avicenna, The Book of Healing (Metaphysics)"],
+    "secondarySources": ["Jon McGinnis, Avicenna"]
+  },
+  {
+    "slug": "buddha",
+    "name": "Siddhartha Gautama (the Buddha)",
+    "dates": "c. 5th century BCE",
+    "region": "Ganges plain, India / Nepal",
+    "period": "Ancient India",
+    "traditions": ["buddhist"],
+    "domains": ["ethics", "metaphysics", "philosophy-of-mind"],
+    "majorWorks": ["Teachings preserved orally, later compiled in the Pali Canon and other early collections"],
+    "centralQuestions": ["Why do humans suffer, and how can suffering be released?", "Is there a fixed, independent self?"],
+    "keyConcepts": [
+      { "term": "The Four Noble Truths", "definition": "Suffering exists, it has a cause (craving), it can cease, and there is a path to its cessation." },
+      { "term": "Anatta (non-self)", "definition": "The claim that the sense of a fixed, separate 'I' is itself a construction worth examining, not a given." },
+      { "term": "Anicca (impermanence)", "definition": "All things, including the self, are in constant change." }
+    ],
+    "majorArguments": [
+      "Argued suffering arises from craving and attachment, often rooted in mistaking an ever-changing process for a fixed self.",
+      "Argued release from suffering comes through a practical path (the Eightfold Path), not through metaphysical speculation alone."
+    ],
+    "frame": "asks what you are clinging to in this situation, and whether the thing you're calling 'yourself' is as fixed as it feels",
+    "influences": ["Vedic and Śramaṇa renunciant traditions of ancient India"],
+    "influenced": ["Nagarjuna", "Zen and Mahayana traditions", "contemporary mindfulness practice"],
+    "context": "Taught in the Ganges plain amid a flourishing of renunciant movements questioning Vedic ritualism, later diversifying into Theravada, Mahayana, and Vajrayana traditions across Asia.",
+    "criticisms": [
+      "Secular adaptations sometimes strip out the ethical and communal framework the practices were embedded in.",
+      "Traditions vary enormously; treating 'Buddhism' as one monolithic view can flatten real doctrinal disagreement."
+    ],
+    "relevance": "Underpins contemporary mindfulness and offers a rigorous challenge to assuming the self is simple and fixed.",
+    "primarySources": ["The Dhammapada", "The Pali Canon (selections)"],
+    "secondarySources": ["Walpola Rahula, What the Buddha Taught"]
+  },
+  {
+    "slug": "nagarjuna",
+    "name": "Nagarjuna",
+    "dates": "c. 150–250 CE",
+    "region": "South India",
+    "period": "Classical India",
+    "traditions": ["buddhist"],
+    "domains": ["metaphysics", "epistemology"],
+    "majorWorks": ["Mulamadhyamakakarika (Fundamental Verses on the Middle Way)"],
+    "centralQuestions": ["Do things have inherent, independent existence?", "What is the 'middle way' between existence and non-existence?"],
+    "keyConcepts": [
+      { "term": "Sunyata (emptiness)", "definition": "The claim that things lack fixed, independent essence — they exist only relationally, dependent on other things." },
+      { "term": "Dependent origination", "definition": "Things arise in interdependence with other things, never in true isolation." }
+    ],
+    "majorArguments": [
+      "Argued that if things had truly independent, fixed essences, change and causation would be impossible — so emptiness is compatible with, not opposed to, a functioning world.",
+      "Used systematic logical analysis to show that neither 'things exist inherently' nor 'nothing exists at all' survives scrutiny."
+    ],
+    "frame": "asks whether the thing under discussion has a fixed, independent essence, or whether it only exists in relation to other things",
+    "influences": ["The Buddha", "Abhidharma philosophy", "Prajnaparamita literature"],
+    "influenced": ["Madhyamaka Buddhism", "later Mahayana philosophy across Asia"],
+    "context": "Working within the developing scholastic tradition of Buddhist philosophy in classical India, using rigorous logical argument rather than purely devotional teaching.",
+    "criticisms": [
+      "Critics have long debated whether 'emptiness' collapses into nihilism despite Nagarjuna's explicit denial of that reading.",
+      "His dense, technical style has produced centuries of competing interpretations."
+    ],
+    "relevance": "A rigorous historical example of philosophy using pure logical analysis to dissolve, rather than answer, a metaphysical question.",
+    "primarySources": ["Nagarjuna, Mulamadhyamakakarika"],
+    "secondarySources": ["Jay Garfield, The Fundamental Wisdom of the Middle Way"]
+  },
+  {
+    "slug": "adi-shankara",
+    "name": "Adi Shankara",
+    "dates": "c. 700–750 CE",
+    "region": "Kerala / India",
+    "period": "Classical India",
+    "traditions": ["vedanta"],
+    "domains": ["metaphysics", "epistemology"],
+    "majorWorks": ["Commentaries on the Brahma Sutras, principal Upanishads, and Bhagavad Gita"],
+    "centralQuestions": ["What is the relationship between the individual self and ultimate reality?", "What counts as genuine knowledge versus appearance?"],
+    "keyConcepts": [
+      { "term": "Brahman", "definition": "The single, ultimate, unchanging reality underlying the apparent multiplicity of the world." },
+      { "term": "Atman", "definition": "The innermost self, which Shankara's Advaita (non-dual) school holds to be identical with Brahman." },
+      { "term": "Maya", "definition": "The way ordinary appearances can obscure, rather than reveal, ultimate reality." }
+    ],
+    "majorArguments": [
+      "Argued, through systematic commentary, that apparent multiplicity and separateness are a matter of ignorance (avidya) rather than final truth.",
+      "Argued that liberation (moksha) comes through direct knowledge of the self's identity with Brahman, not merely ritual action."
+    ],
+    "frame": "asks you to distinguish what is ultimately, unchangingly real from what only appears real from a limited vantage point",
+    "influences": ["The Upanishads", "the Brahma Sutras", "earlier Vedanta teachers"],
+    "influenced": ["Advaita Vedanta as a living tradition", "later Hindu philosophy", "modern non-dual spirituality"],
+    "context": "Traveled widely across India establishing monastic centers, consolidating Advaita Vedanta into a systematic philosophical school within a rich, contested field of Indian metaphysics.",
+    "criticisms": [
+      "Rival Vedanta schools (Ramanuja's qualified non-dualism, Madhva's dualism) directly reject his reading of the same core texts.",
+      "Critics argue his framework can undervalue the reality and importance of everyday ethical and social life."
+    ],
+    "relevance": "A central reference point for any 'non-dual' or 'the self is not separate' claim encountered in contemporary spirituality.",
+    "primarySources": ["Shankara, Commentary on the Brahma Sutras (selections)"],
+    "secondarySources": ["Eliot Deutsch, Advaita Vedanta: A Philosophical Reconstruction"]
+  },
+  {
+    "slug": "confucius",
+    "name": "Confucius",
+    "dates": "551–479 BCE",
+    "region": "State of Lu, China",
+    "period": "Classical China",
+    "traditions": ["confucian"],
+    "domains": ["ethics", "political-philosophy"],
+    "majorWorks": ["The Analects (compiled by students)"],
+    "centralQuestions": ["How should we cultivate ourselves and relate to others to create social harmony?"],
+    "keyConcepts": [
+      { "term": "Ren (benevolence)", "definition": "Genuine care for others, cultivated through practice rather than innate and automatic." },
+      { "term": "Li (ritual propriety)", "definition": "Social forms and etiquette that structure respectful relationships and hold society together." },
+      { "term": "The Five Relationships", "definition": "Ruler–subject, parent–child, husband–wife, elder–younger sibling, and friend–friend, each carrying reciprocal duties." }
+    ],
+    "majorArguments": [
+      "Argued that moral and social order begins with self-cultivation expressed through proper, reciprocal relationships, not through law or force alone.",
+      "Argued that ritual, properly understood, is not empty formality but the practiced shape genuine care takes in a community."
+    ],
+    "frame": "asks what a given relationship owes and is owed, and how ritual or habitual practice could shape better conduct over time",
+    "influences": ["Zhou dynasty ritual culture", "earlier Chinese statecraft traditions"],
+    "influenced": ["Mencius", "Xunzi", "East Asian political and educational institutions for over two millennia"],
+    "context": "Taught during China's turbulent Warring States-adjacent period, proposing cultivated virtue and right relationship as the path to restoring social harmony.",
+    "criticisms": [
+      "Traditional interpretations have been used to justify rigid hierarchy, including patriarchal family roles.",
+      "Its relational ethics can struggle to address obligations to strangers outside one's named relationships."
+    ],
+    "relevance": "A major, non-Western alternative to individual-rights-first ethics: asking what a relationship requires rather than only what a person is owed.",
+    "primarySources": ["Confucius, The Analects"],
+    "secondarySources": ["Philip J. Ivanhoe, Confucian Moral Self Cultivation"]
+  },
+  {
+    "slug": "laozi",
+    "name": "Laozi",
+    "dates": "Traditionally 6th century BCE; historicity debated",
+    "region": "China",
+    "period": "Classical China",
+    "traditions": ["daoist"],
+    "domains": ["ethics", "metaphysics"],
+    "majorWorks": ["Tao Te Ching (traditionally attributed)"],
+    "centralQuestions": ["How can we live in harmony with the natural order rather than against it?"],
+    "keyConcepts": [
+      { "term": "Dao (the Way)", "definition": "The underlying flow of the universe, which resists being fully captured in words or fixed concepts." },
+      { "term": "Wu wei", "definition": "'Non-forcing' or effortless action — acting in harmony with circumstances rather than against the grain." },
+      { "term": "Yin and yang", "definition": "Complementary opposites that generate each other rather than opposing in simple conflict." }
+    ],
+    "majorArguments": [
+      "Argued that forceful striving and rigid control often undermine the very outcomes they aim at, while yielding and adaptability often outlast them.",
+      "Argued that the Dao that can be fully named or defined is not the eternal Dao — some truths resist final conceptual capture."
+    ],
+    "frame": "asks where you're forcing something that wants to flow, and what would happen if you yielded instead of pushing",
+    "influences": ["Early Chinese cosmological thought"],
+    "influenced": ["Zhuangzi", "Chinese art, medicine, and statecraft", "later Chan/Zen Buddhism"],
+    "context": "Emerged in China alongside Confucianism, offering a naturalistic, often anti-authoritarian counterpoint to Confucian ritual and hierarchy.",
+    "criticisms": [
+      "Its embrace of 'letting things be' can be read as fatalism or an excuse for inaction in the face of injustice.",
+      "The concept of the Dao is intentionally elusive, making the philosophy hard to pin down or apply consistently."
+    ],
+    "relevance": "A recurring counterweight, across many traditions, to the assumption that more control and more effort are always better.",
+    "primarySources": ["Tao Te Ching"],
+    "secondarySources": ["Chad Hansen, A Daoist Theory of Chinese Thought"]
+  },
+  {
+    "slug": "anton-wilhelm-amo",
+    "name": "Anton Wilhelm Amo",
+    "dates": "c. 1703–c. 1759",
+    "region": "Born in present-day Ghana; educated and worked in Germany",
+    "period": "Enlightenment",
+    "traditions": ["african", "rationalism-empiricism"],
+    "domains": ["philosophy-of-mind", "epistemology"],
+    "majorWorks": ["On the Absence of Sensation in the Human Mind and Its Presence in Our Organic and Living Body", "The Art of Philosophizing Soberly and Accurately"],
+    "centralQuestions": ["Does the mind itself sense, or only the living body?", "What method keeps philosophical reasoning rigorous?"],
+    "keyConcepts": [
+      { "term": "Mind–body distinction", "definition": "Amo argued sensation belongs to the living, organic body, not to the immaterial mind directly." },
+      { "term": "Sober philosophizing", "definition": "A disciplined method for reasoning accurately and avoiding empty verbal disputes." }
+    ],
+    "majorArguments": [
+      "Argued against Cartesian-style views by holding that sensation is a bodily, not purely mental, phenomenon.",
+      "Argued philosophy needed methodological discipline to avoid mistaking confused language for genuine insight."
+    ],
+    "frame": "asks you to locate precisely where a phenomenon actually occurs — in mind, in body, or in their interaction — rather than assuming",
+    "influences": ["Descartes and Cartesian debates", "German university philosophy of his era"],
+    "influenced": ["Later scholarship on the history of Black European intellectual life; his work was largely erased for centuries and only recovered by modern historians of philosophy"],
+    "context": "Brought to Germany as a child, Amo earned doctorates and taught at German universities in the 1730s–40s — the first known African philosopher to hold a position in a European university, before eventually returning to West Africa.",
+    "criticisms": [
+      "His original Latin texts remained obscure for centuries, so his direct influence on later philosophy was limited relative to his talent.",
+      "Some of his arguments follow Enlightenment rationalist assumptions that were later strongly contested."
+    ],
+    "relevance": "A concrete correction to the myth that the Enlightenment academy was ethnically homogeneous, and a reminder of how selectively philosophical canons get built.",
+    "primarySources": ["Amo, On the Absence of Sensation in the Human Mind (trans. selections)"],
+    "secondarySources": ["Justin E.H. Smith, 'Introduction' in Amo's Philosophical Dissertations"]
+  },
+  {
+    "slug": "kwasi-wiredu",
+    "name": "Kwasi Wiredu",
+    "dates": "1931–2022",
+    "region": "Ghana",
+    "period": "Contemporary",
+    "traditions": ["african", "contemporary-global"],
+    "domains": ["epistemology", "political-philosophy"],
+    "majorWorks": ["Philosophy and an African Culture", "Cultural Universals and Particulars"],
+    "centralQuestions": ["How can philosophy engage African concepts on their own terms rather than through borrowed Western categories?", "What can African consensus-based decision-making teach political philosophy?"],
+    "keyConcepts": [
+      { "term": "Conceptual decolonization", "definition": "The project of examining inherited philosophical concepts for unexamined assumptions imported from colonial languages and categories." },
+      { "term": "Consensual democracy", "definition": "Wiredu's account, drawn from traditional Akan governance, of decision-making by consensus-building rather than majority-rule alone." }
+    ],
+    "majorArguments": [
+      "Argued that translating African concepts directly into inherited European philosophical vocabulary can distort them, and that careful conceptual work is needed to recover what's actually being claimed.",
+      "Argued that Akan traditions of consensus-seeking governance offer a genuine alternative model to adversarial majority-rule democracy, not merely a historical curiosity."
+    ],
+    "frame": "asks whether a concept under discussion is being examined on its own terms, or quietly forced into a framework borrowed from elsewhere",
+    "influences": ["Akan philosophical and political traditions", "analytic philosophy training"],
+    "influenced": ["Contemporary African philosophy", "comparative political theory on consensus democracy"],
+    "context": "Trained in analytic philosophy in the UK, then returned to build African philosophy as a rigorous academic field engaging both indigenous traditions and global philosophical method.",
+    "criticisms": [
+      "Critics debate how much of 'traditional' Akan governance he describes reflects idealized reconstruction versus documented historical practice.",
+      "Some argue his analytic method itself imports assumptions it claims to be decolonizing."
+    ],
+    "relevance": "A leading model for taking non-Western political philosophy seriously as live theory, not only as historical anthropology.",
+    "primarySources": ["Wiredu, Philosophy and an African Culture"],
+    "secondarySources": ["Olusegun Oladipo (ed.), The Third Way in African Philosophy"]
+  },
+  {
+    "slug": "vine-deloria-jr",
+    "name": "Vine Deloria Jr.",
+    "dates": "1933–2005",
+    "region": "United States (Standing Rock Sioux)",
+    "period": "Contemporary",
+    "traditions": ["indigenous-american", "contemporary-global"],
+    "domains": ["philosophy-of-religion", "political-philosophy"],
+    "majorWorks": ["God Is Red", "Custer Died for Your Sins"],
+    "centralQuestions": ["How does grounding religious and political thought in land and place differ from time-centered Western frameworks?", "What does genuine tribal sovereignty require?"],
+    "keyConcepts": [
+      { "term": "Space over time", "definition": "Deloria's argument that many Indigenous traditions organize meaning around specific places, in contrast to Western traditions organized around historical time and progress." },
+      { "term": "Sovereignty as relationship", "definition": "Political self-determination understood through ongoing treaty relationships and responsibilities to land, not only through abstract rights language." }
+    ],
+    "majorArguments": [
+      "Argued that treating Indigenous religions as primitive precursors to Christianity misreads traditions that are philosophically coherent on their own, place-centered terms.",
+      "Argued federal Indian policy repeatedly substituted paternalistic assumptions for genuine engagement with tribal self-governance."
+    ],
+    "frame": "asks whether a claim is being organized around a particular relationship to place, and challenges assumptions that progress-through-time is the only valid frame",
+    "influences": ["Standing Rock Sioux tradition and law", "critical engagement with Western theology and political theory"],
+    "influenced": ["Contemporary Indigenous studies", "environmental philosophy", "critical legal studies on tribal sovereignty"],
+    "context": "Wrote during the Red Power movement and the rise of federal Indian self-determination policy, combining legal advocacy, theology, and philosophy.",
+    "criticisms": [
+      "Some scholars argue his contrast between 'space-centered' and 'time-centered' traditions is broader than the historical evidence fully supports.",
+      "His sharp critique of Christian theology drew pushback from both Christian and secular scholars."
+    ],
+    "relevance": "A central figure for taking Indigenous philosophy seriously as rigorous contemporary theory, not folklore or a closed historical chapter.",
+    "primarySources": ["Deloria, God Is Red", "Deloria, Custer Died for Your Sins"],
+    "secondarySources": ["David E. Wilkins, 'Introduction' in Deloria's For This Land: Writings on Religion in America"]
+  },
+  {
+    "slug": "descartes",
+    "name": "René Descartes",
+    "dates": "1596–1650",
+    "region": "France / Dutch Republic",
+    "period": "Early Modern Europe",
+    "traditions": ["rationalism-empiricism"],
+    "domains": ["epistemology", "metaphysics"],
+    "majorWorks": ["Meditations on First Philosophy", "Discourse on the Method"],
+    "centralQuestions": ["What can be known with absolute certainty?", "What is the relationship between mind and body?"],
+    "keyConcepts": [
+      { "term": "Methodological doubt", "definition": "Deliberately doubting everything that can possibly be doubted, to find what survives as certain." },
+      { "term": "Cogito ergo sum", "definition": "'I think, therefore I am' — the claim that the act of doubting proves the existence of a thinking self." },
+      { "term": "Mind–body dualism", "definition": "The view that mind and body are two fundamentally different kinds of substance." }
+    ],
+    "majorArguments": [
+      "Argued that even a deceiving demon fooling him about everything else could not fool him about the fact that he was thinking.",
+      "Argued the mind can be conceived clearly and distinctly apart from the body, suggesting they are genuinely separate substances."
+    ],
+    "frame": "asks what remains standing after you doubt everything you possibly can — and builds back up only from what survives",
+    "influences": ["Scholastic philosophy (as a target)", "mathematics and the new science of his era"],
+    "influenced": ["Spinoza", "Locke and empiricism (in reaction)", "the entire modern epistemology tradition"],
+    "context": "Wrote during the Scientific Revolution, seeking a foundation for knowledge that didn't depend on inherited Scholastic authority.",
+    "criticisms": [
+      "Mind–body dualism struggles to explain how two totally different substances causally interact.",
+      "Critics argue the 'cogito' proves less than Descartes claimed — perhaps only that thinking is occurring, not that a persisting 'I' exists."
+    ],
+    "relevance": "The starting point for nearly all subsequent debate over mind, certainty, and consciousness in Western philosophy.",
+    "primarySources": ["Descartes, Meditations on First Philosophy"],
+    "secondarySources": ["Bernard Williams, Descartes: The Project of Pure Enquiry"]
+  },
+  {
+    "slug": "locke",
+    "name": "John Locke",
+    "dates": "1632–1704",
+    "region": "England",
+    "period": "Early Modern Europe",
+    "traditions": ["rationalism-empiricism"],
+    "domains": ["political-philosophy", "epistemology"],
+    "majorWorks": ["Two Treatises of Government", "An Essay Concerning Human Understanding"],
+    "centralQuestions": ["Where does knowledge come from?", "What justifies political authority and property?"],
+    "keyConcepts": [
+      { "term": "Tabula rasa", "definition": "The mind at birth as a 'blank slate,' with knowledge built entirely from experience." },
+      { "term": "Natural rights", "definition": "Rights to life, liberty, and property that exist prior to and independent of government." },
+      { "term": "Social contract", "definition": "Government's legitimacy derives from the consent of the governed, who can withdraw that consent." }
+    ],
+    "majorArguments": [
+      "Argued all ideas ultimately derive from sensory experience, rejecting innate ideas as the source of knowledge.",
+      "Argued a government that violates the natural rights it exists to protect forfeits its legitimacy and can justly be resisted."
+    ],
+    "frame": "asks what a person consented to, and whether an authority still serves the purpose that justified creating it in the first place",
+    "influences": ["Hobbes (in reaction)", "the Scientific Revolution", "English constitutional conflicts of his era"],
+    "influenced": ["The American Declaration of Independence", "classical liberalism", "Rousseau and later social contract theory"],
+    "context": "Wrote amid England's Glorious Revolution, defending a government limited by the consent and rights of the governed against absolutist claims.",
+    "criticisms": [
+      "His property theory has been criticized for providing philosophical cover for colonial land seizure.",
+      "Critics question whether 'tacit consent' to government is coherent, since most people never actively consent to anything."
+    ],
+    "relevance": "The direct philosophical ancestor of modern liberal-democratic ideas about rights, consent, and limited government.",
+    "primarySources": ["Locke, Second Treatise of Government"],
+    "secondarySources": ["John Dunn, Locke: A Very Short Introduction"]
+  },
+  {
+    "slug": "hume",
+    "name": "David Hume",
+    "dates": "1711–1776",
+    "region": "Scotland",
+    "period": "Enlightenment",
+    "traditions": ["rationalism-empiricism"],
+    "domains": ["epistemology", "ethics"],
+    "majorWorks": ["A Treatise of Human Nature", "An Enquiry Concerning Human Understanding"],
+    "centralQuestions": ["What justifies our belief in cause and effect?", "Can reason alone determine what we ought to do?"],
+    "keyConcepts": [
+      { "term": "The problem of induction", "definition": "Past regularities (the sun rising) never logically guarantee future ones — we assume it from habit, not proof." },
+      { "term": "Is–ought gap", "definition": "Descriptive facts about how things are cannot, by logic alone, generate prescriptive claims about how things ought to be." },
+      { "term": "Reason as 'slave of the passions'", "definition": "Hume's claim that reason serves our desires and sentiments rather than determining our ultimate ends." }
+    ],
+    "majorArguments": [
+      "Argued causation is never directly observed, only the constant conjunction of events, which habit leads us to interpret as necessary connection.",
+      "Argued moral judgments arise from sentiment, not pure reason, since reason alone cannot motivate action."
+    ],
+    "frame": "asks what experience actually shows, as opposed to what habit or sentiment leads us to assume follows from it",
+    "influences": ["Locke", "Newtonian science", "Scottish Enlightenment debate"],
+    "influenced": ["Kant (who credited Hume with waking him from 'dogmatic slumber')", "modern empiricism", "utilitarianism"],
+    "context": "Wrote during the Scottish Enlightenment, applying the empirical method rigorously enough to unsettle assumptions empiricism itself usually took for granted.",
+    "criticisms": [
+      "His skepticism about induction and causation can seem to undercut the very science he admired.",
+      "Some argue his moral sentimentalism struggles to explain disagreement across cultures with different sentiments."
+    ],
+    "relevance": "The is–ought distinction remains a standard tool for checking whether an argument smuggled in a value claim from a factual one.",
+    "primarySources": ["Hume, An Enquiry Concerning Human Understanding"],
+    "secondarySources": ["Barry Stroud, Hume"]
+  },
+  {
+    "slug": "rousseau",
+    "name": "Jean-Jacques Rousseau",
+    "dates": "1712–1778",
+    "region": "Geneva / France",
+    "period": "Enlightenment",
+    "traditions": ["rationalism-empiricism"],
+    "domains": ["political-philosophy"],
+    "majorWorks": ["The Social Contract", "Discourse on Inequality", "Emile"],
+    "centralQuestions": ["How can people live together freely, rather than merely be ruled?", "Does civilization corrupt natural human goodness?"],
+    "keyConcepts": [
+      { "term": "The general will", "definition": "The collective will aimed at the common good, distinct from the mere sum of individual private wills." },
+      { "term": "'Forced to be free'", "definition": "Rousseau's controversial claim that submitting to the general will can itself be a form of freedom." },
+      { "term": "Natural goodness, social corruption", "definition": "Humans are naturally good but corrupted by artificial social inequality and dependence." }
+    ],
+    "majorArguments": [
+      "Argued legitimate political authority must rest on the general will of the people, not on inherited power or elite expertise.",
+      "Argued that private property and social comparison, not human nature itself, are the roots of destructive inequality."
+    ],
+    "frame": "asks whether an arrangement reflects the genuine common good the community would choose for itself, or just the strongest private interests",
+    "influences": ["Locke and social contract theory (in reaction)", "Geneva's republican political culture"],
+    "influenced": ["The French Revolution", "Kant", "Hegel", "modern republicanism"],
+    "context": "Wrote as Enlightenment optimism about reason and progress was intensifying, and his critique of inequality directly influenced revolutionary politics in France.",
+    "criticisms": [
+      "The 'general will' has been criticized as vague enough to justify majority tyranny over dissenting individuals.",
+      "His idealized 'natural man' rests on speculative anthropology rather than historical evidence."
+    ],
+    "relevance": "Central to any debate over whether real freedom requires more than simply being left alone by others.",
+    "primarySources": ["Rousseau, The Social Contract"],
+    "secondarySources": ["Nicholas Dent, Rousseau"]
+  },
+  {
+    "slug": "kant",
+    "name": "Immanuel Kant",
+    "dates": "1724–1804",
+    "region": "Königsberg, Prussia",
+    "period": "Enlightenment",
+    "traditions": ["rationalism-empiricism", "german-idealism"],
+    "domains": ["ethics", "epistemology", "metaphysics", "aesthetics"],
+    "majorWorks": ["Critique of Pure Reason", "Groundwork of the Metaphysics of Morals", "Critique of Practical Reason"],
+    "centralQuestions": ["What can we know, and what are the limits of reason?", "What makes an action morally right?"],
+    "keyConcepts": [
+      { "term": "The categorical imperative", "definition": "Act only according to a rule you could will to become a universal law for everyone." },
+      { "term": "Autonomy", "definition": "Genuine freedom as rational self-legislation — giving yourself the moral law, not merely following desire." },
+      { "term": "Phenomena vs. noumena", "definition": "The distinction between things as they appear to us and things as they are in themselves, which we can never fully know." }
+    ],
+    "majorArguments": [
+      "Argued moral worth comes from acting out of duty to a universalizable principle, not from the consequences an action happens to produce.",
+      "Argued the mind actively structures experience (space, time, causality) rather than passively receiving a ready-made world."
+    ],
+    "frame": "asks whether the principle behind an action could be willed as a universal law for everyone, without contradiction",
+    "influences": ["Hume ('awoke him from dogmatic slumber')", "Rousseau", "rationalist and empiricist traditions he sought to reconcile"],
+    "influenced": ["Hegel", "German Idealism broadly", "contemporary deontological ethics"],
+    "context": "Wrote in Enlightenment Prussia, attempting to secure both the authority of science and the possibility of genuine moral freedom against skeptical challenges.",
+    "criticisms": [
+      "Critics argue his ethics can produce rigid conclusions (e.g., that lying is never permissible) that conflict with strong moral intuitions.",
+      "His account of autonomy has been criticized as overly abstract, detached from emotion, relationship, and context."
+    ],
+    "relevance": "The reference point for any argument that judges actions by principle rather than outcome.",
+    "primarySources": ["Kant, Groundwork of the Metaphysics of Morals"],
+    "secondarySources": ["Christine Korsgaard, Creating the Kingdom of Ends"]
+  },
+  {
+    "slug": "hegel",
+    "name": "Georg Wilhelm Friedrich Hegel",
+    "dates": "1770–1831",
+    "region": "Germany",
+    "period": "German Idealism",
+    "traditions": ["german-idealism"],
+    "domains": ["metaphysics", "political-philosophy", "philosophy-of-history"],
+    "majorWorks": ["Phenomenology of Spirit", "Elements of the Philosophy of Right", "Science of Logic"],
+    "centralQuestions": ["How does freedom become real in history and institutions?", "How is consciousness shaped through recognition by others?"],
+    "keyConcepts": [
+      { "term": "Dialectic", "definition": "A pattern of development through thesis, antithesis, and synthesis, resolving contradictions at a higher level of understanding." },
+      { "term": "Recognition", "definition": "Self-consciousness develops only through being recognized by another self-consciousness." },
+      { "term": "Ethical life (Sittlichkeit)", "definition": "Freedom made concrete through family, civil society, and the state, not just abstract individual rights." }
+    ],
+    "majorArguments": [
+      "Argued that freedom is not simply being left alone, but becomes real only through rational institutions and mutual recognition.",
+      "Argued history is the gradual, often conflict-driven unfolding of human freedom's self-understanding."
+    ],
+    "frame": "asks how a concept has developed through conflict and resolution over time, rather than treating it as fixed from the start",
+    "influences": ["Kant", "Rousseau", "Christian theology", "classical Greek philosophy"],
+    "influenced": ["Marx", "Kierkegaard", "existentialism", "the Frankfurt School", "contemporary continental philosophy"],
+    "context": "Wrote as Napoleon reshaped Europe and Germany was working out its own path to modern statehood, seeking to show reason at work in historical change itself.",
+    "criticisms": [
+      "His system has been accused of justifying whatever historically prevailed as rationally necessary.",
+      "His prose is notoriously dense, and interpreters still disagree sharply about what he actually claimed."
+    ],
+    "relevance": "Central to any argument that a concept (freedom, selfhood, justice) can only be understood by tracing its historical development.",
+    "primarySources": ["Hegel, Phenomenology of Spirit (selections)"],
+    "secondarySources": ["Frederick Beiser, Hegel"]
+  },
+  {
+    "slug": "marx",
+    "name": "Karl Marx",
+    "dates": "1818–1883",
+    "region": "Germany / England",
+    "period": "19th century",
+    "traditions": ["critical-theory"],
+    "domains": ["political-philosophy", "philosophy-of-history"],
+    "majorWorks": ["Capital", "The Communist Manifesto (with Engels)", "Economic and Philosophic Manuscripts of 1844"],
+    "centralQuestions": ["How do economic structures shape ideas, freedom, and social conflict?", "What is required for genuine human freedom under industrial capitalism?"],
+    "keyConcepts": [
+      { "term": "Historical materialism", "definition": "The view that a society's economic 'base' shapes its politics, law, and ideas, more than the reverse." },
+      { "term": "Alienation", "definition": "Workers becoming estranged from their own labor, its products, and their fellow humans under capitalist production." },
+      { "term": "Class struggle", "definition": "History driven by conflict between groups with opposing relationships to the means of production." }
+    ],
+    "majorArguments": [
+      "Argued that freedom must be considered in relation to material and economic conditions, not treated as a purely abstract legal or political matter.",
+      "Argued capitalism systematically extracts surplus value from workers' labor, generating both enormous productivity and deep alienation."
+    ],
+    "frame": "asks who benefits materially from an arrangement, and how the underlying economic structure shapes the ideas people take to be natural or neutral",
+    "influences": ["Hegel", "British political economy (Smith, Ricardo)", "French socialist thought"],
+    "influenced": ["20th-century socialist and communist movements", "the Frankfurt School and critical theory", "contemporary political economy"],
+    "context": "Wrote during industrialization's most brutal early decades in Europe, analyzing capitalism's dynamics from exile in London.",
+    "criticisms": [
+      "His predictions about capitalism's inevitable collapse and revolution have not materialized as he described.",
+      "Regimes claiming his legacy produced severe political repression, a legacy his defenders argue distorts his actual theory."
+    ],
+    "relevance": "Still the standard reference for any argument connecting economic structure to political ideology and social conflict.",
+    "primarySources": ["Marx & Engels, The Communist Manifesto"],
+    "secondarySources": ["Jonathan Wolff, Why Read Marx Today?"]
+  },
+  {
+    "slug": "nietzsche",
+    "name": "Friedrich Nietzsche",
+    "dates": "1844–1900",
+    "region": "Germany",
+    "period": "19th century",
+    "traditions": ["existentialism"],
+    "domains": ["ethics", "metaphysics"],
+    "majorWorks": ["Thus Spoke Zarathustra", "Beyond Good and Evil", "On the Genealogy of Morality"],
+    "centralQuestions": ["Where do our moral values actually come from, historically?", "How should one live after the 'death of God' undermines inherited certainties?"],
+    "keyConcepts": [
+      { "term": "Genealogy of morals", "definition": "Tracing how moral concepts like 'good' and 'evil' emerged from specific historical power relations, not eternal truths." },
+      { "term": "Will to power", "definition": "A fundamental drive toward growth, mastery, and self-overcoming underlying much human behavior." },
+      { "term": "Master and slave morality", "definition": "Nietzsche's contrast between value systems that affirm strength and vitality versus those that valorize weakness out of resentment." }
+    ],
+    "majorArguments": [
+      "Argued conventional morality itself may constrain rather than liberate the individual, and should be examined for its hidden origins in resentment or power.",
+      "Argued that without inherited religious or metaphysical certainty, individuals face the task of creating their own values rather than discovering ready-made ones."
+    ],
+    "frame": "asks where a value actually came from historically, and whether it affirms life and strength or masks weakness and resentment",
+    "influences": ["Schopenhauer", "Greek tragedy", "Darwin (contested)"],
+    "influenced": ["Existentialism", "postmodernism", "Foucault", "20th-century literature and psychology"],
+    "context": "Wrote as traditional religious authority was visibly eroding in 19th-century Europe, diagnosing what he saw coming next rather than mourning what was lost.",
+    "criticisms": [
+      "His writing was later distorted and appropriated by Nazi ideology, despite his own explicit contempt for antisemitism and nationalism.",
+      "Critics argue his 'will to power' framework can shade into glorifying domination if read uncharitably."
+    ],
+    "relevance": "The essential tool for asking where a 'self-evident' moral value actually came from, and whose interests it originally served.",
+    "primarySources": ["Nietzsche, On the Genealogy of Morality"],
+    "secondarySources": ["Brian Leiter, Nietzsche on Morality"]
+  },
+  {
+    "slug": "mill",
+    "name": "John Stuart Mill",
+    "dates": "1806–1873",
+    "region": "England",
+    "period": "19th century",
+    "traditions": ["analytic-political"],
+    "domains": ["ethics", "political-philosophy"],
+    "majorWorks": ["On Liberty", "Utilitarianism", "The Subjection of Women"],
+    "centralQuestions": ["What makes an action morally right?", "Where should the boundary lie between individual liberty and society's authority?"],
+    "keyConcepts": [
+      { "term": "The greatest happiness principle", "definition": "Seek the greatest well-being for the greatest number, weighing everyone's happiness equally." },
+      { "term": "The harm principle", "definition": "Society may only restrict a person's liberty to prevent harm to others, not merely for their own good or to enforce convention." },
+      { "term": "Higher and lower pleasures", "definition": "Mill's distinction between intellectual/moral pleasures and merely bodily ones, arguing not all pleasures are equally valuable." }
+    ],
+    "majorArguments": [
+      "Argued that everyone's well-being counts equally, and that actions should be judged by their consequences for overall welfare.",
+      "Argued vigorously that free expression benefits society even when — especially when — the opinion expressed turns out to be wrong, because it sharpens true beliefs through contest."
+    ],
+    "frame": "asks what the actual consequences for overall well-being are, and whether restricting someone's liberty here truly prevents harm to others",
+    "influences": ["Bentham", "his father James Mill", "Harriet Taylor Mill (a major intellectual partner and influence)"],
+    "influenced": ["Modern civil liberties law", "contemporary utilitarianism and effective altruism", "liberal political theory"],
+    "context": "Wrote during Victorian Britain's debates over democratic expansion, censorship, and the proper limits of state and social power over the individual.",
+    "criticisms": [
+      "Utilitarian calculation can seem to justify harming a minority if it maximizes aggregate welfare.",
+      "Critics question whether 'higher' and 'lower' pleasures can be ranked without smuggling in Mill's own class-inflected tastes."
+    ],
+    "relevance": "The direct ancestor of most contemporary arguments for free speech and cost-benefit-based public policy.",
+    "primarySources": ["Mill, On Liberty", "Mill, Utilitarianism"],
+    "secondarySources": ["Alan Ryan, J.S. Mill"]
+  },
+  {
+    "slug": "arendt",
+    "name": "Hannah Arendt",
+    "dates": "1906–1975",
+    "region": "Germany / United States",
+    "period": "20th century",
+    "traditions": ["contemporary-global"],
+    "domains": ["political-philosophy", "philosophy-of-history"],
+    "majorWorks": ["The Origins of Totalitarianism", "The Human Condition", "Eichmann in Jerusalem"],
+    "centralQuestions": ["What conditions make totalitarianism possible?", "What is the relationship between truth, action, and political life?"],
+    "keyConcepts": [
+      { "term": "The banality of evil", "definition": "Arendt's controversial argument that great atrocities can be carried out by ordinary people through thoughtless bureaucratic conformity, not only by monstrous fanatics." },
+      { "term": "Natality", "definition": "The capacity to begin something genuinely new through action, which Arendt saw as central to political freedom." },
+      { "term": "The public realm", "definition": "The shared space of appearance and speech among equals, distinct from private and economic life, where political freedom is exercised." }
+    ],
+    "majorArguments": [
+      "Argued totalitarianism was made possible by mass loneliness and the destruction of genuine plurality and public space, not merely by a charismatic tyrant.",
+      "Argued that truth and factual reality are preconditions for political freedom, and that systematic lying corrodes the shared world politics depends on."
+    ],
+    "frame": "asks what conditions of public life and truthfulness make a given action or institution possible or impossible in the first place",
+    "influences": ["Heidegger", "Jaspers", "the Greek polis as a political model"],
+    "influenced": ["Contemporary political theory on totalitarianism, truth, and public life", "Habermas's public-sphere theory"],
+    "context": "Fled Nazi Germany as a Jewish refugee, and wrote her major work analyzing totalitarianism and political life from direct personal experience of its collapse.",
+    "criticisms": [
+      "Her 'banality of evil' thesis about Eichmann was fiercely contested by historians who argued he was a more committed ideologue than she portrayed.",
+      "Critics argue her sharp public/private distinction undervalues how economic and domestic conditions shape political freedom."
+    ],
+    "relevance": "Essential for questions about how democracies erode, and how truth and public discourse relate to political freedom.",
+    "primarySources": ["Arendt, The Origins of Totalitarianism (selections)"],
+    "secondarySources": ["Margaret Canovan, Hannah Arendt: A Reinterpretation of Her Political Thought"]
+  },
+  {
+    "slug": "beauvoir",
+    "name": "Simone de Beauvoir",
+    "dates": "1908–1986",
+    "region": "France",
+    "period": "20th century",
+    "traditions": ["existentialism"],
+    "domains": ["ethics", "political-philosophy"],
+    "majorWorks": ["The Second Sex", "The Ethics of Ambiguity"],
+    "centralQuestions": ["How is 'woman' constructed as 'Other' in society?", "What does it mean to live an authentically free, ethical existence?"],
+    "keyConcepts": [
+      { "term": "'One is not born, but becomes, a woman'", "definition": "Gender as socially constructed and produced through lived experience, not a fixed biological destiny." },
+      { "term": "The Other", "definition": "The way a dominant group defines itself as the norm and defines a subordinate group in relation to, and lesser than, that norm." },
+      { "term": "Situated freedom", "definition": "Freedom is always exercised within concrete social and bodily circumstances, not as pure abstract choice." }
+    ],
+    "majorArguments": [
+      "Argued that women have historically been defined as deviation from a male norm ('the Other'), rather than as autonomous subjects in their own right.",
+      "Argued genuine ethical existence requires willing not only one's own freedom but also the freedom of others, since human freedoms are interdependent."
+    ],
+    "frame": "asks how a group or identity has been defined in relation to a dominant norm, rather than on its own independent terms",
+    "influences": ["Sartre and existentialism", "Hegel's master–slave dialectic", "Husserl's phenomenology"],
+    "influenced": ["Second-wave and contemporary feminist theory", "gender studies broadly"],
+    "context": "Wrote in postwar France as an equal intellectual partner within the existentialist circle around Sartre, applying existentialist method rigorously to the lived situation of women.",
+    "criticisms": [
+      "Critics argue The Second Sex reflects a mid-century, largely Western, middle-class perspective not fully generalizable across cultures.",
+      "Some feminist theorists argue her framework still measures women's freedom against a male-centered standard of transcendence."
+    ],
+    "relevance": "The foundational philosophical text connecting existentialist freedom to the analysis of gender and social construction.",
+    "primarySources": ["Beauvoir, The Second Sex (introduction)"],
+    "secondarySources": ["Sonia Kruks, Simone de Beauvoir and the Politics of Ambiguity"]
+  },
+  {
+    "slug": "rawls",
+    "name": "John Rawls",
+    "dates": "1921–2002",
+    "region": "United States",
+    "period": "20th century",
+    "traditions": ["analytic-political", "contemporary-global"],
+    "domains": ["political-philosophy"],
+    "majorWorks": ["A Theory of Justice", "Political Liberalism"],
+    "centralQuestions": ["What principles of justice would free and equal people agree to if they didn't know their own place in society?"],
+    "keyConcepts": [
+      { "term": "The original position", "definition": "A hypothetical choice situation for designing a just society's basic rules." },
+      { "term": "The veil of ignorance", "definition": "Choosing society's rules without knowing your own race, class, talents, or position — to ensure fairness." },
+      { "term": "The difference principle", "definition": "Inequalities are only justified if they work to the greatest benefit of the least advantaged members of society." }
+    ],
+    "majorArguments": [
+      "Argued that principles chosen behind a 'veil of ignorance' would prioritize basic liberties for all and permit inequality only when it benefits the worst-off.",
+      "Argued justice as fairness could ground a stable, pluralistic society without requiring citizens to share one comprehensive moral or religious worldview."
+    ],
+    "frame": "asks what rules you would choose for a society if you didn't know in advance which position within it you'd occupy",
+    "influences": ["Kant", "the social contract tradition (Locke, Rousseau)", "postwar liberal democratic theory"],
+    "influenced": ["Contemporary political philosophy broadly", "debates over distributive justice and welfare policy"],
+    "context": "Wrote during the postwar expansion of the American welfare state and civil rights movement, aiming to give liberal democracy a rigorous philosophical foundation.",
+    "criticisms": [
+      "Libertarian critics (notably Nozick) argue the difference principle licenses excessive redistribution that violates individual entitlement.",
+      "Communitarian critics argue his 'unencumbered' choosers behind the veil of ignorance are an unrealistic model of actual social selves."
+    ],
+    "relevance": "The default reference point in contemporary debates over what a fair distribution of resources and opportunity actually requires.",
+    "primarySources": ["Rawls, A Theory of Justice (selections)"],
+    "secondarySources": ["Samuel Freeman, Rawls"]
+  },
+  {
+    "slug": "sen",
+    "name": "Amartya Sen",
+    "dates": "b. 1933",
+    "region": "India / United Kingdom / United States",
+    "period": "Contemporary",
+    "traditions": ["contemporary-global", "analytic-political"],
+    "domains": ["political-philosophy", "ethics"],
+    "majorWorks": ["Development as Freedom", "The Idea of Justice"],
+    "centralQuestions": ["What should we actually be measuring when we ask whether a society is just or people are flourishing?"],
+    "keyConcepts": [
+      { "term": "The capability approach", "definition": "Justice and development should be measured by people's real freedom to achieve valuable functionings — what they can actually do and be — not just income or resources." },
+      { "term": "Comparative, not just ideal, justice", "definition": "Sen argues philosophy should focus on comparing realistic options to reduce injustice, rather than only theorizing one perfectly just society." }
+    ],
+    "majorArguments": [
+      "Argued that measuring welfare by income or resources alone misses how differently people can convert those resources into real freedom and functioning (due to disability, discrimination, or context).",
+      "Argued famines are caused less by absolute food shortages than by failures of entitlement and political accountability — notably, that famines essentially do not occur in functioning democracies with a free press."
+    ],
+    "frame": "asks what real, usable freedom a person has to do and be what they value, not just what resources are formally available to them",
+    "influences": ["Rawls", "Aristotle's concept of flourishing", "his own empirical research on famine and development economics"],
+    "influenced": ["The UN Human Development Index", "contemporary development economics and global justice theory"],
+    "context": "Drew on his own experience of the 1943 Bengal famine and later Nobel Prize-winning economics work to reshape how philosophers and policymakers define development and justice.",
+    "criticisms": [
+      "Critics argue the capability approach is harder to operationalize into clear policy metrics than simpler measures like income.",
+      "Some philosophers argue Sen never specifies a definitive list of capabilities, leaving the framework productively — or frustratingly — open-ended."
+    ],
+    "relevance": "Central to how contemporary global institutions define and measure development, poverty, and justice.",
+    "primarySources": ["Sen, Development as Freedom (selections)"],
+    "secondarySources": ["Martha Nussbaum, Creating Capabilities"]
+  }
+]

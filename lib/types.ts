@@ -1,57 +1,109 @@
-export type Tradition =
-  | "Western"
-  | "Eastern"
-  | "Modern & Contemporary"
-  | "Interdisciplinary (Science)";
+export type Domain =
+  | "ethics"
+  | "political-philosophy"
+  | "metaphysics"
+  | "epistemology"
+  | "philosophy-of-mind"
+  | "philosophy-of-history"
+  | "aesthetics"
+  | "philosophy-of-religion";
 
-export interface Perspective {
+export interface Tradition {
+  id: string;
+  name: string;
+  region: string;
+  blurb: string;
+}
+
+export interface KeyConcept {
+  term: string;
+  definition: string;
+}
+
+export interface Philosopher {
   slug: string;
   name: string;
-  tradition: Tradition;
-  emoji: string;
+  dates: string;
+  region: string;
   period: string;
-  coreQuestion: string;
-  coreIdea: string;
-  centralIdeas: string[];
-  keyThinkers: string[];
-  historicalContext: string;
-  application: string;
+  traditions: string[]; // Tradition ids
+  domains: Domain[];
+  majorWorks: string[];
+  centralQuestions: string[];
+  keyConcepts: KeyConcept[];
+  majorArguments: string[];
+  frame: string; // a general, reusable lens this thinker applies to a question — NOT a quotation
+  influences: string[]; // plain names; may not all be in the database
+  influenced: string[]; // plain names; may not all be in the database
+  context: string;
   criticisms: string[];
-  relatedPhilosophies: { agrees: string[]; disagrees: string[] };
-  furtherQuestions: string[];
+  relevance: string;
+  primarySources: string[];
+  secondarySources: string[];
 }
 
-export type DialogueMode = "socratic" | "scientist" | "devil" | "perspective";
+export type Difficulty = "intro" | "intermediate" | "advanced";
 
-export interface DialogueModeInfo {
-  id: DialogueMode;
-  label: string;
-  emoji: string;
-  description: string;
-}
-
-export interface ChatMessage {
-  role: "user" | "ai";
+export interface Question {
+  slug: string;
   text: string;
-  mode?: DialogueMode;
+  domain: Domain;
+  tags: string[];
+  difficulty: Difficulty;
 }
 
-export interface QuestionCategory {
-  id: string;
-  emoji: string;
+export type CouncilMode = "compare" | "socratic" | "steelman" | "historical";
+
+export interface CouncilModeInfo {
+  id: CouncilMode;
   label: string;
-  questions: string[];
+  hint: string;
 }
 
-export interface ReflectionEntry {
+export interface JournalEntry {
   id: string;
-  createdAt: string; // ISO date
+  createdAt: string;
   question: string;
-  perspectiveSlug: string;
-  perspectiveName: string;
   initialPosition: string;
-  newInsight: string;
-  currentPosition: string;
-  remainingQuestions: string;
-  resonatedIdeas: string[];
+  reasoning: string;
+  counterargument: string;
+  revisedPosition: string;
+  remainingUncertainty: string;
+  philosopherSlugs: string[];
+}
+
+// --- Personal Philosophy profile ---
+
+export type ProfileDimension = "ethics" | "epistemology" | "metaphysics" | "political-philosophy";
+
+export interface PositionOption {
+  id: string;
+  label: string;
+  blurb: string;
+}
+
+export interface ProfileState {
+  ethics: string[];
+  epistemology: string[];
+  metaphysics: string[];
+  "political-philosophy": string[];
+  notes: Record<string, string>; // positionId -> user's own note (optional)
+}
+
+// --- Argument Analyzer ---
+
+export interface AnalyzerFlag {
+  label: string;
+  detail: string;
+  matches: string[];
+}
+
+export interface AnalyzerResult {
+  claim: string;
+  evidenceFlags: AnalyzerFlag[];
+  logicFlags: AnalyzerFlag[];
+  rhetoricFlags: AnalyzerFlag[];
+  valueFlags: AnalyzerFlag[];
+  uncertaintyFlags: AnalyzerFlag[];
+  relatedPhilosophers: Philosopher[];
 }
