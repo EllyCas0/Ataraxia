@@ -1,17 +1,6 @@
 import type { Metadata } from "next";
-import { Inter, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import SiteHeader from "@/components/SiteHeader";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-const sourceSerif = Source_Serif_4({
-  variable: "--font-source-serif",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "The Agora — think better, understand civilization",
@@ -26,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${sourceSerif.variable} antialiased min-h-screen flex flex-col`}>
+      <body className="antialiased min-h-screen flex flex-col">
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <footer className="border-t border-border py-8 mt-16">

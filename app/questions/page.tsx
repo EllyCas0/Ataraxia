@@ -31,6 +31,7 @@ export default function QuestionsPage() {
       <input
         value={query}
         onChange={(e) => setQuery(e.target.value)}
+        aria-label="Search questions"
         placeholder="Search questions…"
         className="w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-sm outline-none focus:border-ring focus:ring-1 focus:ring-ring mb-4"
       />

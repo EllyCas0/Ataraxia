@@ -31,6 +31,7 @@ export default function AnalyzePage() {
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
+          aria-label="Text to analyze"
           rows={8}
           placeholder={PLACEHOLDER}
           className="w-full rounded-lg border border-border bg-surface px-4 py-3 text-sm outline-none focus:border-ring focus:ring-1 focus:ring-ring resize-none mb-3"

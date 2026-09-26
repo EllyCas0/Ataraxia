@@ -28,6 +28,7 @@ export default function PhilosophersPage() {
       <input
         value={query}
         onChange={(e) => setQuery(e.target.value)}
+        aria-label="Search philosophers"
         placeholder="Search by name or concept…"
         className="w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-sm outline-none focus:border-ring focus:ring-1 focus:ring-ring mb-4"
       />

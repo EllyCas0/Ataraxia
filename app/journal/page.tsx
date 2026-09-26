@@ -43,10 +43,12 @@ export default function JournalPage() {
             <div className="flex items-baseline justify-between gap-4 text-xs text-foreground-muted mb-2">
               <span>{new Date(e.createdAt).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}</span>
               <button
+                type="button"
                 onClick={() => {
                   deleteEntry(e.id);
                   setEntries(getEntries());
                 }}
+                aria-label={`Delete journal entry for ${e.question}`}
                 className="hover:text-foreground"
               >
                 Delete

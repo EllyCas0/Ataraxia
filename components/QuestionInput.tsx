@@ -25,6 +25,7 @@ export default function QuestionInput({
       <input
         value={value}
         onChange={(e) => setValue(e.target.value)}
+        aria-label="Philosophical question"
         placeholder="What are you thinking about?"
         className={`flex-1 rounded-lg border border-border bg-surface px-4 ${
           compact ? "py-2.5 text-sm" : "py-3.5"

@@ -108,6 +108,7 @@ export default function CouncilClient({
             setInitialPosition(e.target.value);
             setChallengeShown(false);
           }}
+          aria-label="Initial position"
           rows={4}
           placeholder="Write freely — there's no wrong answer here."
           className="w-full rounded-lg border border-border bg-surface px-4 py-3 text-sm outline-none focus:border-ring focus:ring-1 focus:ring-ring resize-none mb-3"
@@ -116,6 +117,7 @@ export default function CouncilClient({
         <textarea
           value={reasoning}
           onChange={(e) => setReasoning(e.target.value)}
+          aria-label="Reasoning"
           rows={2}
           className="w-full rounded-lg border border-border bg-surface px-4 py-3 text-sm outline-none focus:border-ring focus:ring-1 focus:ring-ring resize-none mb-4"
         />
@@ -159,6 +161,7 @@ export default function CouncilClient({
               <textarea
                 value={revisedPosition}
                 onChange={(e) => setRevisedPosition(e.target.value)}
+                aria-label="Revised position"
                 rows={3}
                 className="w-full rounded-lg border border-border bg-surface px-4 py-3 text-sm outline-none focus:border-ring focus:ring-1 focus:ring-ring resize-none"
               />
@@ -170,6 +173,7 @@ export default function CouncilClient({
               <textarea
                 value={remainingUncertainty}
                 onChange={(e) => setRemainingUncertainty(e.target.value)}
+                aria-label="Remaining uncertainty"
                 rows={2}
                 className="w-full rounded-lg border border-border bg-surface px-4 py-3 text-sm outline-none focus:border-ring focus:ring-1 focus:ring-ring resize-none"
               />
