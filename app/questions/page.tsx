@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { questions } from "@/lib/questions";
 import { domainLabels, domains } from "@/lib/domains";
+import { difficultyNotes, domainDescriptions } from "@/lib/domain-guides";
 import type { Difficulty, Domain } from "@/lib/types";
 
 const DIFFICULTIES: Difficulty[] = ["intro", "intermediate", "advanced"];
@@ -49,6 +50,21 @@ export default function QuestionsPage() {
         ))}
       </div>
 
+      {(domain || difficulty) && (
+        <div className="rounded-lg border border-border bg-surface-muted p-4 mb-8">
+          {domain && (
+            <p className="text-sm leading-relaxed">
+              <span className="font-medium">{domainLabels[domain]}:</span> {domainDescriptions[domain]}
+            </p>
+          )}
+          {difficulty && (
+            <p className="text-sm leading-relaxed mt-2">
+              <span className="font-medium capitalize">{difficulty}:</span> {difficultyNotes[difficulty]}
+            </p>
+          )}
+        </div>
+      )}
+
       <div className="space-y-2">
         {filtered.map((item) => (
           <Link
@@ -61,6 +77,7 @@ export default function QuestionsPage() {
               <p className="text-xs text-foreground-muted mt-1">
                 {domainLabels[item.domain]} · {item.difficulty}
               </p>
+              <p className="text-xs text-foreground-muted mt-1">Key terms: {item.tags.join(", ")}</p>
             </div>
             <span className="text-foreground-muted group-hover:text-foreground transition-colors shrink-0" aria-hidden>
               →

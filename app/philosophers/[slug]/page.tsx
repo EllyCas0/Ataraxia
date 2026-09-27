@@ -59,6 +59,12 @@ export default async function PhilosopherPage({ params }: { params: Promise<{ sl
         </div>
       </Section>
 
+      <Section title="Use this lens">
+        <p className="text-sm leading-relaxed text-foreground-muted">
+          When this thinker joins the Council, the app uses this frame: {p.frame}.
+        </p>
+      </Section>
+
       <Section title="Major arguments">
         <ul className="space-y-2.5">
           {p.majorArguments.map((a, i) => (
@@ -66,6 +72,14 @@ export default async function PhilosopherPage({ params }: { params: Promise<{ sl
               <span className="text-foreground-muted">•</span>
               <span>{a}</span>
             </li>
+          ))}
+        </ul>
+      </Section>
+
+      <Section title="Major works">
+        <ul className="space-y-1.5 text-sm text-foreground-muted">
+          {p.majorWorks.map((work) => (
+            <li key={work}>{work}</li>
           ))}
         </ul>
       </Section>

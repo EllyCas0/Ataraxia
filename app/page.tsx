@@ -22,6 +22,12 @@ export default function Home() {
 
       <QuestionInput />
 
+      <div className="mt-10 grid sm:grid-cols-3 gap-3">
+        <InfoBlock title="Compare" text="See how different traditions frame the same question without collapsing them into one answer." />
+        <InfoBlock title="Pressure-test" text="Write your own view, then let the Council expose assumptions, values, and possible weak spots." />
+        <InfoBlock title="Return" text="Save revised positions privately and watch how your thinking changes across questions." />
+      </div>
+
       <div className="mt-14 rounded-xl border border-border bg-surface p-6">
         <p className="text-xs uppercase tracking-wide text-foreground-muted mb-2">Today&apos;s question</p>
         <h2 className="font-serif text-2xl mb-4">{daily.text}</h2>
@@ -65,6 +71,15 @@ export default function Home() {
           Browse all questions →
         </Link>
       </p>
+    </div>
+  );
+}
+
+function InfoBlock({ title, text }: { title: string; text: string }) {
+  return (
+    <div className="rounded-lg border border-border bg-surface px-4 py-3">
+      <h2 className="font-medium text-sm">{title}</h2>
+      <p className="text-xs text-foreground-muted leading-relaxed mt-1">{text}</p>
     </div>
   );
 }

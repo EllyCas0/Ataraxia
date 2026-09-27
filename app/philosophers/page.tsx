@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { philosophers } from "@/lib/philosophers";
-import { traditions } from "@/lib/traditions";
+import { getTradition, traditions } from "@/lib/traditions";
 
 export default function PhilosophersPage() {
   const [query, setQuery] = useState("");
@@ -12,8 +12,17 @@ export default function PhilosophersPage() {
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return philosophers.filter((p) => {
+      const traditionNames = p.traditions.map((id) => getTradition(id)?.name ?? id);
+      const haystack = [
+        p.name,
+        p.region,
+        p.period,
+        ...traditionNames,
+        ...p.centralQuestions,
+        ...p.keyConcepts.map((k) => k.term),
+      ].join(" ").toLowerCase();
       if (tradition && !p.traditions.includes(tradition)) return false;
-      if (q && !p.name.toLowerCase().includes(q) && !p.keyConcepts.some((k) => k.term.toLowerCase().includes(q))) return false;
+      if (q && !haystack.includes(q)) return false;
       return true;
     });
   }, [query, tradition]);
@@ -50,6 +59,12 @@ export default function PhilosophersPage() {
             <h2 className="font-serif text-lg leading-snug">{p.name}</h2>
             <p className="text-xs text-foreground-muted mt-0.5 mb-2">{p.dates} · {p.region}</p>
             <p className="text-sm text-foreground-muted leading-relaxed line-clamp-2">{p.centralQuestions[0]}</p>
+            <p className="text-xs text-foreground-muted mt-3">
+              {p.traditions.map((id) => getTradition(id)?.name).filter(Boolean).join(" · ")}
+            </p>
+            <p className="text-xs text-foreground-muted mt-1">
+              Concepts: {p.keyConcepts.slice(0, 3).map((k) => k.term).join(", ")}
+            </p>
           </Link>
         ))}
         {filtered.length === 0 && <p className="text-foreground-muted text-sm">No thinkers match those filters.</p>}
