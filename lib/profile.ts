@@ -1,5 +1,3 @@
-"use client";
-
 import type { PositionOption, ProfileDimension, ProfileState } from "./types";
 
 // Spec §12: "This is not a personality test. It represents positions the
@@ -37,30 +35,66 @@ export const positionOptions: Record<ProfileDimension, PositionOption[]> = {
   ],
 };
 
-const KEY = "agora:profile";
+const DIMENSIONS: ProfileDimension[] = ["ethics", "epistemology", "metaphysics", "political-philosophy"];
 
-const empty: ProfileState = { ethics: [], epistemology: [], metaphysics: [], "political-philosophy": [], notes: {} };
-
-export function getProfile(): ProfileState {
-  if (typeof window === "undefined") return empty;
-  try {
-    const raw = window.localStorage.getItem(KEY);
-    if (!raw) return empty;
-    return { ...empty, ...JSON.parse(raw) };
-  } catch {
-    return empty;
-  }
+export function createEmptyProfile(): ProfileState {
+  return { ethics: [], epistemology: [], metaphysics: [], "political-philosophy": [], notes: {} };
 }
 
-export function saveProfile(profile: ProfileState): void {
-  if (typeof window === "undefined") return;
-  window.localStorage.setItem(KEY, JSON.stringify(profile));
+export function getPositionOption(id: string): PositionOption | undefined {
+  return Object.values(positionOptions).flat().find((option) => option.id === id);
+}
+
+function isStringRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function stringArray(value: unknown): string[] {
+  return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : [];
+}
+
+function notesRecord(value: unknown): Record<string, string> {
+  if (!isStringRecord(value)) return {};
+  return Object.fromEntries(Object.entries(value).filter((entry): entry is [string, string] => typeof entry[1] === "string"));
+}
+
+export function parseProfile(value: unknown): ProfileState {
+  if (!isStringRecord(value)) return createEmptyProfile();
+  const profile = createEmptyProfile();
+  for (const dimension of DIMENSIONS) {
+    profile[dimension] = stringArray(value[dimension]);
+  }
+  profile.notes = notesRecord(value.notes);
+  return profile;
 }
 
 export function togglePosition(profile: ProfileState, dimension: ProfileDimension, id: string): ProfileState {
   const current = profile[dimension];
   const next = current.includes(id) ? current.filter((x) => x !== id) : [...current, id];
-  return { ...profile, [dimension]: next };
+  const notes = next.includes(id) ? profile.notes : removeNote(profile.notes, id);
+  return { ...profile, [dimension]: next, notes };
+}
+
+export function updatePositionNote(profile: ProfileState, id: string, note: string): ProfileState {
+  const trimmed = note.trim();
+  if (!trimmed) return { ...profile, notes: removeNote(profile.notes, id) };
+  return { ...profile, notes: { ...profile.notes, [id]: trimmed } };
+}
+
+export function selectedPositionDetails(profile: ProfileState): { dimension: ProfileDimension; option: PositionOption; note: string }[] {
+  return DIMENSIONS.flatMap((dimension) =>
+    profile[dimension].map((id) => {
+      const option = getPositionOption(id);
+      return option ? { dimension, option, note: profile.notes[id] ?? "" } : null;
+    })
+  ).filter((item): item is { dimension: ProfileDimension; option: PositionOption; note: string } => item !== null);
+}
+
+function removeNote(notes: Record<string, string>, id: string): Record<string, string> {
+  if (!(id in notes)) return notes;
+  const next = { ...notes };
+  delete next[id];
+  return next;
 }
 
 // A small, explicit table of commonly-tense position pairs — not a general
