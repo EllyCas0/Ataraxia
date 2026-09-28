@@ -1,33 +1,41 @@
-"use client";
-
 import type { JournalEntry } from "./types";
 
 // Per spec §22's MVP scope, this ships without real user accounts — see
-// README for that tradeoff. Entries live in this browser only.
+// README for that tradeoff. Browser persistence lives in journal-storage.ts.
 
-const KEY = "agora:journal";
-
-export function getEntries(): JournalEntry[] {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = window.localStorage.getItem(KEY);
-    const parsed = raw ? JSON.parse(raw) : [];
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
+function isStringRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
 }
 
-export function saveEntry(entry: JournalEntry): void {
-  if (typeof window === "undefined") return;
-  const all = getEntries();
-  all.push(entry);
-  window.localStorage.setItem(KEY, JSON.stringify(all));
+function hasStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every((item) => typeof item === "string");
 }
 
-export function deleteEntry(id: string): void {
-  if (typeof window === "undefined") return;
-  window.localStorage.setItem(KEY, JSON.stringify(getEntries().filter((e) => e.id !== id)));
+export function isJournalEntry(value: unknown): value is JournalEntry {
+  return (
+    isStringRecord(value) &&
+    typeof value.id === "string" &&
+    typeof value.createdAt === "string" &&
+    typeof value.question === "string" &&
+    typeof value.initialPosition === "string" &&
+    typeof value.reasoning === "string" &&
+    typeof value.counterargument === "string" &&
+    typeof value.revisedPosition === "string" &&
+    typeof value.remainingUncertainty === "string" &&
+    hasStringArray(value.philosopherSlugs)
+  );
+}
+
+export function parseJournalEntries(value: unknown): JournalEntry[] {
+  return Array.isArray(value) ? value.filter(isJournalEntry) : [];
+}
+
+export function appendEntry(entries: JournalEntry[], entry: JournalEntry): JournalEntry[] {
+  return [...entries, entry];
+}
+
+export function removeEntry(entries: JournalEntry[], id: string): JournalEntry[] {
+  return entries.filter((entry) => entry.id !== id);
 }
 
 export function makeId(): string {

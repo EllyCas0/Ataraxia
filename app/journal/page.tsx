@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { JournalEntry } from "@/lib/types";
-import { deleteEntry, getEntries } from "@/lib/journal";
+import { deleteEntry, getEntries } from "@/lib/journal-storage";
 
 export default function JournalPage() {
   const [entries, setEntries] = useState<JournalEntry[] | null>(null);

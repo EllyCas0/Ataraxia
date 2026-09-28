@@ -18,7 +18,7 @@ export default function RootLayout({
       <body className="antialiased min-h-screen flex flex-col">
         <SiteHeader />
         <main className="flex-1">{children}</main>
-        <footer className="border-t border-border py-8 mt-16">
+        <footer className="border-t border-border py-8 mt-16 bg-surface/40">
           <div className="max-w-4xl mx-auto px-6 text-sm text-foreground-muted flex flex-col sm:flex-row gap-2 sm:gap-6 justify-between">
             <span>Think better. Understand yourself. Understand civilization.</span>
             <span className="opacity-70">This platform does not tell you what to believe.</span>

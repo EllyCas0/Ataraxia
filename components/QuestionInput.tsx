@@ -27,13 +27,13 @@ export default function QuestionInput({
         onChange={(e) => setValue(e.target.value)}
         aria-label="Philosophical question"
         placeholder="What are you thinking about?"
-        className={`flex-1 rounded-lg border border-border bg-surface px-4 ${
+        className={`focusable flex-1 rounded-lg border border-border bg-surface px-4 shadow-sm ${
           compact ? "py-2.5 text-sm" : "py-3.5"
-        } outline-none focus:border-ring focus:ring-1 focus:ring-ring transition-colors placeholder:text-foreground-muted/70`}
+        } transition-colors placeholder:text-foreground-muted/70`}
       />
       <button
         type="submit"
-        className={`rounded-lg bg-accent-strong text-background font-medium px-6 ${
+        className={`rounded-lg bg-accent-strong text-background font-medium px-6 shadow-sm ${
           compact ? "py-2.5 text-sm" : "py-3.5"
         } hover:opacity-90 transition-opacity whitespace-nowrap`}
       >

@@ -5,7 +5,8 @@ import { useMemo, useState } from "react";
 import type { CouncilMode, Philosopher, Question } from "@/lib/types";
 import { councilModes, historicalOrder, matchPhilosophers, speak, traditionLabel, challenge as buildChallenge } from "@/lib/council";
 import { analyze } from "@/lib/analyzer";
-import { makeId, saveEntry } from "@/lib/journal";
+import { makeId } from "@/lib/journal";
+import { saveEntry } from "@/lib/journal-storage";
 
 export default function CouncilClient({
   question,
