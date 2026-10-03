@@ -7,6 +7,11 @@ test("returns curated questions by slug", () => {
   assert.equal(getQuestion("missing-question"), undefined);
 });
 
+test("question catalog meets MVP depth target", () => {
+  assert.equal(questions.length, 100);
+  assert.equal(new Set(questions.map((q) => q.slug)).size, questions.length);
+});
+
 test("daily question is deterministic for a given date", () => {
   const date = new Date("2026-01-15T12:00:00Z");
 

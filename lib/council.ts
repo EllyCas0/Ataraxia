@@ -1,10 +1,11 @@
 import { philosophers } from "./philosophers";
+import { normalizeSearchText, searchTerms } from "./search";
 import { getTradition } from "./traditions";
 import type { CouncilMode, CouncilModeInfo, Philosopher, Question } from "./types";
 
-// Rule-based stand-in for the spec's Orchestrator + Debate Engine (section 19).
-// `matchPhilosophers` and `speak` are the seams to swap for a real retrieval
-// + LLM system later without touching any UI code.
+// Local retrieval stand-in for the spec's Knowledge Layer + Retrieval System
+// (section 19). It ranks structured philosopher records by weighted fields,
+// then selects a diverse council from the strongest evidence.
 
 export const councilModes: CouncilModeInfo[] = [
   { id: "compare", label: "Compare", hint: "See each thinker's lens side by side" },
@@ -14,6 +15,24 @@ export const councilModes: CouncilModeInfo[] = [
 ];
 
 const COUNCIL_SIZE = 5;
+const STOP_WORDS = new Set([
+  "about", "after", "again", "against", "being", "could", "does", "ever", "from", "have", "into", "make", "makes",
+  "more", "must", "only", "rather", "same", "should", "than", "that", "their", "there", "thing", "this", "what",
+  "when", "where", "which", "while", "with", "without", "would",
+]);
+
+interface RetrievalField {
+  name: string;
+  text: string;
+  weight: number;
+}
+
+interface RetrievalCandidate {
+  philosopher: Philosopher;
+  score: number;
+  matchedFields: string[];
+  matchedTerms: string[];
+}
 
 function textOf(p: Philosopher): string {
   return [
@@ -22,42 +41,101 @@ function textOf(p: Philosopher): string {
     ...p.keyConcepts.map((k) => `${k.term} ${k.definition}`),
     ...p.majorArguments,
     p.frame,
+    ...p.primarySources,
+    ...p.secondarySources,
   ]
     .join(" ")
     .toLowerCase();
 }
 
+function normalizedTokens(value: string): string[] {
+  return searchTerms(normalizeSearchText(value))
+    .map((term) => term.replace(/'s$/, ""))
+    .map((term) => (term.length > 5 && term.endsWith("s") ? term.slice(0, -1) : term))
+    .filter((term) => term.length > 2 && !STOP_WORDS.has(term));
+}
+
+function questionNeedle(question: Question): string {
+  return normalizeSearchText([question.text, ...question.tags, question.domain].join(" "));
+}
+
+function philosopherFields(p: Philosopher): RetrievalField[] {
+  const traditionNames = p.traditions.map((id) => getTradition(id)?.name ?? id);
+  return [
+    { name: "name", text: p.name, weight: 9 },
+    { name: "domain", text: p.domains.join(" "), weight: 8 },
+    { name: "concepts", text: p.keyConcepts.map((concept) => `${concept.term} ${concept.definition}`).join(" "), weight: 7 },
+    { name: "central questions", text: p.centralQuestions.join(" "), weight: 6 },
+    { name: "major arguments", text: p.majorArguments.join(" "), weight: 5 },
+    { name: "traditions", text: traditionNames.join(" "), weight: 4 },
+    { name: "frame", text: p.frame, weight: 4 },
+    { name: "sources", text: [...p.primarySources, ...p.secondarySources, ...p.majorWorks].join(" "), weight: 3 },
+    { name: "context", text: `${p.context} ${p.relevance} ${p.criticisms.join(" ")}`, weight: 2 },
+  ];
+}
+
+export function retrieveCouncilCandidates(question: Question): RetrievalCandidate[] {
+  const queryText = questionNeedle(question);
+  const queryTerms = [...new Set(normalizedTokens(queryText))];
+  const queryPhrases = [question.text, ...question.tags]
+    .map((phrase) => normalizeSearchText(phrase))
+    .filter((phrase) => phrase.length > 3);
+
+  return philosophers
+    .map((philosopher) => {
+      let score = philosopher.domains.includes(question.domain) ? 18 : 0;
+      const matchedFields = new Set<string>();
+      const matchedTerms = new Set<string>();
+
+      for (const field of philosopherFields(philosopher)) {
+        const fieldText = normalizeSearchText(field.text);
+
+        for (const phrase of queryPhrases) {
+          if (fieldText.includes(phrase)) {
+            score += field.weight * 3;
+            matchedFields.add(field.name);
+            matchedTerms.add(phrase);
+          }
+        }
+
+        for (const term of queryTerms) {
+          if (fieldText.includes(term)) {
+            score += field.weight;
+            matchedFields.add(field.name);
+            matchedTerms.add(term);
+          }
+        }
+      }
+
+      return {
+        philosopher,
+        score,
+        matchedFields: [...matchedFields],
+        matchedTerms: [...matchedTerms],
+      };
+    })
+    .sort((a, b) => b.score - a.score || a.philosopher.name.localeCompare(b.philosopher.name));
+}
+
 export function matchPhilosophers(question: Question): Philosopher[] {
-  const qTokens = [question.text, ...question.tags].join(" ").toLowerCase().split(/[^a-z]+/).filter((t) => t.length > 3);
-
-  const scored = philosophers.map((p) => {
-    let score = p.domains.includes(question.domain) ? 3 : 0;
-    const haystack = textOf(p);
-    for (const token of qTokens) {
-      if (haystack.includes(token)) score += 1;
-    }
-    return { p, score };
-  });
-
-  scored.sort((a, b) => b.score - a.score);
+  const scored = retrieveCouncilCandidates(question);
 
   const picked: Philosopher[] = [];
   const seenTraditions = new Set<string>();
 
-  // First pass: take the strongest matches, but skip a pick if we already
-  // have two from the same tradition and a fresher tradition is available
-  // later in the ranking — keeps the council genuinely cross-civilizational
-  // rather than five variations on one school.
-  for (const { p } of scored) {
+  for (const { philosopher } of scored) {
     if (picked.length >= COUNCIL_SIZE) break;
-    const traditionCount = p.traditions.filter((t) => seenTraditions.has(t)).length;
-    if (traditionCount >= 2 && picked.length < scored.length - 1) continue;
-    picked.push(p);
-    p.traditions.forEach((t) => seenTraditions.add(t));
+    const traditionOverlap = philosopher.traditions.filter((t) => seenTraditions.has(t)).length;
+    const hasFreshTraditionLater = scored.some(({ philosopher: later }) =>
+      !picked.includes(later) && later.traditions.some((t) => !seenTraditions.has(t))
+    );
+    if (traditionOverlap >= 2 && hasFreshTraditionLater) continue;
+    picked.push(philosopher);
+    philosopher.traditions.forEach((t) => seenTraditions.add(t));
   }
-  for (const { p } of scored) {
+  for (const { philosopher } of scored) {
     if (picked.length >= COUNCIL_SIZE) break;
-    if (!picked.includes(p)) picked.push(p);
+    if (!picked.includes(philosopher)) picked.push(philosopher);
   }
 
   return picked.slice(0, COUNCIL_SIZE);
@@ -66,7 +144,7 @@ export function matchPhilosophers(question: Question): Philosopher[] {
 function periodRank(period: string): number {
   const order = [
     "Ancient India", "Classical Antiquity", "Roman Imperial Period", "Classical India", "Classical China",
-    "Islamic Golden Age", "Early Modern Europe", "Enlightenment", "German Idealism", "19th century",
+    "Late Antiquity", "Islamic Golden Age", "Medieval Europe", "Early Modern Europe", "Enlightenment", "German Idealism", "19th century",
     "20th century", "Contemporary",
   ];
   const i = order.indexOf(period);

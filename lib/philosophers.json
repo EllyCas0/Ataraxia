@@ -827,5 +827,842 @@
     "relevance": "Central to how contemporary global institutions define and measure development, poverty, and justice.",
     "primarySources": ["Sen, Development as Freedom (selections)"],
     "secondarySources": ["Martha Nussbaum, Creating Capabilities"]
+  },
+  {
+    "slug": "epicurus",
+    "name": "Epicurus",
+    "dates": "341-270 BCE",
+    "region": "Samos / Athens, Greece",
+    "period": "Classical Antiquity",
+    "traditions": ["hellenistic"],
+    "domains": ["ethics", "metaphysics"],
+    "majorWorks": ["Letter to Menoeceus", "Principal Doctrines"],
+    "centralQuestions": ["What kind of pleasure actually makes life tranquil?", "Why should death not dominate how we live?"],
+    "keyConcepts": [
+      { "term": "Ataraxia", "definition": "A stable tranquility that comes from modest desires, friendship, and freedom from needless fear." },
+      { "term": "Tetrapharmakos", "definition": "A four-part remedy: do not fear the gods, do not fear death, good is easy to obtain, pain is bearable." },
+      { "term": "Simple pleasures", "definition": "The claim that durable happiness depends more on limiting vain desires than multiplying luxuries." }
+    ],
+    "majorArguments": [
+      "Argued that death is not bad for us because when death is present, we are not there to experience it.",
+      "Argued that natural and necessary desires should be satisfied, while empty desires for status or excess should be trained down."
+    ],
+    "frame": "asks which desires actually produce lasting tranquility and which merely keep anxiety in motion",
+    "influences": ["Democritus", "Cyrenaic hedonism"],
+    "influenced": ["Lucretius", "early modern materialists", "modern secular ethics"],
+    "context": "Founded the Garden in Hellenistic Athens, offering a practical ethics of friendship and peace during a politically unstable age.",
+    "criticisms": [
+      "Critics often reduce Epicureanism to indulgence, though Epicurus defended disciplined simplicity.",
+      "Some argue its withdrawal from public ambition risks neglecting duties to political life."
+    ],
+    "relevance": "Useful for modern questions about consumerism, anxiety, death, and the difference between pleasure and flourishing.",
+    "primarySources": ["Epicurus, Letter to Menoeceus", "Epicurus, Principal Doctrines"],
+    "secondarySources": ["Tim O'Keefe, Epicureanism"]
+  },
+  {
+    "slug": "augustine",
+    "name": "Augustine of Hippo",
+    "dates": "354-430",
+    "region": "North Africa / Roman Empire",
+    "period": "Late Antiquity",
+    "traditions": ["african", "contemporary-global"],
+    "domains": ["philosophy-of-religion", "ethics", "philosophy-of-history"],
+    "majorWorks": ["Confessions", "City of God", "On Free Choice of the Will"],
+    "centralQuestions": ["Why do humans will what they know is bad?", "How should earthly politics be judged against ultimate goods?"],
+    "keyConcepts": [
+      { "term": "Restless heart", "definition": "The idea that human desire remains unsettled until ordered toward its highest good." },
+      { "term": "Privation theory of evil", "definition": "Evil is not an independent substance but a corruption or lack in what is otherwise good." },
+      { "term": "Two cities", "definition": "A contrast between communities ordered by love of God and communities ordered by self-love and domination." }
+    ],
+    "majorArguments": [
+      "Argued that wrongdoing cannot be explained by ignorance alone because the will can love lower goods in a disordered way.",
+      "Argued history should not be read as simple worldly progress, but as a conflict of loves and loyalties."
+    ],
+    "frame": "asks what a person or society ultimately loves, and whether that love properly orders the rest of life",
+    "influences": ["Plato", "Neoplatonism", "Christian scripture"],
+    "influenced": ["Anselm", "Aquinas", "Luther", "political theology"],
+    "context": "Wrote as the Western Roman Empire was weakening, interpreting personal conversion and imperial collapse through a Christian philosophical lens.",
+    "criticisms": [
+      "His account of sin and desire is criticized for burdening sexuality and embodiment with excessive suspicion.",
+      "Secular critics reject his subordination of political goods to theological ends."
+    ],
+    "relevance": "Still shapes debates about evil, guilt, memory, desire, and whether politics can satisfy the deepest human longings.",
+    "primarySources": ["Augustine, Confessions", "Augustine, City of God"],
+    "secondarySources": ["Henry Chadwick, Augustine of Hippo"]
+  },
+  {
+    "slug": "maimonides",
+    "name": "Moses Maimonides",
+    "dates": "1138-1204",
+    "region": "Cordoba / Cairo",
+    "period": "Islamic Golden Age",
+    "traditions": ["islamic"],
+    "domains": ["philosophy-of-religion", "metaphysics", "ethics"],
+    "majorWorks": ["Guide for the Perplexed", "Mishneh Torah"],
+    "centralQuestions": ["How can reason and revelation be reconciled?", "What can human language truthfully say about God?"],
+    "keyConcepts": [
+      { "term": "Negative theology", "definition": "The view that we speak more accurately about God by saying what God is not than by assigning positive attributes." },
+      { "term": "Perplexity", "definition": "The condition of a serious believer whose philosophical reason and inherited scripture seem to conflict." },
+      { "term": "Intellectual perfection", "definition": "The idea that the highest human fulfillment involves knowledge of God and reality." }
+    ],
+    "majorArguments": [
+      "Argued that many scriptural passages must be read figuratively when literal readings conflict with demonstrated reason.",
+      "Argued that attributing ordinary human properties to God compromises divine unity."
+    ],
+    "frame": "asks whether an apparent conflict comes from truth itself or from an immature way of reading, speaking, or imagining",
+    "influences": ["Aristotle", "Al-Farabi", "Avicenna", "Jewish law and scripture"],
+    "influenced": ["Aquinas", "Spinoza", "Jewish philosophy"],
+    "context": "A Jewish philosopher and physician writing in the Arabic intellectual world, trying to guide educated believers through philosophical difficulty.",
+    "criticisms": [
+      "Traditionalist critics worried that his philosophical readings weakened ordinary religious belief.",
+      "Some philosophers argue his negative theology makes God too remote for religious practice."
+    ],
+    "relevance": "A model for negotiating inherited tradition with rigorous philosophical inquiry.",
+    "primarySources": ["Maimonides, Guide for the Perplexed"],
+    "secondarySources": ["Kenneth Seeskin, Maimonides: A Guide for Today's Perplexed"]
+  },
+  {
+    "slug": "al-ghazali",
+    "name": "Al-Ghazali",
+    "dates": "1058-1111",
+    "region": "Persia / Baghdad",
+    "period": "Islamic Golden Age",
+    "traditions": ["islamic"],
+    "domains": ["epistemology", "philosophy-of-religion", "metaphysics"],
+    "majorWorks": ["The Incoherence of the Philosophers", "Deliverance from Error", "Revival of the Religious Sciences"],
+    "centralQuestions": ["What can reason know without spiritual transformation?", "Are philosophers entitled to claim certainty about metaphysical matters?"],
+    "keyConcepts": [
+      { "term": "Occasionalism", "definition": "The view that what we call causal connections depend on God's continual action rather than necessary powers in things themselves." },
+      { "term": "Spiritual certainty", "definition": "A form of assurance reached through disciplined practice as well as argument." },
+      { "term": "Critique of falsafa", "definition": "A targeted challenge to philosophers where their metaphysical claims exceeded demonstrative proof." }
+    ],
+    "majorArguments": [
+      "Argued that philosophers overreached when they claimed necessary knowledge about eternity, causation, and resurrection.",
+      "Argued that skepticism can only be overcome by a transformation of the whole person, not by syllogisms alone."
+    ],
+    "frame": "asks whether a claim has earned certainty or is borrowing the prestige of reason beyond what reason can prove",
+    "influences": ["Islamic theology", "Sufism", "Avicenna as both source and target"],
+    "influenced": ["Later Islamic theology", "debates on causation", "Maimonides and medieval philosophy"],
+    "context": "Wrote from within the high intellectual culture of the Islamic world after a personal crisis about knowledge, status, and religious authenticity.",
+    "criticisms": [
+      "Critics argue his attack on philosophy discouraged some forms of speculative inquiry.",
+      "Others argue that his own reasoning remains deeply philosophical even when criticizing philosophers."
+    ],
+    "relevance": "Important for questions about skepticism, causation, expertise, and the limits of purely technical rationality.",
+    "primarySources": ["Al-Ghazali, Deliverance from Error", "Al-Ghazali, The Incoherence of the Philosophers"],
+    "secondarySources": ["Frank Griffel, Al-Ghazali's Philosophical Theology"]
+  },
+  {
+    "slug": "ibn-rushd",
+    "name": "Ibn Rushd (Averroes)",
+    "dates": "1126-1198",
+    "region": "Cordoba / Marrakesh",
+    "period": "Islamic Golden Age",
+    "traditions": ["islamic"],
+    "domains": ["philosophy-of-religion", "epistemology", "political-philosophy"],
+    "majorWorks": ["The Decisive Treatise", "The Incoherence of the Incoherence", "Commentaries on Aristotle"],
+    "centralQuestions": ["When is philosophical interpretation required by religion?", "How should demonstrative knowledge relate to public teaching?"],
+    "keyConcepts": [
+      { "term": "Demonstration", "definition": "Strict rational proof, which Ibn Rushd treated as a legitimate route to truth for qualified inquiry." },
+      { "term": "Allegorical interpretation", "definition": "Reading scripture figuratively when demonstration shows the literal reading cannot be right." },
+      { "term": "Harmony of philosophy and law", "definition": "The claim that true philosophy and properly understood revelation cannot ultimately conflict." }
+    ],
+    "majorArguments": [
+      "Argued that religious law can require philosophical investigation for those capable of it.",
+      "Defended Aristotelian philosophy against Al-Ghazali's charge that it necessarily undermines faith."
+    ],
+    "frame": "asks what level of interpretation a question requires, and who is prepared to handle that interpretation responsibly",
+    "influences": ["Aristotle", "Islamic jurisprudence", "Al-Farabi"],
+    "influenced": ["Latin Averroism", "Aquinas", "Jewish and Christian medieval philosophy"],
+    "context": "A jurist, physician, and philosopher in Islamic Spain and North Africa whose Aristotle commentaries became central in medieval Europe.",
+    "criticisms": [
+      "Some critics argue his hierarchy of interpretive audiences risks elitism.",
+      "Religious critics objected that his Aristotelian commitments pushed revelation too far toward philosophy."
+    ],
+    "relevance": "A powerful resource for debates about expertise, public reason, and whether faith and rational inquiry must conflict.",
+    "primarySources": ["Ibn Rushd, The Decisive Treatise"],
+    "secondarySources": ["Majid Fakhry, Averroes"]
+  },
+  {
+    "slug": "aquinas",
+    "name": "Thomas Aquinas",
+    "dates": "1225-1274",
+    "region": "Italy / Paris",
+    "period": "Medieval Europe",
+    "traditions": ["rationalism-empiricism"],
+    "domains": ["philosophy-of-religion", "ethics", "metaphysics"],
+    "majorWorks": ["Summa Theologiae", "Summa Contra Gentiles"],
+    "centralQuestions": ["How can reason, nature, and revelation form one account of reality?", "What makes human action good?"],
+    "keyConcepts": [
+      { "term": "Natural law", "definition": "Moral order grounded in human nature and practical reason, not merely command or convention." },
+      { "term": "Act and potency", "definition": "A metaphysical distinction between what something currently is and what it can become." },
+      { "term": "Analogical language", "definition": "Speaking of God neither exactly as we speak of creatures nor in entirely unrelated terms." }
+    ],
+    "majorArguments": [
+      "Argued that reason can demonstrate some truths about God while revelation discloses truths beyond reason's unaided reach.",
+      "Argued that moral norms arise from the goods toward which human nature is directed."
+    ],
+    "frame": "asks what a thing is for, what powers it has, and how its proper end should guide judgment",
+    "influences": ["Aristotle", "Augustine", "Maimonides", "Ibn Rushd"],
+    "influenced": ["Catholic philosophy", "natural law theory", "analytic philosophy of religion"],
+    "context": "Worked in medieval universities as Aristotle's newly translated works transformed Christian theology and philosophy.",
+    "criticisms": [
+      "Critics dispute whether human nature has fixed ends strong enough to ground moral law.",
+      "Some reject the metaphysical assumptions behind his proofs and teleology."
+    ],
+    "relevance": "A central figure for natural law, virtue ethics, and contemporary arguments about faith and reason.",
+    "primarySources": ["Aquinas, Summa Theologiae (selections)"],
+    "secondarySources": ["Brian Davies, The Thought of Thomas Aquinas"]
+  },
+  {
+    "slug": "mengzi",
+    "name": "Mengzi (Mencius)",
+    "dates": "c. 372-289 BCE",
+    "region": "China",
+    "period": "Classical China",
+    "traditions": ["confucian"],
+    "domains": ["ethics", "political-philosophy"],
+    "majorWorks": ["Mengzi"],
+    "centralQuestions": ["Is human nature originally good?", "What makes political rule humane and legitimate?"],
+    "keyConcepts": [
+      { "term": "Sprouts of virtue", "definition": "Innate beginnings of compassion, shame, deference, and moral discernment that must be cultivated." },
+      { "term": "Ren", "definition": "Humaneness or benevolent concern, especially visible in how rulers treat the people." },
+      { "term": "Mandate of Heaven", "definition": "Political legitimacy understood as conditional on morally responsible rule." }
+    ],
+    "majorArguments": [
+      "Argued that humans have moral sprouts that can grow into virtue under proper cultivation.",
+      "Argued that oppressive rulers lose legitimacy and may be removed because genuine kingship serves the people's welfare."
+    ],
+    "frame": "asks what latent moral capacity is already present and what conditions would help it grow rather than deform",
+    "influences": ["Confucius", "early Zhou political ideals"],
+    "influenced": ["Neo-Confucianism", "East Asian political thought"],
+    "context": "Developed Confucian ethics during the Warring States period, when competing schools advised rulers amid violent instability.",
+    "criticisms": [
+      "Xunzi and others argued his optimism about human nature underestimated selfish and disorderly tendencies.",
+      "Modern critics question whether virtue cultivation alone can address structural injustice."
+    ],
+    "relevance": "A rich framework for moral education, humane government, and the question of whether people are basically decent.",
+    "primarySources": ["Mengzi"],
+    "secondarySources": ["Bryan W. Van Norden, Mengzi"]
+  },
+  {
+    "slug": "xunzi",
+    "name": "Xunzi",
+    "dates": "c. 310-c. 235 BCE",
+    "region": "China",
+    "period": "Classical China",
+    "traditions": ["confucian"],
+    "domains": ["ethics", "political-philosophy"],
+    "majorWorks": ["Xunzi"],
+    "centralQuestions": ["If human nature is unruly, how can people become good?", "Why do ritual and institutions matter?"],
+    "keyConcepts": [
+      { "term": "Human nature is bad", "definition": "The claim that people's spontaneous desires tend toward conflict unless transformed by education and ritual." },
+      { "term": "Li", "definition": "Ritual propriety and patterned conduct that shapes emotions, hierarchy, and social order." },
+      { "term": "Deliberate effort", "definition": "Moral improvement as an artificial achievement produced by teachers, norms, and disciplined practice." }
+    ],
+    "majorArguments": [
+      "Argued that goodness is not spontaneous but produced through conscious effort, ritual training, and institutions.",
+      "Argued that social order requires shared standards that channel desire rather than merely expressing it."
+    ],
+    "frame": "asks what training, rituals, and institutions are needed to transform raw impulse into reliable conduct",
+    "influences": ["Confucius", "Warring States political debates"],
+    "influenced": ["Han Feizi", "Legalism", "later Confucian debates on human nature"],
+    "context": "A late Warring States Confucian responding to disorder with a more sober institutional psychology than Mengzi.",
+    "criticisms": [
+      "Mengzian critics argue he undervalues innate moral responsiveness.",
+      "His emphasis on hierarchy and ritual can seem too conservative or authoritarian to modern readers."
+    ],
+    "relevance": "Useful for thinking about education, habit formation, institutional design, and whether morality needs discipline more than authenticity.",
+    "primarySources": ["Xunzi"],
+    "secondarySources": ["Eric L. Hutton, Xunzi: The Complete Text"]
+  },
+  {
+    "slug": "zhuangzi",
+    "name": "Zhuangzi",
+    "dates": "c. 369-286 BCE",
+    "region": "China",
+    "period": "Classical China",
+    "traditions": ["daoist"],
+    "domains": ["metaphysics", "epistemology", "ethics"],
+    "majorWorks": ["Zhuangzi"],
+    "centralQuestions": ["How fixed are our distinctions?", "What would it mean to move freely within change?"],
+    "keyConcepts": [
+      { "term": "Free and easy wandering", "definition": "A mode of life unconstrained by rigid status, fixed categories, or anxious striving." },
+      { "term": "Perspectival transformation", "definition": "The idea that judgments shift when seen from another creature's, practice's, or cosmic perspective." },
+      { "term": "Skillful spontaneity", "definition": "Effortless action that emerges from deep attunement rather than forced calculation." }
+    ],
+    "majorArguments": [
+      "Used parables to unsettle confidence in fixed distinctions between useful and useless, waking and dreaming, self and other.",
+      "Suggested that wisdom may require moving with transformations rather than imposing one rigid scheme on them."
+    ],
+    "frame": "asks what changes when you loosen the distinction you are treating as fixed and view the situation from another scale",
+    "influences": ["Laozi", "early Daoist traditions"],
+    "influenced": ["Chinese Buddhism", "Chan/Zen traditions", "comparative philosophy"],
+    "context": "A Daoist text from the Warring States period, using humor and paradox to resist the managerial seriousness of competing schools.",
+    "criticisms": [
+      "Critics argue its skepticism can undercut practical political responsibility.",
+      "Its playful literary style makes systematic doctrine difficult to pin down."
+    ],
+    "relevance": "Excellent for questions about identity, perspective, spontaneity, and why our categories can trap us.",
+    "primarySources": ["Zhuangzi"],
+    "secondarySources": ["A. C. Graham, Chuang-tzu: The Inner Chapters"]
+  },
+  {
+    "slug": "mozi",
+    "name": "Mozi",
+    "dates": "c. 470-c. 391 BCE",
+    "region": "China",
+    "period": "Classical China",
+    "traditions": ["confucian"],
+    "domains": ["ethics", "political-philosophy"],
+    "majorWorks": ["Mozi"],
+    "centralQuestions": ["Should care be impartial?", "How should social practices be judged by their consequences?"],
+    "keyConcepts": [
+      { "term": "Impartial care", "definition": "The demand to extend concern broadly rather than privilege one's own family, clan, or state." },
+      { "term": "Anti-aggression", "definition": "A rejection of offensive warfare as harmful and morally inconsistent." },
+      { "term": "Practical benefit", "definition": "Judging doctrines and rituals by whether they promote order, welfare, and population." }
+    ],
+    "majorArguments": [
+      "Argued that partiality causes conflict and that social order requires impartial concern across groups.",
+      "Criticized lavish ritual and music when they consumed resources without clear benefit to ordinary people."
+    ],
+    "frame": "asks who benefits, who pays the cost, and whether moral concern has been narrowed by loyalty to one's own group",
+    "influences": ["Early Chinese statecraft", "critique of Confucian ritualism"],
+    "influenced": ["Consequentialist traditions in Chinese thought", "debates on impartial morality"],
+    "context": "Founded Mohism during the Warring States period as a disciplined school concerned with public benefit and opposition to war.",
+    "criticisms": [
+      "Confucian critics argued impartial care ignores the moral importance of family roles and graded affection.",
+      "Its austere utilitarian tone can seem insensitive to beauty, ritual, and emotional depth."
+    ],
+    "relevance": "A strong cross-cultural partner for debates about utilitarianism, humanitarian ethics, and anti-war reasoning.",
+    "primarySources": ["Mozi"],
+    "secondarySources": ["Chris Fraser, The Philosophy of the Mozi"]
+  },
+  {
+    "slug": "mary-wollstonecraft",
+    "name": "Mary Wollstonecraft",
+    "dates": "1759-1797",
+    "region": "England",
+    "period": "Enlightenment",
+    "traditions": ["analytic-political"],
+    "domains": ["political-philosophy", "ethics"],
+    "majorWorks": ["A Vindication of the Rights of Woman", "A Vindication of the Rights of Men"],
+    "centralQuestions": ["Can a society claim liberty while denying women education and civic standing?", "What does reason require of gender equality?"],
+    "keyConcepts": [
+      { "term": "Vindication", "definition": "A rights-based defense of women's rational agency and education." },
+      { "term": "Artificial weakness", "definition": "The idea that social training produces the dependence then falsely attributed to women's nature." },
+      { "term": "Republican virtue", "definition": "The claim that citizens need education and independence to participate in a free society." }
+    ],
+    "majorArguments": [
+      "Argued that women appear frivolous or dependent because society educates them for pleasing men rather than cultivating reason.",
+      "Argued that political freedom requires extending education and moral agency to women as full persons."
+    ],
+    "frame": "asks whether a supposed natural inferiority is actually the predictable result of social training and denied opportunity",
+    "influences": ["Rousseau", "Enlightenment rights discourse", "republican political thought"],
+    "influenced": ["Feminist political philosophy", "women's rights movements", "Simone de Beauvoir"],
+    "context": "Wrote during the French Revolution and British debates about rights, pushing Enlightenment claims beyond their male-centered limits.",
+    "criticisms": [
+      "Some later feminists argue her defense of equality relies too heavily on masculine ideals of reason.",
+      "Her framework says less about race, class, and empire than contemporary feminism requires."
+    ],
+    "relevance": "Foundational for analyzing how education and social expectation manufacture inequality while calling it nature.",
+    "primarySources": ["Wollstonecraft, A Vindication of the Rights of Woman"],
+    "secondarySources": ["Sylvana Tomaselli, introduction to A Vindication of the Rights of Woman"]
+  },
+  {
+    "slug": "wittgenstein",
+    "name": "Ludwig Wittgenstein",
+    "dates": "1889-1951",
+    "region": "Austria / United Kingdom",
+    "period": "20th century",
+    "traditions": ["analytic-political"],
+    "domains": ["epistemology", "metaphysics", "philosophy-of-mind"],
+    "majorWorks": ["Tractatus Logico-Philosophicus", "Philosophical Investigations", "On Certainty"],
+    "centralQuestions": ["How does language get its meaning?", "Which philosophical problems are produced by misuse of language?"],
+    "keyConcepts": [
+      { "term": "Language-game", "definition": "Meaning depends on the practical use of words within shared forms of life." },
+      { "term": "Family resemblance", "definition": "Some concepts share overlapping similarities rather than one essence common to every case." },
+      { "term": "Private language argument", "definition": "A challenge to the idea that words could get meaning from wholly private inner experiences alone." }
+    ],
+    "majorArguments": [
+      "Argued in his later work that many philosophical puzzles dissolve when we examine how words are actually used.",
+      "Argued that certainty rests on background practices and hinge commitments that are not ordinary evidence claims."
+    ],
+    "frame": "asks how the words in a question are being used in practice, and whether the puzzle comes from language idling outside its home",
+    "influences": ["Frege", "Russell", "Schopenhauer"],
+    "influenced": ["Ordinary language philosophy", "analytic philosophy", "philosophy of mind and language"],
+    "context": "Helped reshape analytic philosophy twice: first through logical atomism, then through a later therapeutic approach to language.",
+    "criticisms": [
+      "Critics argue his therapeutic method can dissolve problems too quickly instead of solving them.",
+      "His aphoristic style leaves room for sharply different interpretations."
+    ],
+    "relevance": "Indispensable for analyzing confused debates where key terms shift meaning without anyone noticing.",
+    "primarySources": ["Wittgenstein, Philosophical Investigations", "Wittgenstein, On Certainty"],
+    "secondarySources": ["P. M. S. Hacker, Wittgenstein: Meaning and Mind"]
+  },
+  {
+    "slug": "du-bois",
+    "name": "W. E. B. Du Bois",
+    "dates": "1868-1963",
+    "region": "United States / Ghana",
+    "period": "20th century",
+    "traditions": ["african", "contemporary-global"],
+    "domains": ["political-philosophy", "epistemology", "philosophy-of-history"],
+    "majorWorks": ["The Souls of Black Folk", "Black Reconstruction in America", "The World and Africa"],
+    "centralQuestions": ["How does racial domination shape self-consciousness?", "Who gets to narrate history and social reality?"],
+    "keyConcepts": [
+      { "term": "Double consciousness", "definition": "The divided self-awareness produced by seeing oneself through both one's own eyes and a hostile society's gaze." },
+      { "term": "The color line", "definition": "Du Bois's claim that racial hierarchy is a central problem of modern political life." },
+      { "term": "Abolition democracy", "definition": "The unrealized project of building institutions that make freedom materially real after slavery." }
+    ],
+    "majorArguments": [
+      "Argued that racism is not only prejudice but a structure shaping labor, law, knowledge, and identity.",
+      "Argued that Reconstruction was a democratic achievement undermined by counterrevolution and racist historiography."
+    ],
+    "frame": "asks how power shapes what a person can know about themselves and how a society remembers its own past",
+    "influences": ["Hegel", "William James", "Black American political struggle"],
+    "influenced": ["Critical race theory", "Africana philosophy", "sociology of race"],
+    "context": "A scholar-activist who wrote across sociology, history, and philosophy while confronting Jim Crow, colonialism, and global white supremacy.",
+    "criticisms": [
+      "His early idea of a 'talented tenth' is criticized as elitist.",
+      "His long career includes political commitments that remain contested."
+    ],
+    "relevance": "Vital for questions about identity, racial justice, democracy, and the politics of historical memory.",
+    "primarySources": ["Du Bois, The Souls of Black Folk", "Du Bois, Black Reconstruction in America"],
+    "secondarySources": ["Robert Gooding-Williams, In the Shadow of Du Bois"]
+  },
+  {
+    "slug": "fanon",
+    "name": "Frantz Fanon",
+    "dates": "1925-1961",
+    "region": "Martinique / Algeria",
+    "period": "20th century",
+    "traditions": ["critical-theory", "contemporary-global"],
+    "domains": ["political-philosophy", "philosophy-of-mind", "philosophy-of-history"],
+    "majorWorks": ["Black Skin, White Masks", "The Wretched of the Earth"],
+    "centralQuestions": ["How does colonial domination enter the psyche?", "What would decolonization require beyond formal independence?"],
+    "keyConcepts": [
+      { "term": "Colonial alienation", "definition": "The psychic and social distortion produced when colonized people are forced to inhabit the colonizer's categories." },
+      { "term": "Decolonization", "definition": "A radical transformation of political, social, and psychological relations, not merely a change of rulers." },
+      { "term": "National consciousness", "definition": "A warning that postcolonial nationhood can become hollow if it only replaces foreign elites with local elites." }
+    ],
+    "majorArguments": [
+      "Argued that colonialism is a total structure of violence that shapes language, embodiment, desire, and political possibility.",
+      "Warned that liberation movements can reproduce domination if they do not transform economic and cultural life."
+    ],
+    "frame": "asks how domination has organized both institutions and the inner life of those living under them",
+    "influences": ["Hegel", "Marx", "existentialism", "anti-colonial struggle"],
+    "influenced": ["Postcolonial theory", "liberation movements", "critical race theory"],
+    "context": "A psychiatrist and revolutionary who wrote from the Algerian struggle against French colonial rule.",
+    "criticisms": [
+      "His treatment of violence is often criticized as dangerous or romanticized, though interpretations differ sharply.",
+      "Some argue his gender analysis remains underdeveloped."
+    ],
+    "relevance": "Central to thinking about colonialism, identity, political violence, and liberation as psychological as well as institutional.",
+    "primarySources": ["Fanon, Black Skin, White Masks", "Fanon, The Wretched of the Earth"],
+    "secondarySources": ["Lewis R. Gordon, Fanon and the Crisis of European Man"]
+  },
+  {
+    "slug": "foucault",
+    "name": "Michel Foucault",
+    "dates": "1926-1984",
+    "region": "France",
+    "period": "20th century",
+    "traditions": ["critical-theory", "contemporary-global"],
+    "domains": ["political-philosophy", "epistemology", "philosophy-of-history"],
+    "majorWorks": ["Discipline and Punish", "The History of Sexuality", "The Order of Things"],
+    "centralQuestions": ["How do institutions produce knowledge and subjects?", "How does power operate through norms rather than only laws?"],
+    "keyConcepts": [
+      { "term": "Power/knowledge", "definition": "Knowledge practices and power relations mutually shape what counts as truth and who can speak." },
+      { "term": "Discipline", "definition": "Modern power that trains bodies and behavior through surveillance, normalization, and examination." },
+      { "term": "Genealogy", "definition": "A historical method that shows how apparently natural categories emerged from contingent struggles and practices." }
+    ],
+    "majorArguments": [
+      "Argued that modern institutions often control people by producing norms and self-monitoring rather than merely forbidding actions.",
+      "Argued that categories such as madness, sexuality, and criminality have histories tied to institutions and expert discourse."
+    ],
+    "frame": "asks what practices, institutions, and expert languages made a category seem natural or inevitable",
+    "influences": ["Nietzsche", "Canguilhem", "structuralism"],
+    "influenced": ["Queer theory", "critical prison studies", "social theory", "history of knowledge"],
+    "context": "Worked in postwar France amid structuralism, anti-psychiatry, prison activism, and debates over modern power.",
+    "criticisms": [
+      "Critics argue his account of power can make normative judgment and resistance hard to ground.",
+      "Historians sometimes contest the accuracy or selectiveness of his genealogies."
+    ],
+    "relevance": "A core lens for surveillance, prisons, medicine, sexuality, expertise, and the politics of classification.",
+    "primarySources": ["Foucault, Discipline and Punish", "Foucault, The History of Sexuality, Vol. 1"],
+    "secondarySources": ["Gary Gutting, Foucault: A Very Short Introduction"]
+  },
+  {
+    "slug": "habermas",
+    "name": "Jürgen Habermas",
+    "dates": "b. 1929",
+    "region": "Germany",
+    "period": "Contemporary",
+    "traditions": ["critical-theory", "contemporary-global"],
+    "domains": ["political-philosophy", "epistemology"],
+    "majorWorks": ["The Structural Transformation of the Public Sphere", "The Theory of Communicative Action", "Between Facts and Norms"],
+    "centralQuestions": ["What makes democratic legitimacy rational?", "Can public reason survive distorted communication?"],
+    "keyConcepts": [
+      { "term": "Communicative action", "definition": "Coordination through reason-giving aimed at mutual understanding rather than manipulation or strategic success." },
+      { "term": "Public sphere", "definition": "A space of public discussion where citizens can form opinions and hold power accountable." },
+      { "term": "Discourse ethics", "definition": "The view that norms are valid when they could be accepted by all affected in fair practical discourse." }
+    ],
+    "majorArguments": [
+      "Argued that democratic legitimacy depends on inclusive, undistorted public deliberation.",
+      "Argued that modern societies need both legal institutions and communicative practices that citizens can see as rationally justifiable."
+    ],
+    "frame": "asks whether a norm could survive fair public reasoning among all those affected by it",
+    "influences": ["Kant", "Hegel", "Marx", "Frankfurt School critical theory"],
+    "influenced": ["Deliberative democracy", "public sphere theory", "contemporary critical theory"],
+    "context": "A second-generation Frankfurt School theorist shaped by postwar German democracy and the need to rebuild public reason after fascism.",
+    "criticisms": [
+      "Critics argue ideal discourse abstracts too far from inequality, emotion, and exclusion.",
+      "Postmodern critics argue his trust in rational consensus is too optimistic."
+    ],
+    "relevance": "Highly relevant for misinformation, democratic legitimacy, polarization, and whether public debate can still be rational.",
+    "primarySources": ["Habermas, The Structural Transformation of the Public Sphere", "Habermas, Between Facts and Norms"],
+    "secondarySources": ["James Gordon Finlayson, Habermas: A Very Short Introduction"]
+  },
+  {
+    "slug": "nozick",
+    "name": "Robert Nozick",
+    "dates": "1938-2002",
+    "region": "United States",
+    "period": "20th century",
+    "traditions": ["analytic-political"],
+    "domains": ["political-philosophy", "ethics"],
+    "majorWorks": ["Anarchy, State, and Utopia", "Philosophical Explanations"],
+    "centralQuestions": ["What limits does individual liberty place on the state?", "Can patterned distributive justice respect persons as separate lives?"],
+    "keyConcepts": [
+      { "term": "Entitlement theory", "definition": "Justice in holdings depends on just acquisition, transfer, and rectification rather than a preferred final pattern." },
+      { "term": "Minimal state", "definition": "A state limited mainly to protection against force, theft, fraud, and enforcement of contracts." },
+      { "term": "Experience machine", "definition": "A thought experiment arguing that people value actually doing and being, not just having pleasurable experiences." }
+    ],
+    "majorArguments": [
+      "Argued that redistributive taxation can violate individual rights by forcing some people to serve others' chosen ends.",
+      "Argued against hedonism by asking whether we would plug into a machine that gives only simulated satisfaction."
+    ],
+    "frame": "asks whether a social pattern respects each person as a separate owner of a life, body, and history of choices",
+    "influences": ["Locke", "Kantian respect for persons", "libertarian political thought"],
+    "influenced": ["Libertarian philosophy", "responses to Rawls", "analytic political theory"],
+    "context": "Wrote as a major libertarian challenge to Rawlsian liberalism in late twentieth-century American philosophy.",
+    "criticisms": [
+      "Critics argue entitlement theory underplays historical injustice and structural inequality.",
+      "Others argue the minimal state cannot protect liberty without broader social supports."
+    ],
+    "relevance": "A sharp counterweight in debates over redistribution, property, personal autonomy, and state power.",
+    "primarySources": ["Nozick, Anarchy, State, and Utopia"],
+    "secondarySources": ["Jonathan Wolff, Robert Nozick: Property, Justice and the Minimal State"]
+  },
+  {
+    "slug": "martha-nussbaum",
+    "name": "Martha Nussbaum",
+    "dates": "b. 1947",
+    "region": "United States",
+    "period": "Contemporary",
+    "traditions": ["analytic-political", "contemporary-global"],
+    "domains": ["ethics", "political-philosophy", "aesthetics"],
+    "majorWorks": ["The Fragility of Goodness", "Women and Human Development", "Creating Capabilities"],
+    "centralQuestions": ["What capabilities must a just society secure?", "How do emotions and literature shape ethical understanding?"],
+    "keyConcepts": [
+      { "term": "Central capabilities", "definition": "A list of basic human opportunities that political institutions should secure for each person." },
+      { "term": "Fragility of goodness", "definition": "The idea that flourishing depends partly on vulnerable external conditions outside one's control." },
+      { "term": "Narrative imagination", "definition": "The capacity to understand others' lives through literature, emotion, and perspective-taking." }
+    ],
+    "majorArguments": [
+      "Argued that justice should be measured by what people are actually able to do and be, with special attention to women and marginalized groups.",
+      "Argued that emotions can contain judgments about value and should be taken seriously in ethics and politics."
+    ],
+    "frame": "asks what concrete human capabilities must be protected for a life worthy of dignity",
+    "influences": ["Aristotle", "Sen", "Stoicism", "feminist theory"],
+    "influenced": ["Capability approach", "law and humanities", "global justice"],
+    "context": "Developed a philosophically explicit capabilities approach connecting ancient ethics, feminism, law, and international development.",
+    "criticisms": [
+      "Some critics argue her universal capabilities list risks imposing a liberal Western standard.",
+      "Others argue the framework can be difficult to prioritize in real policy tradeoffs."
+    ],
+    "relevance": "Important for justice, disability, development, education, emotions, and what societies owe each person's dignity.",
+    "primarySources": ["Nussbaum, Creating Capabilities", "Nussbaum, Women and Human Development"],
+    "secondarySources": ["Flavio Comim and Martha Nussbaum, Capabilities, Gender, Equality"]
+  },
+  {
+    "slug": "derrida",
+    "name": "Jacques Derrida",
+    "dates": "1930-2004",
+    "region": "Algeria / France",
+    "period": "20th century",
+    "traditions": ["contemporary-global"],
+    "domains": ["epistemology", "metaphysics", "aesthetics"],
+    "majorWorks": ["Of Grammatology", "Writing and Difference", "Margins of Philosophy"],
+    "centralQuestions": ["What do texts exclude in order to seem stable?", "Can meaning ever be fully present and final?"],
+    "keyConcepts": [
+      { "term": "Deconstruction", "definition": "A way of reading that exposes tensions, exclusions, and unstable oppositions within texts and concepts." },
+      { "term": "Différance", "definition": "Meaning is produced through difference and deferral rather than immediate self-presence." },
+      { "term": "Logocentrism", "definition": "The privileging of speech, presence, and fixed origin over writing, mediation, and trace." }
+    ],
+    "majorArguments": [
+      "Argued that philosophical systems often depend on binary oppositions they cannot fully stabilize.",
+      "Argued that meaning is never simply present but depends on traces of other meanings and contexts."
+    ],
+    "frame": "asks what a claim depends on excluding, subordinating, or treating as secondary in order to appear stable",
+    "influences": ["Heidegger", "Husserl", "Nietzsche", "Saussure"],
+    "influenced": ["Deconstruction", "literary theory", "continental philosophy", "legal theory"],
+    "context": "A French-Algerian philosopher whose work challenged structuralism and transformed literary and philosophical interpretation.",
+    "criticisms": [
+      "Critics argue deconstruction can seem obscure or corrosive of clear standards of truth.",
+      "Defenders reply that it reveals hidden assumptions rather than denying meaning altogether."
+    ],
+    "relevance": "Useful for interpreting texts, institutions, identities, and claims that present themselves as neutral or self-evident.",
+    "primarySources": ["Derrida, Of Grammatology", "Derrida, Writing and Difference"],
+    "secondarySources": ["Jonathan Culler, On Deconstruction"]
+  },
+  {
+    "slug": "butler",
+    "name": "Judith Butler",
+    "dates": "b. 1956",
+    "region": "United States",
+    "period": "Contemporary",
+    "traditions": ["critical-theory", "contemporary-global"],
+    "domains": ["political-philosophy", "ethics", "metaphysics"],
+    "majorWorks": ["Gender Trouble", "Bodies That Matter", "Precarious Life"],
+    "centralQuestions": ["How are gendered subjects produced?", "Whose lives are publicly recognized as grievable and protected?"],
+    "keyConcepts": [
+      { "term": "Gender performativity", "definition": "Gender is constituted through repeated norms and acts, not simply expressed from a prior inner essence." },
+      { "term": "Precarity", "definition": "The politically distributed vulnerability that makes some lives more exposed to harm than others." },
+      { "term": "Grievability", "definition": "The social recognition that a life counts as a life whose loss matters." }
+    ],
+    "majorArguments": [
+      "Argued that gender norms produce the appearance of natural identity through repeated social performance.",
+      "Argued that ethical and political life begins from shared vulnerability and unequal recognition of whose lives matter."
+    ],
+    "frame": "asks which norms make an identity intelligible and whose vulnerability those norms leave exposed",
+    "influences": ["Beauvoir", "Foucault", "Derrida", "psychoanalysis"],
+    "influenced": ["Queer theory", "gender studies", "contemporary political ethics"],
+    "context": "Developed key work in queer theory and feminist philosophy amid late twentieth-century debates over identity, bodies, and power.",
+    "criticisms": [
+      "Some critics argue performativity is often misunderstood as voluntarist choice despite Butler's emphasis on constraint.",
+      "Others argue the prose and theoretical apparatus can obscure practical political stakes."
+    ],
+    "relevance": "Central for gender, identity, vulnerability, recognition, and how social norms become embodied reality.",
+    "primarySources": ["Butler, Gender Trouble", "Butler, Precarious Life"],
+    "secondarySources": ["Sara Salih, Judith Butler"]
+  },
+  {
+    "slug": "bell-hooks",
+    "name": "bell hooks",
+    "dates": "1952-2021",
+    "region": "United States",
+    "period": "Contemporary",
+    "traditions": ["critical-theory", "contemporary-global"],
+    "domains": ["ethics", "political-philosophy", "aesthetics"],
+    "majorWorks": ["Ain't I a Woman?", "Feminist Theory: From Margin to Center", "Teaching to Transgress", "All About Love"],
+    "centralQuestions": ["How do race, gender, class, and love shape liberation?", "What would education look like as a practice of freedom?"],
+    "keyConcepts": [
+      { "term": "Oppositional gaze", "definition": "A critical way of looking developed by marginalized viewers resisting dominant images and narratives." },
+      { "term": "Margin to center", "definition": "The method of beginning theory from marginalized lives rather than treating them as add-ons." },
+      { "term": "Love ethic", "definition": "Love understood as action, care, knowledge, responsibility, respect, and commitment in personal and political life." }
+    ],
+    "majorArguments": [
+      "Argued that feminism must confront race, class, and imperialism or it will reproduce domination inside liberation movements.",
+      "Argued that education can become a practice of freedom when teachers and students jointly cultivate critical consciousness."
+    ],
+    "frame": "asks whose experience has been pushed to the margins and what changes when that experience becomes a starting point",
+    "influences": ["Black feminist thought", "Paulo Freire", "Martin Luther King Jr."],
+    "influenced": ["Intersectional feminism", "critical pedagogy", "cultural studies"],
+    "context": "A public intellectual who wrote accessible but theoretically rich work across feminism, education, media, and love.",
+    "criticisms": [
+      "Academic critics sometimes understate her philosophical rigor because of her accessible style.",
+      "Some readers argue her love ethic needs more institutional detail to guide policy."
+    ],
+    "relevance": "Strong for questions about education, care, liberation, popular culture, and how theory should speak beyond the academy.",
+    "primarySources": ["hooks, Feminist Theory: From Margin to Center", "hooks, Teaching to Transgress"],
+    "secondarySources": ["Maria del Guadalupe Davidson and George Yancy, Critical Perspectives on bell hooks"]
+  },
+  {
+    "slug": "paulo-freire",
+    "name": "Paulo Freire",
+    "dates": "1921-1997",
+    "region": "Brazil",
+    "period": "20th century",
+    "traditions": ["critical-theory", "contemporary-global"],
+    "domains": ["political-philosophy", "ethics", "epistemology"],
+    "majorWorks": ["Pedagogy of the Oppressed", "Education for Critical Consciousness"],
+    "centralQuestions": ["Can education liberate rather than domesticate?", "How do oppressed people become subjects of their own history?"],
+    "keyConcepts": [
+      { "term": "Conscientization", "definition": "Developing critical awareness of social conditions together with the capacity to transform them." },
+      { "term": "Banking model of education", "definition": "Freire's critique of treating students as passive containers into which teachers deposit knowledge." },
+      { "term": "Dialogical pedagogy", "definition": "Education through mutual inquiry between teachers and learners as co-creators of understanding." }
+    ],
+    "majorArguments": [
+      "Argued that education is never neutral: it either supports domination or helps people read and transform their world.",
+      "Argued that liberation cannot be handed down paternalistically but must be achieved through dialogue and collective agency."
+    ],
+    "frame": "asks whether a practice treats people as objects to be managed or subjects capable of naming and changing their world",
+    "influences": ["Marx", "Christian liberation theology", "anti-colonial pedagogy"],
+    "influenced": ["Critical pedagogy", "popular education", "bell hooks"],
+    "context": "Developed literacy and political education methods in Brazil and exile, linking learning to democratic participation and liberation.",
+    "criticisms": [
+      "Critics argue his emancipatory pedagogy can become ideologically directive in practice.",
+      "Some educators find the framework inspiring but difficult to implement within standardized institutions."
+    ],
+    "relevance": "Essential for questions about education, media literacy, democratic agency, and whether learning can be politically transformative.",
+    "primarySources": ["Freire, Pedagogy of the Oppressed"],
+    "secondarySources": ["Peter Mayo, Liberating Praxis"]
+  },
+  {
+    "slug": "angela-davis",
+    "name": "Angela Davis",
+    "dates": "b. 1944",
+    "region": "United States",
+    "period": "Contemporary",
+    "traditions": ["critical-theory", "contemporary-global"],
+    "domains": ["political-philosophy", "ethics"],
+    "majorWorks": ["Women, Race & Class", "Are Prisons Obsolete?", "Freedom Is a Constant Struggle"],
+    "centralQuestions": ["What would justice look like beyond punishment and imprisonment?", "How are struggles against racism, sexism, capitalism, and state violence connected?"],
+    "keyConcepts": [
+      { "term": "Prison abolition", "definition": "The project of building social conditions and institutions that make prisons unnecessary rather than merely reforming them." },
+      { "term": "Intersectional struggle", "definition": "The idea that systems of domination interlock and must be challenged together." },
+      { "term": "Abolition democracy", "definition": "A democratic vision that replaces punitive institutions with structures of care, education, housing, and accountability." }
+    ],
+    "majorArguments": [
+      "Argued that prisons function as a political and economic institution tied to race, poverty, and state violence.",
+      "Argued that freedom struggles are linked across borders and identities, requiring coalitional politics."
+    ],
+    "frame": "asks what institutions would have to be built so that punishment is no longer treated as the default answer to harm",
+    "influences": ["Marx", "Du Bois", "Black radical tradition", "feminist theory"],
+    "influenced": ["Abolitionist feminism", "critical prison studies", "social justice movements"],
+    "context": "A philosopher, activist, and public intellectual shaped by Black liberation, feminism, anti-capitalism, and prison abolition movements.",
+    "criticisms": [
+      "Critics argue abolitionist politics can understate immediate public safety concerns.",
+      "Supporters reply that abolition is a constructive program for prevention and repair, not simply absence of accountability."
+    ],
+    "relevance": "Crucial for questions about punishment, policing, prisons, justice, and what alternatives to carceral systems require.",
+    "primarySources": ["Davis, Are Prisons Obsolete?", "Davis, Women, Race & Class"],
+    "secondarySources": ["Joy James, The Angela Y. Davis Reader"]
+  },
+  {
+    "slug": "nelson-mandela",
+    "name": "Nelson Mandela",
+    "dates": "1918-2013",
+    "region": "South Africa",
+    "period": "20th century",
+    "traditions": ["african", "contemporary-global"],
+    "domains": ["political-philosophy", "ethics"],
+    "majorWorks": ["Long Walk to Freedom", "No Easy Walk to Freedom"],
+    "centralQuestions": ["How can justice and reconciliation coexist after oppression?", "What does political courage require under unjust law?"],
+    "keyConcepts": [
+      { "term": "Reconciliation", "definition": "A political practice of building a shared future without denying the reality of past injustice." },
+      { "term": "Freedom struggle", "definition": "Collective resistance to domination understood as a moral and political obligation." },
+      { "term": "Democratic nonracialism", "definition": "A vision of political community not organized by racial hierarchy or revenge." }
+    ],
+    "majorArguments": [
+      "Argued through action and writing that unjust law can lose moral authority and require disciplined resistance.",
+      "Argued that durable freedom after apartheid required institutions, restraint, and a commitment to shared citizenship."
+    ],
+    "frame": "asks how a political community can pursue justice without allowing vengeance to become its organizing principle",
+    "influences": ["African National Congress", "Gandhi", "anti-colonial movements", "Ubuntu traditions"],
+    "influenced": ["Transitional justice", "human rights movements", "democratic reconciliation politics"],
+    "context": "Led the struggle against apartheid, spent twenty-seven years imprisoned, and became South Africa's first democratically elected president.",
+    "criticisms": [
+      "Some critics argue post-apartheid reconciliation left deep economic injustice insufficiently transformed.",
+      "Others argue heroic narratives can simplify the collective nature of the anti-apartheid struggle."
+    ],
+    "relevance": "A practical philosophical figure for courage, forgiveness, democratic transition, and justice after structural violence.",
+    "primarySources": ["Mandela, Long Walk to Freedom"],
+    "secondarySources": ["Tom Lodge, Mandela: A Critical Life"]
+  },
+  {
+    "slug": "sally-haslanger",
+    "name": "Sally Haslanger",
+    "dates": "b. 1955",
+    "region": "United States",
+    "period": "Contemporary",
+    "traditions": ["analytic-political", "contemporary-global"],
+    "domains": ["metaphysics", "political-philosophy", "epistemology"],
+    "majorWorks": ["Resisting Reality", "What Is Race? What Is Gender?"],
+    "centralQuestions": ["How can social categories be real without being natural essences?", "How should philosophy analyze concepts that sustain injustice?"],
+    "keyConcepts": [
+      { "term": "Social construction", "definition": "The view that some categories are real because social practices make them real, not because they reflect natural essences." },
+      { "term": "Ameliorative analysis", "definition": "Analyzing a concept by asking what concept would best serve legitimate critical and political purposes." },
+      { "term": "Ideology critique", "definition": "Examining how shared meanings and practices help reproduce unjust social structures." }
+    ],
+    "majorArguments": [
+      "Argued that race and gender can be objectively real social positions without being biological essences.",
+      "Argued that conceptual analysis should sometimes revise our concepts to better expose and resist oppression."
+    ],
+    "frame": "asks what a concept should mean if the goal is to reveal and challenge the social structures it helps organize",
+    "influences": ["Analytic metaphysics", "feminist theory", "critical race theory"],
+    "influenced": ["Social ontology", "feminist metaphysics", "ameliorative conceptual engineering"],
+    "context": "Works in contemporary analytic philosophy, bringing metaphysics into direct contact with feminist and anti-racist social critique.",
+    "criticisms": [
+      "Some critics argue ameliorative definitions can diverge too far from ordinary usage.",
+      "Others worry that politically guided analysis may seem to prejudge theoretical questions."
+    ],
+    "relevance": "Especially useful for modern disputes over race, gender, social reality, and whether changing concepts can change politics.",
+    "primarySources": ["Haslanger, Resisting Reality"],
+    "secondarySources": ["Ásta, Categories We Live By"]
+  },
+  {
+    "slug": "peter-singer",
+    "name": "Peter Singer",
+    "dates": "b. 1946",
+    "region": "Australia / United States",
+    "period": "Contemporary",
+    "traditions": ["analytic-political", "contemporary-global"],
+    "domains": ["ethics", "political-philosophy"],
+    "majorWorks": ["Animal Liberation", "Practical Ethics", "The Life You Can Save"],
+    "centralQuestions": ["How far do our obligations to reduce suffering extend?", "Can species membership justify unequal moral consideration?"],
+    "keyConcepts": [
+      { "term": "Equal consideration of interests", "definition": "Similar interests deserve similar moral weight regardless of species, nationality, or distance." },
+      { "term": "Speciesism", "definition": "Discrimination based on species membership analogous to other arbitrary exclusions from moral concern." },
+      { "term": "Effective altruism", "definition": "Using evidence and reason to do as much good as possible with limited resources." }
+    ],
+    "majorArguments": [
+      "Argued that affluent people have strong duties to prevent severe suffering when they can do so at relatively small cost.",
+      "Argued that the capacity to suffer, not species membership, grounds moral consideration."
+    ],
+    "frame": "asks whose suffering has been excluded from the calculation and what impartial concern would actually require",
+    "influences": ["Bentham", "Mill", "utilitarianism"],
+    "influenced": ["Animal ethics", "effective altruism", "global poverty ethics"],
+    "context": "A public-facing utilitarian philosopher whose applied ethics work transformed debates about animals, poverty, bioethics, and charitable giving.",
+    "criticisms": [
+      "Critics argue his utilitarian conclusions can conflict with rights, disability justice, or ordinary moral attachments.",
+      "Others argue impartial demandingness can become psychologically and politically unrealistic."
+    ],
+    "relevance": "Central for questions about animal suffering, charitable obligation, global poverty, and moral demandingness.",
+    "primarySources": ["Singer, Animal Liberation", "Singer, The Life You Can Save"],
+    "secondarySources": ["Dale Jamieson, Singer and His Critics"]
+  },
+  {
+    "slug": "maria-lugones",
+    "name": "María Lugones",
+    "dates": "1944-2020",
+    "region": "Argentina / United States",
+    "period": "Contemporary",
+    "traditions": ["critical-theory", "contemporary-global"],
+    "domains": ["political-philosophy", "ethics", "epistemology"],
+    "majorWorks": ["Pilgrimages/Peregrinajes", "Playfulness, 'World'-Travelling, and Loving Perception", "Heterosexualism and the Colonial/Modern Gender System"],
+    "centralQuestions": ["How does coloniality shape gender and perception?", "What does loving cross-cultural understanding require?"],
+    "keyConcepts": [
+      { "term": "World-travelling", "definition": "Moving across social worlds with playful openness in order to perceive others without arrogant mastery." },
+      { "term": "Loving perception", "definition": "A resistant way of seeing others that refuses dominant, objectifying interpretations." },
+      { "term": "Coloniality of gender", "definition": "The claim that modern gender categories were shaped through colonial domination and racialization." }
+    ],
+    "majorArguments": [
+      "Argued that oppression works partly through arrogant perception: seeing others only through dominant worlds and categories.",
+      "Argued that gender under colonial modernity cannot be understood apart from race, colonial power, and resistance."
+    ],
+    "frame": "asks what world you are perceiving from, and whether another person's world is being met with curiosity or conquered by your categories",
+    "influences": ["Women of color feminism", "decolonial theory", "Anzaldúa"],
+    "influenced": ["Decolonial feminism", "feminist epistemology", "Latina philosophy"],
+    "context": "Developed influential work at the intersection of feminist philosophy, decolonial theory, and social epistemology.",
+    "criticisms": [
+      "Some readers find the terminology difficult without background in feminist and decolonial theory.",
+      "Others debate how to translate world-travelling into institutional practice."
+    ],
+    "relevance": "A subtle lens for identity, cross-cultural understanding, coloniality, and the ethics of perception.",
+    "primarySources": ["Lugones, Pilgrimages/Peregrinajes"],
+    "secondarySources": ["Mariana Ortega, In-Between"]
   }
 ]
