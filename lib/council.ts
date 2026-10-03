@@ -16,9 +16,10 @@ export const councilModes: CouncilModeInfo[] = [
 
 const COUNCIL_SIZE = 5;
 const STOP_WORDS = new Set([
-  "about", "after", "again", "against", "being", "could", "does", "ever", "from", "have", "into", "make", "makes",
-  "more", "must", "only", "rather", "same", "should", "than", "that", "their", "there", "thing", "this", "what",
-  "when", "where", "which", "while", "with", "without", "would",
+  "about", "after", "again", "against", "and", "are", "being", "can", "could", "does", "ever", "explain", "from",
+  "have", "how", "into", "make", "makes", "more", "must", "only", "rather", "same", "should", "than", "that", "the",
+  "their", "there", "thing", "this", "what", "when", "where", "which", "while", "with", "without", "would", "you",
+  "your", "for", "not", "but", "or", "of", "to", "is", "do", "an",
 ]);
 
 interface RetrievalField {
@@ -56,7 +57,7 @@ function normalizedTokens(value: string): string[] {
 }
 
 function questionNeedle(question: Question): string {
-  return normalizeSearchText([question.text, ...question.tags, question.domain].join(" "));
+  return normalizeSearchText([question.text, ...question.tags].join(" "));
 }
 
 function philosopherFields(p: Philosopher): RetrievalField[] {
@@ -69,7 +70,7 @@ function philosopherFields(p: Philosopher): RetrievalField[] {
     { name: "major arguments", text: p.majorArguments.join(" "), weight: 5 },
     { name: "traditions", text: traditionNames.join(" "), weight: 4 },
     { name: "frame", text: p.frame, weight: 4 },
-    { name: "sources", text: [...p.primarySources, ...p.secondarySources, ...p.majorWorks].join(" "), weight: 3 },
+    { name: "sources", text: [...p.primarySources, ...p.secondarySources, ...p.majorWorks].join(" "), weight: 6 },
     { name: "context", text: `${p.context} ${p.relevance} ${p.criticisms.join(" ")}`, weight: 2 },
   ];
 }
@@ -77,9 +78,12 @@ function philosopherFields(p: Philosopher): RetrievalField[] {
 export function retrieveCouncilCandidates(question: Question): RetrievalCandidate[] {
   const queryText = questionNeedle(question);
   const queryTerms = [...new Set(normalizedTokens(queryText))];
-  const queryPhrases = [question.text, ...question.tags]
+  const queryPhrases = [question.text, ...question.tags.filter((tag) => normalizedTokens(tag).length > 0)]
     .map((phrase) => normalizeSearchText(phrase))
     .filter((phrase) => phrase.length > 3);
+  const multiTermPhrases = queryPhrases
+    .map((phrase) => normalizedTokens(phrase))
+    .filter((terms) => terms.length > 1);
 
   return philosophers
     .map((philosopher) => {
@@ -95,6 +99,14 @@ export function retrieveCouncilCandidates(question: Question): RetrievalCandidat
             score += field.weight * 3;
             matchedFields.add(field.name);
             matchedTerms.add(phrase);
+          }
+        }
+
+        for (const phraseTerms of multiTermPhrases) {
+          if (phraseTerms.every((term) => fieldText.includes(term))) {
+            score += field.weight * 2;
+            matchedFields.add(field.name);
+            matchedTerms.add(phraseTerms.join(" "));
           }
         }
 
