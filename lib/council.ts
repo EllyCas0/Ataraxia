@@ -27,7 +27,7 @@ interface RetrievalField {
   weight: number;
 }
 
-interface RetrievalCandidate {
+export interface RetrievalCandidate {
   philosopher: Philosopher;
   score: number;
   matchedFields: string[];

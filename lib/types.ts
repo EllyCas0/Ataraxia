@@ -100,10 +100,15 @@ export interface AnalyzerFlag {
 
 export interface AnalyzerResult {
   claim: string;
+  conclusion: string;
+  premises: string[];
   evidenceFlags: AnalyzerFlag[];
   logicFlags: AnalyzerFlag[];
+  fallacyFlags: AnalyzerFlag[];
   rhetoricFlags: AnalyzerFlag[];
   valueFlags: AnalyzerFlag[];
   uncertaintyFlags: AnalyzerFlag[];
+  missingEvidenceQuestions: string[];
+  factCheckFlags: AnalyzerFlag[];
   relatedPhilosophers: Philosopher[];
 }

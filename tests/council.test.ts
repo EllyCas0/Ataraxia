@@ -4,6 +4,7 @@ import {
   challenge,
   historicalOrder,
   matchPhilosophers,
+  retrieveCouncilCandidates,
   speak,
   traditionLabel,
 } from "../lib/council";
@@ -26,6 +27,33 @@ test("prioritizes philosophers from the question domain", () => {
   const council = matchPhilosophers(question);
 
   assert.ok(council.some((p) => p.domains.includes("philosophy-of-mind")));
+});
+
+test("retrieval ranks structured concept matches strongly", () => {
+  const question = questionFromText("Should justice be measured by capabilities rather than resources?");
+  const candidates = retrieveCouncilCandidates(question);
+  const topSlugs = candidates.slice(0, 5).map((candidate) => candidate.philosopher.slug);
+
+  assert.ok(topSlugs.includes("sen") || topSlugs.includes("martha-nussbaum"));
+  assert.ok(candidates[0]?.matchedFields.includes("concepts") || candidates[0]?.matchedFields.includes("central questions"));
+});
+
+test("retrieval searches source and work titles", () => {
+  const question = questionFromText("How does A Theory of Justice explain fairness?");
+  const [first] = retrieveCouncilCandidates(question);
+
+  assert.equal(first?.philosopher.slug, "rawls");
+  assert.ok(first.matchedFields.includes("sources"));
+});
+
+test("council selection keeps multiple traditions in the room", () => {
+  const question = getQuestion("what-is-justice");
+  assert.ok(question);
+
+  const council = matchPhilosophers(question);
+  const traditions = new Set(council.flatMap((p) => p.traditions));
+
+  assert.ok(traditions.size >= 3);
 });
 
 test("historical mode orders matched philosophers chronologically", () => {

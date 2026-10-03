@@ -50,13 +50,40 @@ export default function AnalyzePage() {
           <Block title="Claim">
             <p className="leading-relaxed">{result.claim}</p>
           </Block>
+          <Block title="Conclusion">
+            <p className="leading-relaxed">{result.conclusion}</p>
+          </Block>
+          <Block title="Premises">
+            {result.premises.length > 0 ? (
+              <ul className="space-y-2">
+                {result.premises.map((premise) => (
+                  <li key={premise} className="rounded-lg border border-border bg-surface p-3 text-sm leading-relaxed">
+                    {premise}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-sm text-foreground-muted">No explicit premise detected. The argument may be leaning on an unstated assumption.</p>
+            )}
+          </Block>
           <Block title="Evidence"><Flags flags={result.evidenceFlags} /></Block>
           <Block title="Logic"><Flags flags={result.logicFlags} /></Block>
+          <Block title="Fallacy hints"><Flags flags={result.fallacyFlags} /></Block>
           <Block title="Rhetoric"><Flags flags={result.rhetoricFlags} /></Block>
           <Block title="Values at play">
             {result.valueFlags.length > 0 ? <Flags flags={result.valueFlags} /> : <p className="text-sm text-foreground-muted">No strong value-language detected.</p>}
           </Block>
           <Block title="Uncertainty"><Flags flags={result.uncertaintyFlags} /></Block>
+          <Block title="Missing evidence questions">
+            <ul className="space-y-2">
+              {result.missingEvidenceQuestions.map((question) => (
+                <li key={question} className="rounded-lg border border-border bg-surface p-3 text-sm leading-relaxed">
+                  {question}
+                </li>
+              ))}
+            </ul>
+          </Block>
+          <Block title="Fact-check needs"><Flags flags={result.factCheckFlags} /></Block>
 
           {result.relatedPhilosophers.length > 0 && (
             <Block title="Philosophical parallels">

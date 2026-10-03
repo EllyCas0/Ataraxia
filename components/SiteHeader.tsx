@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const NAV = [
   { href: "/questions", label: "Questions" },
@@ -9,6 +13,13 @@ const NAV = [
 ];
 
 export default function SiteHeader() {
+  const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
   return (
     <header className="sticky top-0 z-20 border-b border-border/80 bg-background/86 backdrop-blur">
       <div className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
@@ -18,14 +29,59 @@ export default function SiteHeader() {
           </span>
           The Agora
         </Link>
-        <nav className="flex items-center gap-4 sm:gap-6 text-sm text-foreground-muted overflow-x-auto min-w-0">
+        <nav className="hidden md:flex items-center gap-6 text-sm text-foreground-muted min-w-0" aria-label="Primary navigation">
           {NAV.map((item) => (
-            <Link key={item.href} href={item.href} className="hover:text-foreground transition-colors whitespace-nowrap shrink-0">
+            <Link
+              key={item.href}
+              href={item.href}
+              aria-current={pathname === item.href ? "page" : undefined}
+              className={`hover:text-foreground transition-colors whitespace-nowrap shrink-0 ${
+                pathname === item.href ? "text-foreground" : ""
+              }`}
+            >
               {item.label}
             </Link>
           ))}
         </nav>
+        <button
+          type="button"
+          aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-navigation"
+          onClick={() => setMenuOpen((open) => !open)}
+          className="md:hidden grid h-10 w-10 place-items-center rounded-lg border border-border bg-surface text-foreground shadow-sm transition-colors hover:border-ring focusable"
+        >
+          <span className="grid gap-1.5" aria-hidden="true">
+            <span className={`block h-0.5 w-5 rounded-full bg-current transition-transform ${menuOpen ? "translate-y-2 rotate-45" : ""}`} />
+            <span className={`block h-0.5 w-5 rounded-full bg-current transition-opacity ${menuOpen ? "opacity-0" : "opacity-100"}`} />
+            <span className={`block h-0.5 w-5 rounded-full bg-current transition-transform ${menuOpen ? "-translate-y-2 -rotate-45" : ""}`} />
+          </span>
+        </button>
       </div>
+      {menuOpen && (
+        <nav
+          id="mobile-navigation"
+          aria-label="Primary navigation"
+          className="md:hidden border-t border-border/80 bg-background/96 shadow-sm"
+        >
+          <div className="max-w-4xl mx-auto px-3 py-3">
+            {NAV.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={pathname === item.href ? "page" : undefined}
+                className={`block rounded-lg px-3 py-3 text-sm font-medium transition-colors ${
+                  pathname === item.href
+                    ? "bg-surface-muted text-foreground"
+                    : "text-foreground-muted hover:bg-surface hover:text-foreground"
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        </nav>
+      )}
     </header>
   );
 }
