@@ -6,6 +6,7 @@ import type { CouncilMode, Philosopher, Question } from "@/lib/types";
 import { councilModes, historicalOrder, matchPhilosophers, speak, traditionLabel } from "@/lib/council";
 import { useAI } from "@/lib/use-ai";
 import OllamaControl from "./OllamaControl";
+import AmbientSound from "./AmbientSound";
 import { analyze } from "@/lib/analyzer";
 import { makeId } from "@/lib/journal";
 import { saveEntry } from "@/lib/journal-storage";
@@ -125,7 +126,8 @@ export default function CouncilClient({
 
   return (
     <div className="max-w-2xl mx-auto px-6 pt-10 pb-24">
-      <h1 className="font-serif text-3xl sm:text-4xl leading-snug mb-6">{question.text}</h1>
+      <h1 className="font-serif text-3xl sm:text-4xl leading-snug mb-4">{question.text}</h1>
+      <AmbientSound domain={question.domain} />
       <OllamaControl model={model} onChange={setModel} disabled={loading} />
 
       <div className="flex flex-wrap gap-1.5 mb-6">
