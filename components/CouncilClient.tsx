@@ -27,6 +27,7 @@ export default function CouncilClient({
   const [initialPosition, setInitialPosition] = useState("");
   const [reasoning, setReasoning] = useState("");
   const [challengeShown, setChallengeShown] = useState(false);
+  const [revisionOpen, setRevisionOpen] = useState(false);
   const [revisedPosition, setRevisedPosition] = useState("");
   const [remainingUncertainty, setRemainingUncertainty] = useState("");
   const [saved, setSaved] = useState(false);
@@ -135,7 +136,17 @@ export default function CouncilClient({
   return (
     <div className="max-w-2xl mx-auto px-6 pt-10 pb-24">
       <h1 className="font-serif text-3xl sm:text-4xl leading-snug mb-6">{question.text}</h1>
-      <OllamaControl model={model} onChange={setModel} disabled={loading} />
+      <p className="text-sm text-foreground-muted mb-4">Start with your own view, or open a perspective below. You can reflect and revise without AI.</p>
+      <a href="#initial-position" onClick={(event) => {
+        event.preventDefault();
+        document.getElementById("initial-position")?.focus();
+      }} className="inline-block rounded-lg bg-accent-strong text-background px-5 py-3 text-sm font-medium mb-6">Write my initial view</a>
+      <details className="rounded-lg border border-border bg-surface mb-6">
+        <summary className="cursor-pointer px-4 py-3 text-sm font-medium">AI settings</summary>
+        <div className="px-4 pb-1">
+          <OllamaControl model={model} onChange={setModel} disabled={loading} />
+        </div>
+      </details>
 
       <div className="flex flex-wrap gap-1.5 mb-6">
         {councilModes.map((m) => (
@@ -159,7 +170,7 @@ export default function CouncilClient({
         Generalized from each thinker&apos;s philosophy — not a literal quotation.
       </p>
       <button type="button" disabled={loading} onClick={() => generate("council")} className="rounded-lg border border-border px-4 py-2 text-sm mb-3 disabled:opacity-40">
-        {loading ? "Generating with Ollama…" : "Generate perspectives with Ollama"}
+        {loading ? "Exploring perspectives…" : "Explore perspectives"}
       </button>
       {loading && <button type="button" onClick={cancel} className="ml-3 text-sm underline">Cancel generation</button>}
       <p role="status" className="text-xs text-foreground-muted mb-3">{loading ? "Your local model is thinking. This can take a few minutes." : voices[mode] ? `Generated locally with ${voiceModels[mode]}` : "Showing reference perspectives. Generate to explore this question with local AI."}</p>
@@ -176,6 +187,7 @@ export default function CouncilClient({
         <h2 className="font-serif text-xl mb-1">Your turn</h2>
         <p className="text-sm text-foreground-muted mb-4">What&apos;s your initial position?</p>
         <textarea
+          id="initial-position"
           value={initialPosition}
           maxLength={12000}
           disabled={loading}
@@ -187,7 +199,7 @@ export default function CouncilClient({
           aria-label="Initial position"
           rows={4}
           placeholder="Write freely — there's no wrong answer here."
-          className="w-full rounded-lg border border-border bg-surface px-4 py-3 text-sm outline-none focus:border-ring focus:ring-1 focus:ring-ring resize-none mb-3"
+          className="w-full scroll-mt-24 rounded-lg border border-border bg-surface px-4 py-3 text-sm outline-none focus:border-ring focus:ring-1 focus:ring-ring resize-none mb-3"
         />
         <label className="block text-xs text-foreground-muted mb-1">Why do you think that? (optional)</label>
         <textarea
@@ -207,13 +219,14 @@ export default function CouncilClient({
             onClick={() => generate("challenge")}
             className="rounded-lg bg-accent-strong text-background font-medium px-5 py-2.5 text-sm hover:opacity-90 transition-opacity disabled:opacity-40"
           >
-            {loading ? "Generating with Ollama…" : "See a challenge with Ollama"}
+            {loading ? "Preparing a challenge…" : "Challenge my view"}
           </button>
         )}
 
         {initialPosition.trim() && !challengeShown && <button type="button" onClick={saveToJournal} disabled={loading} className="ml-3 text-sm underline disabled:opacity-40">Save this reflection without a challenge</button>}
-        {(challengeShown || revisedPosition || remainingUncertainty) && (
-          <div className="mt-2 space-y-4">
+        <button type="button" onClick={() => setRevisionOpen(true)} aria-expanded={Boolean(revisionOpen || challengeShown || revisedPosition || remainingUncertainty)} aria-controls="personal-revision" className="block mt-4 mb-4 rounded-lg border border-border px-5 py-2.5 text-sm hover:border-ring">Revise on my own</button>
+        {(revisionOpen || challengeShown || revisedPosition || remainingUncertainty) && (
+          <div id="personal-revision" className="mt-2 space-y-4">
             {challengeResult && <div className="rounded-lg border border-border bg-surface-muted p-4">
               <p className="text-xs uppercase tracking-wide text-foreground-muted mb-1.5">
                 Challenge, from {challengeResult.philosopher.name.split(" (")[0]}
@@ -249,9 +262,10 @@ export default function CouncilClient({
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Remaining uncertainty</label>
-              <p className="text-xs text-foreground-muted mb-2">What are you still unsure about?</p>
+              <label htmlFor="remaining-uncertainty" className="block text-sm font-medium mb-1">What am I still unsure about?</label>
+              <p className="text-xs text-foreground-muted mb-2">Keep track of questions you want to return to.</p>
               <textarea
+                id="remaining-uncertainty"
                 value={remainingUncertainty}
                 maxLength={12000}
                 disabled={loading}
@@ -279,12 +293,17 @@ export default function CouncilClient({
 
 function PhilosopherVoice({ philosopher, line }: { philosopher: Philosopher; line: string }) {
   return (
-    <div className="rounded-lg border border-border bg-surface p-4">
-      <Link href={`/philosophers/${philosopher.slug}`} className="font-serif text-lg hover:text-accent-strong transition-colors">
+    <details className="rounded-lg border border-border bg-surface p-4">
+      <summary className="cursor-pointer font-serif text-lg">
         {philosopher.name}
+        <span className="block font-sans text-xs text-foreground-muted mt-1">{traditionLabel(philosopher)} · Open perspective</span>
+      </summary>
+      <div className="mt-3 border-t border-border pt-3">
+      <p className="text-sm leading-relaxed mb-3">{line}</p>
+      <Link href={`/philosophers/${philosopher.slug}`} className="font-serif text-lg hover:text-accent-strong transition-colors">
+        About {philosopher.name}
       </Link>
-      <p className="text-xs text-foreground-muted mb-1.5">{traditionLabel(philosopher)}</p>
-      <p className="text-sm leading-relaxed">{line}</p>
-    </div>
+      </div>
+    </details>
   );
 }
