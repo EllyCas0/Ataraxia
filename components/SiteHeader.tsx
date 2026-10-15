@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const NAV = [
   { href: "/questions", label: "Questions" },
@@ -14,11 +14,8 @@ const NAV = [
 
 export default function SiteHeader() {
   const pathname = usePathname();
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [pathname]);
+  const [menu, setMenu] = useState({ pathname, open: false });
+  const menuOpen = menu.pathname === pathname && menu.open;
 
   return (
     <header className="sticky top-0 z-20 border-b border-border/80 bg-background/86 backdrop-blur">
@@ -48,7 +45,7 @@ export default function SiteHeader() {
           aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
           aria-expanded={menuOpen}
           aria-controls="mobile-navigation"
-          onClick={() => setMenuOpen((open) => !open)}
+          onClick={() => setMenu({ pathname, open: !menuOpen })}
           className="md:hidden grid h-10 w-10 place-items-center rounded-lg border border-border bg-surface text-foreground shadow-sm transition-colors hover:border-ring focusable"
         >
           <span className="grid gap-1.5" aria-hidden="true">
@@ -68,6 +65,7 @@ export default function SiteHeader() {
             {NAV.map((item) => (
               <Link
                 key={item.href}
+                onClick={() => setMenu({ pathname, open: false })}
                 href={item.href}
                 aria-current={pathname === item.href ? "page" : undefined}
                 className={`block rounded-lg px-3 py-3 text-sm font-medium transition-colors ${

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { appendEntry, isJournalEntry, parseJournalEntries, removeEntry } from "../lib/journal";
+import { appendEntry, isJournalEntry, mergeJournalEntries, parseJournalEntries, removeEntry } from "../lib/journal";
 import type { JournalEntry } from "../lib/types";
 
 const entry: JournalEntry = {
@@ -32,4 +32,19 @@ test("appends and removes entries without mutating the source list", () => {
   assert.deepEqual(original, []);
   assert.deepEqual(next, [entry]);
   assert.deepEqual(removeEntry(next, "entry-1"), []);
+});
+
+test("backup imports preserve existing entries and are repeatable", () => {
+  assert.deepEqual(mergeJournalEntries([entry], {version:1,entries:[entry]}), [entry]);
+  const conflicting = {...entry, revisedPosition:"Justice requires care too."};
+  const merged = mergeJournalEntries([entry], [conflicting]);
+  assert.equal(merged.length, 2);
+  assert.equal(merged[0].revisedPosition, "");
+  assert.equal(merged[1].revisedPosition, conflicting.revisedPosition);
+  assert.equal(mergeJournalEntries(merged, [conflicting]).length, 2);
+});
+
+test("invalid backups are rejected as a whole", () => {
+  assert.throws(() => mergeJournalEntries([entry], [entry, {...entry,createdAt:"not a date"}]));
+  assert.throws(() => mergeJournalEntries([entry], {}));
 });

@@ -116,6 +116,13 @@ export function getQuestion(slug: string): Question | undefined {
 }
 
 const DOMAIN_HINTS: [Domain, string[]][] = [
+  ["philosophy-of-mind", ["conciencia", "consciencia", "mente", "inteligencia artificial", "pensamiento", "emocion"]],
+  ["epistemology", ["conocer", "conocimiento", "verdad", "certeza", "creencia", "evidencia", "razon", "argumento"]],
+  ["political-philosophy", ["estado", "gobierno", "ley", "derechos", "justicia", "democracia", "sociedad", "politica"]],
+  ["metaphysics", ["realidad", "existencia", "identidad", "libre albedrio", "materia", "causa", "tiempo"]],
+  ["aesthetics", ["belleza", "arte", "estetica", "creatividad"]],
+  ["philosophy-of-religion", ["dios", "religion", " fe ", "sagrado", "divino"]],
+  ["philosophy-of-history", ["historia", "progreso", "civilizacion", "tradicion"]],
   ["philosophy-of-mind", ["conscious", "mind", "ai ", "artificial intelligence", "robot", "machine", "think"]],
   ["epistemology", ["know", "truth", "certain", "belief", "evidence", "objective", "rational", "argument"]],
   ["metaphysics", ["real", "exist", "self", "identity", "will", "matter", "cause", "time"]],
@@ -126,7 +133,7 @@ const DOMAIN_HINTS: [Domain, string[]][] = [
 ];
 
 function inferDomain(text: string): Domain {
-  const lower = ` ${text.toLowerCase()} `;
+  const lower = ` ${text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()} `;
   for (const [domain, keywords] of DOMAIN_HINTS) {
     if (keywords.some((k) => lower.includes(k))) return domain;
   }
@@ -137,11 +144,20 @@ function inferDomain(text: string): Domain {
 // one, guessing a domain from simple keyword hints — otherwise every custom
 // question would default to one domain and skew the council toward it.
 export function questionFromText(text: string): Question {
+  const tokens = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().split(/[^a-z]+/).filter((t) => t.length > 3);
+  const translations: Record<string, string[]> = {
+    justicia: ["justice", "fairness"], libertad: ["freedom", "liberty"], igualdad: ["equality"],
+    conciencia: ["consciousness"], consciencia: ["consciousness"], mente: ["mind"], verdad: ["truth"],
+    conocimiento: ["knowledge"], dios: ["god"], belleza: ["beauty"], arte: ["art"], vida: ["life"],
+    sentido: ["meaning"], historia: ["history"], derechos: ["rights"], gobierno: ["government"],
+    inteligencia: ["intelligence"], identidad: ["identity"], moral: ["morality"], felicidad: ["happiness"],
+    deber: ["duty"], sufrimiento: ["suffering"], responsabilidad: ["responsibility"], poder: ["power"],
+  };
   return {
     slug: "custom",
     text: text.trim(),
     domain: inferDomain(text),
-    tags: text.toLowerCase().split(/[^a-z]+/).filter((t) => t.length > 3),
+    tags: [...new Set(tokens.flatMap((token) => [token, ...(translations[token] ?? [])]))],
     difficulty: "intermediate",
   };
 }

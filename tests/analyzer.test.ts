@@ -2,6 +2,13 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { analyze } from "../lib/analyzer";
 
+test("quick scan does not mistake parts of words for claims or fallacies", () => {
+  const result = analyze("Someone knows a small amount about flaws in this proposal.");
+  assert.deepEqual(result.factCheckFlags[0].matches, []);
+  assert.ok(!result.logicFlags.some((flag) => flag.label === "Absolute language"));
+  assert.ok(!result.fallacyFlags.some((flag) => flag.label === "Possible hasty generalization"));
+});
+
 test("uses the first sentence as the claim", () => {
   const result = analyze("Democracy needs truth. Otherwise debate becomes theater.");
 

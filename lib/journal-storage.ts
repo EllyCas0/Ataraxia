@@ -1,7 +1,7 @@
 "use client";
 
 import type { JournalEntry } from "./types";
-import { appendEntry, parseJournalEntries, removeEntry } from "./journal";
+import { appendEntry, mergeJournalEntries, parseJournalEntries, removeEntry } from "./journal";
 
 const KEY = "agora:journal";
 
@@ -23,4 +23,10 @@ export function saveEntry(entry: JournalEntry): void {
 export function deleteEntry(id: string): void {
   if (typeof window === "undefined") return;
   window.localStorage.setItem(KEY, JSON.stringify(removeEntry(getEntries(), id)));
+}
+
+export function importEntries(backup: unknown): JournalEntry[] {
+  const entries = mergeJournalEntries(getEntries(), backup);
+  window.localStorage.setItem(KEY, JSON.stringify(entries));
+  return entries;
 }

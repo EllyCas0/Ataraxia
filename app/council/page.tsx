@@ -17,5 +17,5 @@ export default async function CouncilPage({
 
   const initialMode = VALID_MODES.includes(mode as CouncilMode) ? (mode as CouncilMode) : "compare";
 
-  return <CouncilClient question={question} initialMode={initialMode} />;
+  return <CouncilClient key={question.text} question={question} initialMode={initialMode} />;
 }

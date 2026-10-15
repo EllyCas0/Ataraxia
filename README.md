@@ -26,6 +26,22 @@ npm run dev
 
 Open http://localhost:3000.
 
+## Local AI with Ollama
+
+Start Ollama with `llama3.2:3b` installed, then run `npm run dev`. The Council has a **Generate perspectives with Ollama** button for each mode and generates challenges from your position and reasoning. The Argument Analyzer uses the local model. Calls go through the Next.js server at `/api/ai`; no external API key is needed.
+
+Defaults are `http://127.0.0.1:11434` and `llama3.2:3b`. To change them, copy `.env.example` to `.env.local`, edit `OLLAMA_HOST` / `OLLAMA_MODEL`, and restart Next.js. Generation may take up to three minutes. Errors are shown so you can retry. Reference council perspectives remain visible before generation. The model can make mistakes and does not verify facts against live sources.
+
+Next.js and Ollama must run on the same computer for this local setup. A hosted Next.js server would need access to its own Ollama service. The tradeoffs below describe the original reference implementation; the Analyzer and council generation now use Ollama, while retrieval and lightweight council hints still use local rules.
+
+The model selector lists installed models and remembers your choice. Refresh the connection after downloading a model. Generation can be cancelled; the UI reports offline services and invalid responses rather than presenting them as successful results.
+
+Council drafts, including a generated challenge, survive reloads in the same browser. You can save a reflection without waiting for AI. The Journal supports search, undo for the latest deletion, and JSON backup export/import. Imports merge entries and preserve conflicting versions. The Profile and Analyzer can also be exported as JSON. Data stays in this browser, so export your journal before clearing browser data or changing devices.
+
+Custom questions support Spanish domain hints and bilingual retrieval terms. Ollama responds in the question's language; the reference library and quick pattern scan remain in English.
+
+Validation: `npm run test`, `npm run lint`, and `npm run build`. API tests use controlled model responses to cover unavailable services, invalid input/output, model selection, and matching the displayed council.
+
 ## Modules built (spec §22 core)
 
 | Spec module | Route | File |
@@ -41,20 +57,20 @@ Open http://localhost:3000.
 
 ## Content (spec §22 targets, scoped down deliberately)
 
-- **27 philosophers** (spec target: ~50) — full structured profiles (dates, region, period, traditions, central questions, key concepts, major arguments, influences/influenced, context, criticisms, contemporary relevance, primary & secondary sources), spanning all traditions the spec requires: Europe, the Middle East, South Asia, East Asia, Africa, Indigenous America, and contemporary global philosophy. Chosen for breadth and accuracy over hitting a raw count — see `lib/philosophers.json`, trivially extendable.
+- **54 philosophers** — full structured profiles (dates, region, period, traditions, central questions, key concepts, major arguments, influences/influenced, context, criticisms, contemporary relevance, primary & secondary sources), spanning all traditions the spec requires: Europe, the Middle East, South Asia, East Asia, Africa, Indigenous America, and contemporary global philosophy. Chosen for breadth and accuracy over hitting a raw count — see `lib/philosophers.json`, trivially extendable.
 - **15 traditions** (spec target: 10) — `lib/traditions.ts`.
-- **30 questions** (spec target: 100) across 8 domains — `lib/questions.ts`.
+- **100 questions** across 8 domains — `lib/questions.ts`.
 - **Concepts and sources** are embedded per-philosopher (key concepts, primary/secondary sources) rather than built as separate 300-concept / 500-source standalone databases — the spec's numbers there describe a much larger content operation than one build pass can respect with real accuracy; embedding keeps every concept and source tied to a specific, correct attribution.
 
 ## The honest tradeoffs
 
-Three things are deliberately not backed by a live model or backend, each behind one function so the real thing can be swapped in without touching UI code — consistent with the spec's own instruction (§19) to build specialized AI components with an orchestrator, not to overengineer the MVP:
+Curated retrieval and local reference functions work alongside the model:
 
 - **`matchPhilosophers()`** (`lib/council.ts`) — keyword/domain scoring, not the spec's real retrieval system. It also tries to keep the council cross-civilizational rather than five variations on one school.
-- **`speak()` / `challenge()`** (`lib/council.ts`) — templated per-mode framing built from each philosopher's real, hand-written `frame`, `criticisms`, and `coreQuestion` fields. Every perspective is explicitly labeled "generalized from each thinker's philosophy — not a literal quotation," per spec §8's hard requirement not to impersonate historical thinkers.
-- **`analyze()`** (`lib/analyzer.ts`) — pattern-matching (absolute language, hedges, evidence words, charged language, value-keyword groups), not real NLP. The Analyzer page says so explicitly; it flags patterns worth a second look, it doesn't adjudicate whether an argument is right.
+- **`speak()` / `challenge()`** (`lib/council.ts`) — reference perspectives and challenger selection. Ollama generates question-specific interpretations from curated profiles, explicitly labeled as interpretations rather than literal quotations.
+- **`analyze()`** (`lib/analyzer.ts`) — a fast English pattern scan, used for the optional quick scan, lightweight council hints, and related philosopher lookup. The full Analyzer uses validated structured output from Ollama.
 
-**No backend or accounts.** The Journal and Personal Philosophy profile live in the browser's `localStorage`. This satisfies spec §22's "user accounts" bullet only partially — there's no cross-device sync, no real auth. Both modules are already shaped as the data a Postgres-backed version would use.
+**No accounts or database.** The Journal and Personal Philosophy profile live in the browser's `localStorage`, with no automatic cross-device sync. Next.js provides the server route that connects to Ollama.
 
 ## What's intentionally not in this build
 
@@ -72,6 +88,6 @@ Explicitly later-stage or out-of-§22-scope per the spec itself:
 
 - Council matching is keyword-based; niche or very specific questions won't always surface the most topically perfect five thinkers.
 - The Argument Analyzer's value-word lists are a small, fixed vocabulary — it will miss values expressed in less common phrasing.
-- No hamburger menu yet; on very narrow phone widths the top nav scrolls horizontally rather than collapsing.
+- A small local model may be slow or miss nuances. Cancel and retry, or use the quick scan for a preliminary pass.
 
-Stack: Next.js 16 (App Router, Turbopack), React 19, TypeScript, Tailwind CSS v4. No backend, no external API keys required.
+Stack: Next.js 16 (App Router, Turbopack), React 19, TypeScript, Tailwind CSS v4, local Ollama. No external API keys required.

@@ -12,7 +12,7 @@ export default function ContinueThinking() {
     // localStorage only exists in the browser — read after mount so SSR markup matches.
     const entries = getEntries();
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setLatest(entries.length ? entries[entries.length - 1] : null);
+    setLatest([...entries].sort((a, b) => b.createdAt.localeCompare(a.createdAt))[0] ?? null);
   }, []);
 
   if (!latest) return null;

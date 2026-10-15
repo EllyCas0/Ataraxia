@@ -40,3 +40,11 @@ test("custom questions fall back to ethics when no domain hint matches", () => {
   assert.equal(question.domain, "ethics");
   assert.equal(question.difficulty, "intermediate");
 });
+
+test("Spanish questions infer a domain and retrieve bilingual concepts", () => {
+  const question = questionFromText("¿Qué es la justicia en una democracia?");
+  assert.equal(question.domain, "political-philosophy");
+  assert.ok(question.tags.includes("justice"));
+  assert.equal(questionFromText("¿Puede la inteligencia artificial tener conciencia?").domain, "philosophy-of-mind");
+  assert.equal(questionFromText("¿Cómo podemos conocer la verdad?").domain, "epistemology");
+});

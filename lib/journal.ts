@@ -15,7 +15,9 @@ export function isJournalEntry(value: unknown): value is JournalEntry {
   return (
     isStringRecord(value) &&
     typeof value.id === "string" &&
+    value.id.length > 0 &&
     typeof value.createdAt === "string" &&
+    Number.isFinite(Date.parse(value.createdAt)) &&
     typeof value.question === "string" &&
     typeof value.initialPosition === "string" &&
     typeof value.reasoning === "string" &&
@@ -36,6 +38,24 @@ export function appendEntry(entries: JournalEntry[], entry: JournalEntry): Journ
 
 export function removeEntry(entries: JournalEntry[], id: string): JournalEntry[] {
   return entries.filter((entry) => entry.id !== id);
+}
+
+export function mergeJournalEntries(existing: JournalEntry[], incoming: unknown): JournalEntry[] {
+  const source = isStringRecord(incoming) ? incoming.entries : incoming;
+  if (!Array.isArray(source) || !source.every(isJournalEntry)) throw new Error("This file does not contain a valid journal backup.");
+  const merged = new Map(existing.map((entry) => [entry.id, entry]));
+  for (const entry of source) {
+    const current = merged.get(entry.id);
+    if (!current) merged.set(entry.id, entry);
+    else if (JSON.stringify(current) !== JSON.stringify(entry)) {
+      // Preserve both versions when backups contain a conflicting identifier.
+      if (![...merged.values()].some((item) => item.id.startsWith(`${entry.id}-import-`) && JSON.stringify({ ...item, id: entry.id }) === JSON.stringify(entry))) {
+        const copy = { ...entry, id: `${entry.id}-import-${makeId()}` };
+        merged.set(copy.id, copy);
+      }
+    }
+  }
+  return [...merged.values()];
 }
 
 export function makeId(): string {

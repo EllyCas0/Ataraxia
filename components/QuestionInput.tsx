@@ -23,6 +23,7 @@ export default function QuestionInput({
   return (
     <form onSubmit={submit} className="flex flex-col sm:flex-row gap-3">
       <input
+        maxLength={2000}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         aria-label="Philosophical question"
@@ -32,6 +33,7 @@ export default function QuestionInput({
         } transition-colors placeholder:text-foreground-muted/70`}
       />
       <button
+        disabled={!value.trim()}
         type="submit"
         className={`rounded-lg bg-accent-strong text-background font-medium px-6 shadow-sm ${
           compact ? "py-2.5 text-sm" : "py-3.5"

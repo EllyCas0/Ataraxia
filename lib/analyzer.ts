@@ -56,7 +56,10 @@ const VALUE_GROUPS: { label: string; words: string[] }[] = [
 
 function findMatches(text: string, words: string[]): string[] {
   const lower = text.toLowerCase();
-  return words.filter((w) => lower.includes(w));
+  return words.filter((word) => {
+    const escaped = word.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    return new RegExp(`(?<![\\p{L}\\p{N}_])${escaped}(?![\\p{L}\\p{N}_])`, "u").test(lower);
+  });
 }
 
 function splitSentences(text: string): string[] {
@@ -72,8 +75,7 @@ function cleanMarkerStart(sentence: string): string {
 }
 
 function includesAny(text: string, markers: string[]): boolean {
-  const lower = text.toLowerCase();
-  return markers.some((marker) => lower.includes(marker));
+  return findMatches(text, markers).length > 0;
 }
 
 function extractConclusion(sentences: string[]): string {

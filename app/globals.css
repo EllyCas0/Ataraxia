@@ -93,3 +93,20 @@ h1, h2, h3, .font-serif {
   border-color: var(--ring);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 28%, transparent);
 }
+
+button, a, input, select, textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible, a:focus-visible, select:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 4px;
+}
+
+button:disabled { cursor: not-allowed; }
+textarea { overflow-wrap: anywhere; }
+p { overflow-wrap: anywhere; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}

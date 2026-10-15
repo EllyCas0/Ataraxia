@@ -2,7 +2,10 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useAI } from "@/lib/use-ai";
 import { analyze } from "@/lib/analyzer";
+import OllamaControl from "@/components/OllamaControl";
+import { downloadJson } from "@/lib/download";
 import type { AnalyzerFlag, AnalyzerResult } from "@/lib/types";
 
 const PLACEHOLDER = "Paste a social media post, an essay excerpt, a speech, or your own argument…";
@@ -10,11 +13,17 @@ const PLACEHOLDER = "Paste a social media post, an essay excerpt, a speech, or y
 export default function AnalyzePage() {
   const [text, setText] = useState("");
   const [result, setResult] = useState<AnalyzerResult | null>(null);
+  const { loading, error, setError, model, setModel, run: generate, cancel } = useAI();
+  const [source, setSource] = useState("");
 
-  function run(e: React.FormEvent) {
+  async function run(e: React.FormEvent) {
     e.preventDefault();
     if (!text.trim()) return;
-    setResult(analyze(text));
+    setResult(null);
+      const data = await generate<AnalyzerResult>({ action: "analyze", text });
+      if (!data) return;
+      setResult(data.result);
+      setSource(`Generated locally with ${data.model}`);
   }
 
   return (
@@ -24,26 +33,35 @@ export default function AnalyzePage() {
         Paste any text and see it broken into claim, evidence, logic, rhetoric, values, and uncertainty.
       </p>
       <p className="text-xs text-foreground-muted mb-6 rounded-lg border border-border bg-surface-muted p-3">
-        This is automated pattern-matching, not deep reading — it flags patterns worth a second look, and it does not judge whether the argument is ultimately right or wrong. See the Journal page to think that through yourself.
+        An AI model running locally through Ollama examines your argument. Its suggestions can be mistaken, and factual claims still require sources.
       </p>
 
       <form onSubmit={run}>
+        <OllamaControl model={model} onChange={setModel} disabled={loading} />
         <textarea
+          maxLength={12000}
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          disabled={loading}
+          onChange={(e) => { setText(e.target.value); setResult(null); setError(""); }}
           aria-label="Text to analyze"
           rows={8}
           placeholder={PLACEHOLDER}
           className="w-full rounded-lg border border-border bg-surface px-4 py-3 text-sm outline-none focus:border-ring focus:ring-1 focus:ring-ring resize-none mb-3"
         />
+        <p className="text-xs text-foreground-muted mb-3">{text.length.toLocaleString()} / 12,000 characters</p>
         <button
           type="submit"
-          disabled={!text.trim()}
+          disabled={!text.trim() || loading}
           className="rounded-lg bg-accent-strong text-background font-medium px-6 py-3 hover:opacity-90 transition-opacity disabled:opacity-40"
         >
-          Analyze
+          {loading ? "Analyzing with Ollama…" : "Analyze with Ollama"}
         </button>
+        {loading ? <button type="button" onClick={cancel} className="ml-3 text-sm underline">Cancel</button> : <button type="button" disabled={!text.trim()} onClick={() => { setResult(analyze(text)); setSource("Quick scan using local language patterns (English). No AI model used."); setError(""); }} className="ml-3 text-sm underline disabled:opacity-40">Quick scan without AI</button>}
       </form>
+      {loading && <p role="status" className="mt-4 text-sm text-foreground-muted">Your local model is thinking. This can take a few minutes.</p>}
+      {error && <p role="alert" className="mt-4 text-sm text-foreground-muted">{error}</p>}
+      {result && <p className="mt-4 text-xs text-foreground-muted">{source}</p>}
+      {result && <button type="button" onClick={() => downloadJson("agora-analysis.json", { text, source, result })} className="mt-3 text-sm underline">Export analysis</button>}
 
       {result && (
         <div className="mt-10 space-y-8">

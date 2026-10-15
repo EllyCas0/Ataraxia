@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import type { ProfileDimension, ProfileState } from "@/lib/types";
 import { createEmptyProfile, findTensions, positionOptions, selectedPositionDetails, togglePosition, updatePositionNote } from "@/lib/profile";
 import { getProfile, saveProfile } from "@/lib/profile-storage";
+import { downloadJson } from "@/lib/download";
 
 const DIMENSIONS: { id: ProfileDimension; label: string }[] = [
   { id: "ethics", label: "Ethics" },
@@ -15,6 +16,11 @@ const DIMENSIONS: { id: ProfileDimension; label: string }[] = [
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<ProfileState | null>(null);
+  const [error, setError] = useState("");
+  function persist(next: ProfileState) {
+    setProfile(next);
+    try { saveProfile(next); setError(""); } catch { setError("Your changes could not be saved. Export your profile before leaving; browser storage may be full or disabled."); }
+  }
 
   useEffect(() => {
     // localStorage only exists in the browser — read after mount so SSR markup matches.
@@ -22,18 +28,16 @@ export default function ProfilePage() {
     setProfile(getProfile());
   }, []);
 
-  if (!profile) return null;
+  if (!profile) return <p role="status" className="max-w-2xl mx-auto px-6 py-16">Loading your profile…</p>;
 
   function toggle(dimension: ProfileDimension, id: string) {
     const next = togglePosition(profile!, dimension, id);
-    saveProfile(next);
-    setProfile(next);
+    persist(next);
   }
 
   function updateNote(id: string, note: string) {
     const next = updatePositionNote(profile!, id, note);
-    saveProfile(next);
-    setProfile(next);
+    persist(next);
   }
 
   const tensions = findTensions(profile);
@@ -44,6 +48,8 @@ export default function ProfilePage() {
   return (
     <div className="max-w-2xl mx-auto px-6 pt-10 pb-24">
       <h1 className="font-serif text-3xl mb-2">Personal Philosophy</h1>
+      {error && <p role="alert" className="text-sm mb-4">{error}</p>}
+      <button type="button" onClick={() => downloadJson("agora-profile.json", profile)} className="text-sm underline mb-4">Export my profile</button>
       <p className="text-foreground-muted mb-2">
         Not a personality test — just the positions you&apos;ve explicitly chosen to hold, described in your own view. Select as many or as few as feel true.
       </p>
@@ -183,8 +189,7 @@ export default function ProfilePage() {
           onClick={() => {
             if (confirm("Clear your entire philosophy profile? This can't be undone.")) {
               const empty = createEmptyProfile();
-              saveProfile(empty);
-              setProfile(empty);
+              persist(empty);
             }
           }}
           className="text-xs text-foreground-muted hover:text-foreground"
