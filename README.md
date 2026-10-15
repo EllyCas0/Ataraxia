@@ -42,6 +42,12 @@ Custom questions support Spanish domain hints and bilingual retrieval terms. Oll
 
 Validation: `npm run test`, `npm run lint`, and `npm run build`. API tests use controlled model responses to cover unavailable services, invalid input/output, model selection, and matching the displayed council.
 
+## Ambient music
+
+Generative ambient music plays across the whole app and continues between pages. A speaker button at the bottom right turns it on or off (the choice and volume are remembered in the browser). Each question domain has its own mood (`lib/ambient.ts`), so on a Council page the music matches the question; other pages use a warm default. Everything is synthesized with the Web Audio API, so there are no audio files or licensing concerns.
+
+Browsers block sound until the visitor's first click, tap, or keypress. The app tries to start music on load; if the browser blocks it, a "Tap anywhere to start music" hint appears and music begins on the first interaction. Music pauses while the tab is hidden.
+
 ## Modules built (spec §22 core)
 
 | Spec module | Route | File |

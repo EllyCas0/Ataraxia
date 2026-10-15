@@ -142,6 +142,10 @@ class Scene {
     const { plucks, root } = this.mood;
     if (!plucks) return;
     const schedule = () => {
+      if (this.ctx.state !== "running") {
+        this.timers.push(window.setTimeout(schedule, 1000));
+        return;
+      }
       const semi = plucks.scale[Math.floor(Math.random() * plucks.scale.length)];
       const oct = plucks.octaves[Math.floor(Math.random() * plucks.octaves.length)];
       this.pluck(hz(root, semi) * Math.pow(2, oct), dest, send);
@@ -172,6 +176,10 @@ class Scene {
     if (!pulse) return;
     const beat = () => {
       const { ctx } = this;
+      if (ctx.state !== "running") {
+        this.timers.push(window.setTimeout(beat, 1000));
+        return;
+      }
       const t = ctx.currentTime;
       const osc = this.track(ctx.createOscillator());
       osc.type = "sine";
@@ -234,27 +242,50 @@ class Scene {
   }
 }
 
+export type PlayerState = "none" | "running" | "suspended" | "closed";
+
 export class AmbientPlayer {
   private ctx: AudioContext | null = null;
   private master: GainNode | null = null;
   private scene: Scene | null = null;
-  private volume = 0.4;
+  private listener: ((state: PlayerState) => void) | null = null;
 
   static isSupported(): boolean {
     return typeof window !== "undefined" && Boolean(window.AudioContext ?? (window as unknown as { webkitAudioContext?: unknown }).webkitAudioContext);
   }
 
-  async start(domain: Domain, volume: number): Promise<void> {
+  get state(): PlayerState {
+    if (!this.ctx) return "none";
+    return this.ctx.state === "running" ? "running" : this.ctx.state === "closed" ? "closed" : "suspended";
+  }
+
+  onStateChange(listener: ((state: PlayerState) => void) | null) {
+    this.listener = listener;
+  }
+
+  // Safe to call without a user gesture: if the browser blocks audio, the
+  // context stays suspended and begins when resume() is called from a gesture.
+  start(domain: Domain, volume: number) {
     if (!this.ctx) {
       const Ctor = window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      this.ctx = new Ctor();
-      this.master = this.ctx.createGain();
-      this.master.connect(this.ctx.destination);
+      const ctx = new Ctor();
+      this.ctx = ctx;
+      this.master = ctx.createGain();
+      this.master.connect(ctx.destination);
+      ctx.onstatechange = () => this.listener?.(this.state);
     }
-    // Browsers only allow audio after a user gesture; start() is called from a click.
-    if (this.ctx.state === "suspended") await this.ctx.resume();
     this.setVolume(volume);
-    this.setDomain(domain);
+    if (!this.scene) this.setDomain(domain);
+    this.resume();
+    this.listener?.(this.state);
+  }
+
+  resume() {
+    if (this.ctx && this.ctx.state !== "running" && this.ctx.state !== "closed") void this.ctx.resume().catch(() => {});
+  }
+
+  pause() {
+    if (this.ctx && this.ctx.state === "running") void this.ctx.suspend().catch(() => {});
   }
 
   setDomain(domain: Domain) {
@@ -264,23 +295,26 @@ export class AmbientPlayer {
   }
 
   setVolume(volume: number) {
-    this.volume = Math.min(1, Math.max(0, volume));
-    if (this.ctx && this.master) this.master.gain.setTargetAtTime(this.volume, this.ctx.currentTime, 0.1);
+    if (this.ctx && this.master) this.master.gain.setTargetAtTime(Math.min(1, Math.max(0, volume)), this.ctx.currentTime, 0.1);
   }
 
   stop() {
     this.scene?.stop();
     this.scene = null;
     const ctx = this.ctx;
-    if (ctx) window.setTimeout(() => { if (!this.scene) void ctx.suspend(); }, FADE_OUT * 1000 + 400);
+    if (ctx) window.setTimeout(() => { if (!this.scene && ctx.state === "running") void ctx.suspend().catch(() => {}); }, FADE_OUT * 1000 + 400);
   }
 
   dispose() {
+    this.listener = null;
     this.scene?.stop();
     this.scene = null;
     const ctx = this.ctx;
     this.ctx = null;
     this.master = null;
-    if (ctx) window.setTimeout(() => { void ctx.close(); }, FADE_OUT * 1000 + 400);
+    if (ctx) {
+      ctx.onstatechange = null;
+      window.setTimeout(() => { void ctx.close().catch(() => {}); }, FADE_OUT * 1000 + 400);
+    }
   }
 }
