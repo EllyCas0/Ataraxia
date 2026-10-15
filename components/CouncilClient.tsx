@@ -7,6 +7,7 @@ import { councilModes, historicalOrder, matchPhilosophers, speak, traditionLabel
 import { useAI } from "@/lib/use-ai";
 import OllamaControl from "./OllamaControl";
 import { useAmbientDomain } from "./AmbientProvider";
+import { supportLinks } from "@/lib/support";
 import { analyze } from "@/lib/analyzer";
 import { makeId } from "@/lib/journal";
 import { saveEntry } from "@/lib/journal-storage";
@@ -121,6 +122,12 @@ export default function CouncilClient({
             Ask another question
           </Link>
         </div>
+        {supportLinks.waitlistUrl && (
+          <p className="text-sm text-foreground-muted mt-8">
+            Want unlimited AI and journal sync someday?{" "}
+            <Link href="/support" className="underline underline-offset-2 hover:text-foreground">Join the Pro waitlist</Link>
+          </p>
+        )}
       </div>
     );
   }

@@ -48,6 +48,20 @@ Generative ambient music plays across the whole app and continues between pages.
 
 Browsers block sound until the visitor's first click, tap, or keypress. The app tries to start music on load; if the browser blocks it, a "Tap anywhere to start music" hint appears and music begins on the first interaction. Music pauses while the tab is hidden.
 
+## Support and Pro waitlist
+
+A first step toward sustaining the project, with no accounts or billing code: a `/support` page with a "support this project" payment link and a Pro waitlist. Nothing is shown (no footer link, no page) until you configure at least one link, and the repo holds no account details.
+
+Set these as environment variables (copy `.env.example` to `.env.local` for local use, and add them in your host's settings when deployed):
+
+| Variable | What to put |
+|---|---|
+| `NEXT_PUBLIC_SUPPORT_URL` | A Stripe Payment Link. In the Stripe Dashboard, go to Payment Links, create one, choose "Customers choose what to pay," and copy the `https://buy.stripe.com/...` URL. |
+| `NEXT_PUBLIC_WAITLIST_URL` | A signup form, such as a Tally or Google Form. |
+| `NEXT_PUBLIC_WAITLIST_EMAIL` | Optional fallback: if no form URL is set, the waitlist button opens a prefilled email to this address. |
+
+These values are built into the site, so redeploy (or rebuild) after changing them. Only `https` links are accepted. Once the waitlist is configured, a small "Join the Pro waitlist" note also appears after someone saves a journal entry. The page is honest that Pro isn't built yet and that joining costs nothing.
+
 ## Modules built (spec §22 core)
 
 | Spec module | Route | File |

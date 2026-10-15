@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import SiteHeader from "@/components/SiteHeader";
 import AmbientProvider from "@/components/AmbientProvider";
+import Link from "next/link";
+import { supportEnabled } from "@/lib/support";
 
 export const metadata: Metadata = {
   title: "The Agora — think better, understand civilization",
@@ -24,7 +26,10 @@ export default function RootLayout({
           <footer className="border-t border-border pt-8 pb-24 mt-16 bg-surface/40">
             <div className="max-w-4xl mx-auto px-6 text-sm text-foreground-muted flex flex-col sm:flex-row gap-2 sm:gap-6 justify-between">
               <span>Think better. Understand yourself. Understand civilization.</span>
-              <span className="opacity-70">This platform does not tell you what to believe.</span>
+              <span className="flex flex-col sm:flex-row gap-2 sm:gap-6">
+                <span className="opacity-70">This platform does not tell you what to believe.</span>
+                {supportEnabled && <Link href="/support" className="hover:text-foreground underline underline-offset-2">Support this project</Link>}
+              </span>
             </div>
           </footer>
         </AmbientProvider>
