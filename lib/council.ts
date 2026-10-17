@@ -164,17 +164,36 @@ function periodRank(period: string): number {
 }
 
 export function speak(mode: CouncilMode, p: Philosopher, question: Question): string {
+  if (mode === "socratic") {
+    return `In ${p.name.split(" (")[0]}'s spirit: if it's true that ${lowerFirst(p.frame)}, what does that force you to ask about "${question.text}"?`;
+  }
+
+  // Select from the library rather than inventing a question-specific doctrine.
+  // Score whole normalized tokens so "art" does not match "party".
+  const terms = new Set(normalizedTokens(questionNeedle(question)));
+  function relevance(text: string): number {
+    return [...new Set(normalizedTokens(text))].filter((term) => terms.has(term)).length;
+  }
+  function mostRelevant<T>(items: T[], text: (item: T) => string): T | undefined {
+    return items.reduce<T | undefined>((best, item) =>
+      best === undefined || relevance(text(item)) > relevance(text(best)) ? item : best,
+    undefined);
+  }
+  const argument = mostRelevant(p.majorArguments, (item) => item);
+  const concept = mostRelevant(p.keyConcepts, (item) => `${item.term} ${item.definition}`);
+  const connected = Math.max(relevance(argument ?? ""), relevance(concept ? `${concept.term} ${concept.definition}` : "")) > 0;
+  const connection = connected
+    ? `On "${question.text}", a relevant starting point is`
+    : `The library has no direct argument on "${question.text}" from ${p.name}; a broader starting point is`;
+  const lens = concept ? `${concept.term}: ${concept.definition}` : `${p.name} ${p.frame}.`;
+
   switch (mode) {
     case "compare":
-      return `${p.name} ${p.frame}.`;
-    case "socratic":
-      return `In ${p.name.split(" (")[0]}'s spirit: if it's true that ${lowerFirst(p.frame)}, what does that force you to ask about "${question.text}"?`;
-    case "steelman": {
-      const objection = p.criticisms[0];
-      return `The strongest version of ${p.name.split(" (")[0]}'s position: this thinker ${p.frame}. A natural objection is that ${lowerFirst(objection)} — but the fuller version of the view treats that as a matter of degree and context, not a fatal flaw.`;
-    }
+      return `${connection} ${lens}`;
+    case "steelman":
+      return `${connection} ${lens}${argument ? ` The case in its favor: ${p.name} ${lowerFirst(argument)}` : " The library does not contain a supporting argument for this lens."}`;
     case "historical":
-      return `${p.name} (${p.period}) ${p.frame}.`;
+      return `${p.name} (${p.period}). ${p.context} ${connection} ${argument ? `${p.name} ${lowerFirst(argument)}` : lens}`;
     default:
       return p.frame;
   }
@@ -206,6 +225,6 @@ export function challenge(userPosition: string, pool: Philosopher[]): { philosop
   // not an echo of the user's own words.
   scored.sort((a, b) => a.overlap - b.overlap);
   const picked = scored[0]?.p ?? pool[0];
-  const text = `${picked.name.split(" (")[0]} would push back here. This thinker ${picked.frame}. A pointed question in that spirit: what would you say to someone who accepted your conclusion, but rejected the assumption behind it?`;
+  const text = `A reflection inspired by ${picked.name.split(" (")[0]}: this thinker ${picked.frame}. Which assumption in your position would you reconsider through this lens?`;
   return { philosopher: picked, text };
 }

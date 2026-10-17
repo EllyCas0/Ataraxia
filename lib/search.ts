@@ -1,5 +1,7 @@
 import { philosophers } from "./philosophers";
 import { questions } from "./questions";
+import { domainLabels, domains } from "./domains";
+import { getTradition } from "./traditions";
 import type { Difficulty, Domain, Philosopher, Question } from "./types";
 
 export interface SearchResults {
@@ -14,20 +16,36 @@ export function normalizeSearchText(value: string): string {
     .toLowerCase();
 }
 
+const aliases: Record<string, string> = {
+  libertad: "freedom", justicia: "justice", igualdad: "equality", verdad: "truth",
+  conocimiento: "knowledge", conciencia: "consciousness", consciencia: "consciousness",
+  mente: "mind", dios: "god", belleza: "beauty", arte: "art", vida: "life",
+  sentido: "meaning", historia: "history", derechos: "rights", gobierno: "government",
+  identidad: "identity", felicidad: "happiness", deber: "duty", sufrimiento: "suffering",
+  responsabilidad: "responsibility", poder: "power", etica: "ethics", politica: "political",
+  metafisica: "metaphysics", epistemologia: "epistemology", estetica: "aesthetics",
+  religion: "religion", filosofia: "philosophy",
+};
+const stopWords = new Set(["a", "an", "the", "of", "is", "are", "what", "does", "do", "can", "about", "el", "la", "los", "las", "un", "una", "de", "del", "que", "es", "son", "sobre", "y", "and"]);
+
 export function searchTerms(query: string): string[] {
-  return normalizeSearchText(query)
-    .split(/\s+/)
-    .map((term) => term.trim())
-    .filter(Boolean);
+  return normalizeSearchText(query).match(/[\p{L}\p{N}]+/gu) ?? [];
+}
+
+function canonicalTerms(value: string): string[] {
+  return searchTerms(value).map((term) => aliases[term] ?? term);
 }
 
 export function matchesSearchQuery(haystack: string, query: string): boolean {
-  const normalizedQuery = normalizeSearchText(query.trim());
-  if (!normalizedQuery) return true;
-  if (haystack.includes(normalizedQuery)) return true;
+  const terms = canonicalTerms(query).filter((term) => !stopWords.has(term));
+  if (!terms.length) return !query.trim();
+  const words = new Set(canonicalTerms(haystack));
+  return terms.every((term) => words.has(term) || (term.length >= 4 && [...words].some((word) => word.startsWith(term))));
+}
 
-  const terms = searchTerms(normalizedQuery);
-  return terms.length > 0 && terms.every((term) => haystack.includes(term));
+export function matchingTopics(query: string): Domain[] {
+  if (!query.trim()) return [];
+  return domains.filter((domain) => matchesSearchQuery(domainLabels[domain], query));
 }
 
 export function questionSearchText(question: Question): string {
@@ -35,6 +53,7 @@ export function questionSearchText(question: Question): string {
     [
       question.text,
       question.domain,
+      domainLabels[question.domain],
       question.difficulty,
       ...question.tags,
     ].join(" ")
@@ -54,8 +73,8 @@ export function questionSearchRank(question: Question, query: string): number {
 
   return fields.reduce((score, field) => {
     const haystack = normalizeSearchText(field.value);
-    if (haystack.includes(normalizedQuery)) return score + field.weight;
-    const terms = searchTerms(normalizedQuery).filter((term) => haystack.includes(term));
+    if (matchesSearchQuery(haystack, normalizedQuery)) return score + field.weight;
+    const terms = searchTerms(normalizedQuery).filter((term) => matchesSearchQuery(haystack, term));
     return score + terms.length * Math.floor(field.weight / 4);
   }, 0);
 }
@@ -90,6 +109,7 @@ export function philosopherSearchText(philosopher: Philosopher, traditionNames: 
       philosopher.period,
       ...traditionNames,
       ...philosopher.domains,
+      ...philosopher.domains.map((domain) => domainLabels[domain]),
       ...philosopher.centralQuestions,
       ...philosopher.keyConcepts.flatMap((concept) => [concept.term, concept.definition]),
       ...philosopher.majorArguments,
@@ -118,8 +138,8 @@ export function philosopherSearchRank(philosopher: Philosopher, query: string, t
 
   return fields.reduce((score, field) => {
     const haystack = normalizeSearchText(field.value);
-    if (haystack.includes(normalizedQuery)) return score + field.weight;
-    const terms = searchTerms(normalizedQuery).filter((term) => haystack.includes(term));
+    if (matchesSearchQuery(haystack, normalizedQuery)) return score + field.weight;
+    const terms = searchTerms(normalizedQuery).filter((term) => matchesSearchQuery(haystack, term));
     return score + terms.length * Math.floor(field.weight / 4);
   }, 0);
 }
@@ -131,8 +151,8 @@ export function search(query: string): SearchResults {
   const matchedQuestions = filterQuestions({ query: q });
 
   const matchedPhilosophers = philosophers
-    .filter((p) => matchesSearchQuery(philosopherSearchText(p), q))
-    .sort((a, b) => philosopherSearchRank(b, q) - philosopherSearchRank(a, q));
+    .filter((p) => matchesSearchQuery(philosopherSearchText(p, p.traditions.map((id) => getTradition(id)?.name ?? id)), q))
+    .sort((a, b) => philosopherSearchRank(b, q, b.traditions.map((id) => getTradition(id)?.name ?? id)) - philosopherSearchRank(a, q, a.traditions.map((id) => getTradition(id)?.name ?? id)));
 
   return { questions: matchedQuestions, philosophers: matchedPhilosophers };
 }

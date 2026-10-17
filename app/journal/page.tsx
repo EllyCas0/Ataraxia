@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { JournalEntry } from "@/lib/types";
 import { deleteEntry, getEntries, importEntries, saveEntry } from "@/lib/journal-storage";
+import { matchesSearchQuery } from "@/lib/search";
 import { downloadJson } from "@/lib/download";
 
 export default function JournalPage() {
@@ -50,7 +51,7 @@ export default function JournalPage() {
     );
   }
 
-  const sorted = entries.filter((entry) => [entry.question, entry.initialPosition, entry.reasoning, entry.revisedPosition, entry.remainingUncertainty].join(" ").toLowerCase().includes(query.toLowerCase())).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  const sorted = entries.filter((entry) => matchesSearchQuery([entry.question, entry.initialPosition, entry.reasoning, entry.counterargument, entry.revisedPosition, entry.remainingUncertainty].join(" "), query)).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 
   return (
     <div className="max-w-2xl mx-auto px-6 pt-10 pb-24">
@@ -66,7 +67,7 @@ export default function JournalPage() {
         {sorted.map((e) => (
           <article key={e.id} className="rounded-xl border border-border bg-surface p-5">
             <div className="flex items-baseline justify-between gap-4 text-xs text-foreground-muted mb-2">
-              <span>{new Date(e.createdAt).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}</span>
+              <span>{new Date(e.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</span>
               <button
                 type="button"
                 onClick={() => {
@@ -89,7 +90,7 @@ export default function JournalPage() {
             <Field label="Counterargument" value={e.counterargument} />
             <Field label="Revised position" value={e.revisedPosition} emphasis />
             <Field label="Remaining uncertainty" value={e.remainingUncertainty} />
-            <Link href={`/council?text=${encodeURIComponent(e.question)}`} className="inline-block mt-4 text-sm text-accent-strong underline">Explore this question again</Link>
+            <Link href={`/council?text=${encodeURIComponent(e.question)}`} className="inline-block mt-4 text-sm text-accent-strong underline">Return to this question</Link>
           </article>
         ))}
       </div>

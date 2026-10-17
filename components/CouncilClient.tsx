@@ -3,11 +3,8 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import type { CouncilMode, Philosopher, Question } from "@/lib/types";
-import { councilModes, historicalOrder, matchPhilosophers, speak, traditionLabel } from "@/lib/council";
-import { useAI } from "@/lib/use-ai";
-import OllamaControl from "./OllamaControl";
+import { councilModes, historicalOrder, matchPhilosophers, speak, traditionLabel, challenge } from "@/lib/council";
 import { useAmbientDomain } from "./AmbientProvider";
-import { supportLinks } from "@/lib/support";
 import { analyze } from "@/lib/analyzer";
 import { makeId } from "@/lib/journal";
 import { saveEntry } from "@/lib/journal-storage";
@@ -33,9 +30,7 @@ export default function CouncilClient({
   const [saved, setSaved] = useState(false);
 
   const [challengeResult, setChallengeResult] = useState<{ philosopher: Philosopher; text: string } | null>(null);
-  const [voices, setVoices] = useState<Partial<Record<CouncilMode, Record<string, string>>>>({});
-  const { loading, error, setError, model, setModel, run, cancel } = useAI();
-  const [voiceModels, setVoiceModels] = useState<Partial<Record<CouncilMode, string>>>({});
+  const [error, setError] = useState("");
   const [draftReady, setDraftReady] = useState(false);
   const [draftStatus, setDraftStatus] = useState("");
   const draftKey = `agora:draft:${question.text}`;
@@ -71,18 +66,9 @@ export default function CouncilClient({
     } catch { setDraftStatus("Could not save the draft. Copy your text before leaving."); }
     /* eslint-enable react-hooks/set-state-in-effect */
   }, [draftReady, saved, draftKey, initialPosition, reasoning, revisedPosition, remainingUncertainty, challengeResult]);
-  async function generate(action: "council" | "challenge") {
-      if (action === "council") {
-        const data = await run<Record<string, string>>({ action, text: question.text, slug: question.slug, domain: question.domain, mode });
-        if (!data) return;
-        setVoices((current) => ({ ...current, [mode]: data.result }));
-        setVoiceModels((current) => ({ ...current, [mode]: data.model }));
-      } else {
-        const data = await run<{ philosopher: Philosopher; text: string }>({ action, text: question.text, slug: question.slug, domain: question.domain, position: initialPosition, reasoning });
-        if (!data) return;
-        setChallengeResult(data.result);
-        setChallengeShown(true);
-      }
+  function challengeView() {
+    setChallengeResult(challenge(initialPosition, council));
+    setChallengeShown(true);
   }
   const worthExamining = useMemo(() => {
     if (!challengeShown || !initialPosition.trim()) return [];
@@ -120,15 +106,9 @@ export default function CouncilClient({
             View my journal
           </Link>
           <Link href="/questions" className="rounded-lg border border-border px-6 py-3 hover:border-ring transition-colors">
-            Ask another question
+            Choose another question
           </Link>
         </div>
-        {supportLinks.waitlistUrl && (
-          <p className="text-sm text-foreground-muted mt-8">
-            Want unlimited AI and journal sync someday?{" "}
-            <Link href="/support" className="underline underline-offset-2 hover:text-foreground">Join the Pro waitlist</Link>
-          </p>
-        )}
       </div>
     );
   }
@@ -136,24 +116,19 @@ export default function CouncilClient({
   return (
     <div className="max-w-2xl mx-auto px-6 pt-10 pb-24">
       <h1 className="font-serif text-3xl sm:text-4xl leading-snug mb-6">{question.text}</h1>
-      <p className="text-sm text-foreground-muted mb-4">Start with your own view, or open a perspective below. You can reflect and revise without AI.</p>
+      <p className="text-sm text-foreground-muted mb-4">Read a perspective below, then write and refine your own view.</p>
       <a href="#initial-position" onClick={(event) => {
         event.preventDefault();
         document.getElementById("initial-position")?.focus();
       }} className="inline-block rounded-lg bg-accent-strong text-background px-5 py-3 text-sm font-medium mb-6">Write my initial view</a>
-      <details className="rounded-lg border border-border bg-surface mb-6">
-        <summary className="cursor-pointer px-4 py-3 text-sm font-medium">AI settings</summary>
-        <div className="px-4 pb-1">
-          <OllamaControl model={model} onChange={setModel} disabled={loading} />
-        </div>
-      </details>
 
-      <div className="flex flex-wrap gap-1.5 mb-6">
+      <details className="mb-6 rounded-lg border border-border bg-surface">
+        <summary className="cursor-pointer px-4 py-3 text-sm font-medium">Perspective style: {councilModes.find((item) => item.id === mode)?.label}</summary>
+      <div className="flex flex-wrap gap-2 px-4 pb-4">
         {councilModes.map((m) => (
           <button
             key={m.id}
             type="button"
-            disabled={loading}
             aria-pressed={mode === m.id}
             onClick={() => setMode(m.id)}
             title={m.hint}
@@ -165,20 +140,16 @@ export default function CouncilClient({
           </button>
         ))}
       </div>
+      </details>
 
       <p className="text-xs text-foreground-muted mb-3">
         Generalized from each thinker&apos;s philosophy — not a literal quotation.
       </p>
-      <button type="button" disabled={loading} onClick={() => generate("council")} className="rounded-lg border border-border px-4 py-2 text-sm mb-3 disabled:opacity-40">
-        {loading ? "Exploring perspectives…" : "Explore perspectives"}
-      </button>
-      {loading && <button type="button" onClick={cancel} className="ml-3 text-sm underline">Cancel generation</button>}
-      <p role="status" className="text-xs text-foreground-muted mb-3">{loading ? "Your local model is thinking. This can take a few minutes." : voices[mode] ? `Generated locally with ${voiceModels[mode]}` : "Showing reference perspectives. Generate to explore this question with local AI."}</p>
       {error && <p role="alert" className="text-sm text-foreground-muted mb-4">{error}</p>}
 
       <div className="space-y-3 mb-10">
         {ordered.map((p) => (
-          <PhilosopherVoice key={p.slug} philosopher={p} line={voices[mode]?.[p.slug] ?? speak(mode, p, question)} />
+          <PhilosopherVoice key={p.slug} philosopher={p} line={speak(mode, p, question)} />
         ))}
       </div>
 
@@ -190,7 +161,6 @@ export default function CouncilClient({
           id="initial-position"
           value={initialPosition}
           maxLength={12000}
-          disabled={loading}
           onChange={(e) => {
             setInitialPosition(e.target.value);
             setChallengeShown(false);
@@ -205,7 +175,6 @@ export default function CouncilClient({
         <textarea
           value={reasoning}
           maxLength={12000}
-          disabled={loading}
           onChange={(e) => { setReasoning(e.target.value); setChallengeShown(false); setChallengeResult(null); }}
           aria-label="Reasoning"
           rows={2}
@@ -215,21 +184,21 @@ export default function CouncilClient({
         {!challengeShown && (
           <button
             type="button"
-            disabled={!initialPosition.trim() || loading}
-            onClick={() => generate("challenge")}
+            disabled={!initialPosition.trim()}
+            onClick={challengeView}
             className="rounded-lg bg-accent-strong text-background font-medium px-5 py-2.5 text-sm hover:opacity-90 transition-opacity disabled:opacity-40"
           >
-            {loading ? "Preparing a challenge…" : "Challenge my view"}
+            Consider another angle
           </button>
         )}
 
-        {initialPosition.trim() && !challengeShown && <button type="button" onClick={saveToJournal} disabled={loading} className="ml-3 text-sm underline disabled:opacity-40">Save this reflection without a challenge</button>}
+        {initialPosition.trim() && !challengeShown && <button type="button" onClick={saveToJournal} className="ml-3 text-sm underline disabled:opacity-40">Save reflection</button>}
         <button type="button" onClick={() => setRevisionOpen(true)} aria-expanded={Boolean(revisionOpen || challengeShown || revisedPosition || remainingUncertainty)} aria-controls="personal-revision" className="block mt-4 mb-4 rounded-lg border border-border px-5 py-2.5 text-sm hover:border-ring">Revise on my own</button>
         {(revisionOpen || challengeShown || revisedPosition || remainingUncertainty) && (
           <div id="personal-revision" className="mt-2 space-y-4">
             {challengeResult && <div className="rounded-lg border border-border bg-surface-muted p-4">
               <p className="text-xs uppercase tracking-wide text-foreground-muted mb-1.5">
-                Challenge, from {challengeResult.philosopher.name.split(" (")[0]}
+                Reflection inspired by {challengeResult.philosopher.name.split(" (")[0]}
               </p>
               <p className="text-sm leading-relaxed">{challengeResult.text}</p>
             </div>}
@@ -253,7 +222,6 @@ export default function CouncilClient({
               <textarea
                 value={revisedPosition}
                 maxLength={12000}
-                disabled={loading}
                 onChange={(e) => setRevisedPosition(e.target.value)}
                 aria-label="Revised position"
                 rows={3}
@@ -268,7 +236,6 @@ export default function CouncilClient({
                 id="remaining-uncertainty"
                 value={remainingUncertainty}
                 maxLength={12000}
-                disabled={loading}
                 onChange={(e) => setRemainingUncertainty(e.target.value)}
                 aria-label="Remaining uncertainty"
                 rows={2}
@@ -279,7 +246,7 @@ export default function CouncilClient({
             <button
               type="button"
               onClick={saveToJournal}
-              disabled={!initialPosition.trim() || loading}
+              disabled={!initialPosition.trim()}
               className="w-full rounded-lg bg-accent-strong text-background font-medium px-6 py-3.5 hover:opacity-90 transition-opacity"
             >
               Save to my journal

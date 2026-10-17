@@ -40,8 +40,8 @@ export default function PhilosophersPage() {
     <div className="max-w-4xl mx-auto px-6 pt-10 pb-24">
       <div className="mb-8 grid lg:grid-cols-[1fr_16rem] gap-6 items-end">
         <div>
-          <p className="text-xs uppercase tracking-wide text-accent-cool mb-2">Explore lenses</p>
-          <h1 className="font-serif text-3xl sm:text-4xl mb-2">Philosophy Explorer</h1>
+          <p className="text-xs uppercase tracking-wide text-accent-cool mb-2">Different perspectives</p>
+          <h1 className="font-serif text-3xl sm:text-4xl mb-2">Meet the thinkers</h1>
           <p className="text-foreground-muted leading-relaxed">
             {philosophers.length} thinkers across {traditions.length} traditions. Search by idea, then narrow by tradition, domain, or historical period.
           </p>
@@ -64,7 +64,9 @@ export default function PhilosophersPage() {
           className="focusable w-full rounded-lg border border-border bg-surface px-4 py-3 text-sm shadow-sm mb-4"
         />
 
-        <div className="space-y-4">
+        <details>
+          <summary className="cursor-pointer text-sm font-medium py-2">Filter thinkers{tradition || domain || period ? " · Filters active" : ""}</summary>
+        <div className="space-y-4 pt-3">
           <FilterGroup label="Tradition">
             <Chip active={tradition === null} onClick={() => setTradition(null)} label="All" />
             {traditions.map((t) => (
@@ -86,6 +88,7 @@ export default function PhilosophersPage() {
             ))}
           </FilterGroup>
         </div>
+        </details>
       </div>
 
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
@@ -134,6 +137,7 @@ function Chip({ active, onClick, label }: { active: boolean; onClick: () => void
     <button
       type="button"
       onClick={onClick}
+      aria-pressed={active}
       className={`text-xs px-3 py-1.5 rounded-md border transition-colors ${
         active ? "border-accent-strong bg-accent-strong text-background" : "border-border bg-surface text-foreground-muted hover:border-ring"
       }`}

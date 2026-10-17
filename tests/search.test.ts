@@ -84,3 +84,29 @@ test("philosopher search text includes concept definitions", () => {
 
   assert.equal(matchesSearchQuery(haystack, "doubting everything"), true);
 });
+
+test("search respects words rather than accidental substrings", () => {
+  assert.equal(matchesSearchQuery("aesthetics", "ethics"), false);
+  assert.equal(matchesSearchQuery("artificial intelligence", "art"), false);
+  assert.equal(matchesSearchQuery("chair", "AI"), false);
+  assert.equal(matchesSearchQuery("Friedrich Nietzsche", "nietz"), true);
+});
+
+test("search ignores punctuation and common connecting words", () => {
+  assert.equal(matchesSearchQuery("free will choice", "What is free-will?"), true);
+  assert.equal(matchesSearchQuery("truth democracy", "truth, democracy!"), true);
+  assert.equal(matchesSearchQuery("truth", "   "), true);
+  assert.equal(matchesSearchQuery("truth", "???"), false);
+});
+
+test("Spanish topic searches find English library content", () => {
+  for (const [spanish, english] of [["libertad", "freedom"], ["justicia", "justice"], ["ética", "ethics"], ["belleza", "beauty"]]) {
+    assert.deepEqual(filterQuestions({ query: spanish }).map((q) => q.slug), filterQuestions({ query: english }).map((q) => q.slug));
+    assert.ok(filterQuestions({ query: spanish }).length > 0);
+  }
+});
+
+test("human topic labels match questions despite stored domain hyphens", () => {
+  assert.ok(filterQuestions({ query: "Political Philosophy" }).length > 0);
+  assert.ok(filterQuestions({ query: "Philosophy of Mind" }).length > 0);
+});

@@ -2,9 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { useAI } from "@/lib/use-ai";
 import { analyze } from "@/lib/analyzer";
-import OllamaControl from "@/components/OllamaControl";
 import { downloadJson } from "@/lib/download";
 import type { AnalyzerFlag, AnalyzerResult } from "@/lib/types";
 
@@ -13,53 +11,43 @@ const PLACEHOLDER = "Paste a social media post, an essay excerpt, a speech, or y
 export default function AnalyzePage() {
   const [text, setText] = useState("");
   const [result, setResult] = useState<AnalyzerResult | null>(null);
-  const { loading, error, setError, model, setModel, run: generate, cancel } = useAI();
-  const [source, setSource] = useState("");
+  const source = "English language pattern review";
 
-  async function run(e: React.FormEvent) {
+  function run(e: React.FormEvent) {
     e.preventDefault();
     if (!text.trim()) return;
-    setResult(null);
-      const data = await generate<AnalyzerResult>({ action: "analyze", text });
-      if (!data) return;
-      setResult(data.result);
-      setSource(`Generated locally with ${data.model}`);
+    setResult(analyze(text));
   }
 
   return (
     <div className="max-w-2xl mx-auto px-6 pt-10 pb-24">
-      <h1 className="font-serif text-3xl mb-2">Argument Analyzer</h1>
+      <h1 className="font-serif text-3xl mb-2">Review your writing</h1>
       <p className="text-foreground-muted mb-6">
-        Paste any text and see it broken into claim, evidence, logic, rhetoric, values, and uncertainty.
+        Find the main claim, supporting reasons, and wording worth reconsidering.
       </p>
       <p className="text-xs text-foreground-muted mb-6 rounded-lg border border-border bg-surface-muted p-3">
-        An AI model running locally through Ollama examines your argument. Its suggestions can be mistaken, and factual claims still require sources.
+        This review looks for common patterns in English text. Use it as a guide to reflection; it does not verify facts.
       </p>
 
       <form onSubmit={run}>
-        <OllamaControl model={model} onChange={setModel} disabled={loading} />
         <textarea
           maxLength={12000}
           value={text}
-          disabled={loading}
-          onChange={(e) => { setText(e.target.value); setResult(null); setError(""); }}
+          onChange={(e) => { setText(e.target.value); setResult(null); }}
           aria-label="Text to analyze"
           rows={8}
           placeholder={PLACEHOLDER}
           className="w-full rounded-lg border border-border bg-surface px-4 py-3 text-sm outline-none focus:border-ring focus:ring-1 focus:ring-ring resize-none mb-3"
         />
-        <p className="text-xs text-foreground-muted mb-3">{text.length.toLocaleString()} / 12,000 characters</p>
+        <p className="text-xs text-foreground-muted mb-3">{text.length.toLocaleString("en-US")} / 12,000 characters</p>
         <button
           type="submit"
-          disabled={!text.trim() || loading}
+          disabled={!text.trim()}
           className="rounded-lg bg-accent-strong text-background font-medium px-6 py-3 hover:opacity-90 transition-opacity disabled:opacity-40"
         >
-          {loading ? "Analyzing with Ollama…" : "Analyze with Ollama"}
+          Review text
         </button>
-        {loading ? <button type="button" onClick={cancel} className="ml-3 text-sm underline">Cancel</button> : <button type="button" disabled={!text.trim()} onClick={() => { setResult(analyze(text)); setSource("Quick scan using local language patterns (English). No AI model used."); setError(""); }} className="ml-3 text-sm underline disabled:opacity-40">Quick scan without AI</button>}
       </form>
-      {loading && <p role="status" className="mt-4 text-sm text-foreground-muted">Your local model is thinking. This can take a few minutes.</p>}
-      {error && <p role="alert" className="mt-4 text-sm text-foreground-muted">{error}</p>}
       {result && <p className="mt-4 text-xs text-foreground-muted">{source}</p>}
       {result && <button type="button" onClick={() => downloadJson("agora-analysis.json", { text, source, result })} className="mt-3 text-sm underline">Export analysis</button>}
 
@@ -134,6 +122,9 @@ function Block({ title, children }: { title: string; children: React.ReactNode }
 }
 
 function Flags({ flags }: { flags: AnalyzerFlag[] }) {
+  if (flags.length === 0) {
+    return <p className="text-sm text-foreground-muted">No matching patterns found.</p>;
+  }
   return (
     <ul className="space-y-2.5">
       {flags.map((f) => (

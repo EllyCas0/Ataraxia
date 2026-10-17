@@ -68,6 +68,17 @@ export function parseProfile(value: unknown): ProfileState {
   return profile;
 }
 
+export function parseProfileBackup(value: unknown): ProfileState {
+  if (!isStringRecord(value)
+    || !DIMENSIONS.every((dimension) => Array.isArray(value[dimension])
+      && value[dimension].every((id: unknown) => typeof id === "string"))
+    || !isStringRecord(value.notes)
+    || !Object.values(value.notes).every((note) => typeof note === "string")) {
+    throw new Error("Invalid profile backup. Choose a JSON file exported from your profile.");
+  }
+  return parseProfile(value);
+}
+
 export function togglePosition(profile: ProfileState, dimension: ProfileDimension, id: string): ProfileState {
   const current = profile[dimension];
   const next = current.includes(id) ? current.filter((x) => x !== id) : [...current, id];

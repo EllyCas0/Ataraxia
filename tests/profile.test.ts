@@ -1,6 +1,27 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createEmptyProfile, findTensions, parseProfile, selectedPositionDetails, togglePosition, updatePositionNote } from "../lib/profile";
+import { createEmptyProfile, findTensions, parseProfile, parseProfileBackup, selectedPositionDetails, togglePosition, updatePositionNote } from "../lib/profile";
+
+test("profile backups round-trip all dimensions and notes, including empty profiles", () => {
+  const profile = {
+    ethics: ["virtue", "care"], epistemology: ["fallibilism"], metaphysics: ["dualism"],
+    "political-philosophy": ["liberalism"], notes: { virtue: "Una razón personal", dualism: "Mind and body" },
+  };
+  for (const original of [profile, createEmptyProfile()]) {
+    assert.deepEqual(parseProfileBackup(JSON.parse(JSON.stringify(original))), original);
+  }
+});
+
+test("profile backup validation rejects unrelated and malformed data", () => {
+  for (const value of [null, [], {}, { entries: [] },
+    { ...createEmptyProfile(), ethics: "virtue" },
+    { ...createEmptyProfile(), ethics: [42] },
+    { ...createEmptyProfile(), notes: [] },
+    { ...createEmptyProfile(), notes: { virtue: 42 } },
+  ]) {
+    assert.throws(() => parseProfileBackup(value), /Invalid profile backup/);
+  }
+});
 
 test("creates a fresh empty profile", () => {
   const first = createEmptyProfile();

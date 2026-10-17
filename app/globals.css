@@ -53,9 +53,7 @@
 }
 
 body {
-  background:
-    linear-gradient(120deg, rgb(79 111 130 / 0.09), transparent 34rem),
-    linear-gradient(180deg, var(--background), color-mix(in srgb, var(--background) 88%, var(--surface-muted)));
+  background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
 }
@@ -71,6 +69,24 @@ h1, h2, h3, .font-serif {
 
 .prose-calm {
   line-height: 1.75;
+}
+
+.home-daily {
+  background: #31493c;
+  color: #f5f0e5;
+}
+
+.home-daily::before {
+  content: "";
+  position: absolute;
+  width: 19rem;
+  height: 19rem;
+  right: -10rem;
+  top: 3rem;
+  border: 1px solid rgb(245 240 229 / 0.1);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2.5rem rgb(245 240 229 / 0.035), 0 0 0 5rem rgb(245 240 229 / 0.025);
+  pointer-events: none;
 }
 
 .paper-panel {
@@ -98,7 +114,7 @@ button, a, input, select, textarea {
   -webkit-tap-highlight-color: transparent;
 }
 
-button:focus-visible, a:focus-visible, select:focus-visible {
+button:focus-visible, a:focus-visible, select:focus-visible, summary:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 4px;
 }

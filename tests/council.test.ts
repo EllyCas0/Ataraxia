@@ -9,6 +9,33 @@ import {
   traditionLabel,
 } from "../lib/council";
 import { getQuestion, questionFromText } from "../lib/questions";
+import { philosophers } from "../lib/philosophers";
+
+test("perspectives select different library content for different questions", () => {
+  const rawls = philosophers.find((p) => p.slug === "rawls")!;
+  const distribution = questionFromText("Are inequalities justified by benefits to the least advantaged?");
+  const pluralism = questionFromText("Can justice ground a stable pluralistic society without a shared religious worldview?");
+
+  for (const mode of ["compare", "steelman", "historical"] as const) {
+    const first = speak(mode, rawls, distribution);
+    const second = speak(mode, rawls, pluralism);
+    // Removing the question must still leave different substantive content.
+    assert.notEqual(first.replace(distribution.text, ""), second.replace(pluralism.text, ""));
+    assert.ok(first.includes(distribution.text));
+    assert.ok(second.includes(pluralism.text));
+  }
+  assert.match(speak("compare", rawls, distribution), /The difference principle/);
+  assert.match(speak("steelman", rawls, pluralism), /without requiring citizens to share/);
+  assert.ok(speak("historical", rawls, pluralism).includes(rawls.context));
+});
+
+test("unmatched questions disclose the limits of the library", () => {
+  const rawls = philosophers.find((p) => p.slug === "rawls")!;
+  const question = questionFromText("Zyzzyva?");
+  for (const mode of ["compare", "steelman", "historical"] as const) {
+    assert.match(speak(mode, rawls, question), /no direct argument/);
+  }
+});
 
 test("matches a five-person council for curated questions", () => {
   const question = getQuestion("objective-truth");
@@ -83,7 +110,7 @@ test("challenge returns a council philosopher and a reflective question", () => 
   const result = challenge("Liberty should always defeat collective welfare.", council);
 
   assert.ok(council.some((p) => p.slug === result.philosopher.slug));
-  assert.match(result.text, /would push back here/);
+  assert.match(result.text, /reflection inspired by/);
   assert.match(result.text, /\?$/);
 });
 

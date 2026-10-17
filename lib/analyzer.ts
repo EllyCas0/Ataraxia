@@ -1,11 +1,8 @@
 import { philosophers } from "./philosophers";
 import type { AnalyzerFlag, AnalyzerResult, Philosopher } from "./types";
 
-// The spec's "Argument Analyzer" (module D), built as transparent pattern
-// matching rather than a real NLP/LLM pipeline — see README for the tradeoff.
-// It flags patterns worth a second look; it does not adjudicate whether an
-// argument is actually good or bad. `analyze` is the seam to swap for a real
-// reasoning-layer model later.
+// Reviews English text using local language patterns and the bundled library.
+// Flags invite reflection rather than judging an argument's validity.
 
 const ABSOLUTE_WORDS = ["always", "never", "everyone", "no one", "nobody", "everybody", "all people", "every single", "impossible", "undeniable", "obviously", "clearly", "completely", "totally", "entirely"];
 const HEDGE_WORDS = ["might", "may", "could", "perhaps", "possibly", "seems", "arguably", "i think", "in my opinion", "it's possible", "likely", "suggests"];

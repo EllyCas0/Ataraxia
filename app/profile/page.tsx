@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ProfileDimension, ProfileState } from "@/lib/types";
-import { createEmptyProfile, findTensions, positionOptions, selectedPositionDetails, togglePosition, updatePositionNote } from "@/lib/profile";
+import { createEmptyProfile, findTensions, parseProfileBackup, positionOptions, selectedPositionDetails, togglePosition, updatePositionNote } from "@/lib/profile";
 import { getProfile, saveProfile } from "@/lib/profile-storage";
 import { downloadJson } from "@/lib/download";
 
@@ -17,6 +17,32 @@ const DIMENSIONS: { id: ProfileDimension; label: string }[] = [
 export default function ProfilePage() {
   const [profile, setProfile] = useState<ProfileState | null>(null);
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
+  const [importing, setImporting] = useState(false);
+  const fileInput = useRef<HTMLInputElement>(null);
+
+  async function restore(file?: File) {
+    if (!file) return;
+    setImporting(true);
+    setError("");
+    setNotice("");
+    try {
+      if (file.size > 5_000_000) throw new Error("Choose a backup smaller than 5 MB.");
+      let value: unknown;
+      try { value = JSON.parse(await file.text()); }
+      catch { throw new Error("Could not read the backup. Choose a valid JSON profile export."); }
+      const next = parseProfileBackup(value);
+      if (!confirm("Replace your current profile and notes with this backup? Export your current profile first if you want to keep it.")) return;
+      try { saveProfile(next); }
+      catch { throw new Error("Could not save the imported profile. Browser storage may be full or disabled. Your current profile has been kept."); }
+      setProfile(next);
+      setNotice("Profile imported. Your positions and notes have been restored.");
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Could not import the backup.");
+    } finally {
+      setImporting(false);
+    }
+  }
   function persist(next: ProfileState) {
     setProfile(next);
     try { saveProfile(next); setError(""); } catch { setError("Your changes could not be saved. Export your profile before leaving; browser storage may be full or disabled."); }
@@ -49,7 +75,12 @@ export default function ProfilePage() {
     <div className="max-w-2xl mx-auto px-6 pt-10 pb-24">
       <h1 className="font-serif text-3xl mb-2">Personal Philosophy</h1>
       {error && <p role="alert" className="text-sm mb-4">{error}</p>}
-      <button type="button" onClick={() => downloadJson("agora-profile.json", profile)} className="text-sm underline mb-4">Export my profile</button>
+      {notice && <p role="status" className="text-sm mb-4">{notice}</p>}
+      <div className="flex flex-wrap items-center gap-4 mb-4 text-sm">
+        <button type="button" onClick={() => downloadJson("agora-profile.json", profile)} className="underline">Export my profile</button>
+        <button type="button" disabled={importing} onClick={() => fileInput.current?.click()} className="underline disabled:opacity-40">{importing ? "Importing…" : "Import my profile"}</button>
+        <input ref={fileInput} type="file" accept="application/json,.json" aria-label="Import profile backup" className="hidden" onChange={(event) => { const file = event.target.files?.[0]; event.target.value = ""; void restore(file); }} />
+      </div>
       <p className="text-foreground-muted mb-2">
         Not a personality test — just the positions you&apos;ve explicitly chosen to hold, described in your own view. Select as many or as few as feel true.
       </p>
@@ -177,7 +208,7 @@ export default function ProfilePage() {
               Put your political and ethical commitments under pressure
             </Link>
             <Link href="/questions" className="block text-sm text-accent-strong hover:underline">
-              Browse questions by domain
+              Browse questions
             </Link>
           </div>
         </section>

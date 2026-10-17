@@ -1,104 +1,47 @@
 import Link from "next/link";
-import QuestionInput from "@/components/QuestionInput";
+import { domainLabels } from "@/lib/domains";
 import ContinueThinking from "@/components/ContinueThinking";
-import { todaysQuestion, questions } from "@/lib/questions";
-import { philosophers } from "@/lib/philosophers";
+import { todaysQuestion } from "@/lib/questions";
+import { matchPhilosophers } from "@/lib/council";
 
 export default function Home() {
   const daily = todaysQuestion();
-  const featured = philosophers.filter((p) =>
-    ["kant", "hegel", "marx", "nietzsche", "arendt", "confucius"].includes(p.slug)
-  );
-  const challengeQuestion = questions[(new Date().getDate() + 7) % questions.length];
+  const thinker = matchPhilosophers(daily)[0];
 
   return (
-    <div className="max-w-4xl mx-auto px-6 pt-12 sm:pt-16 pb-24">
-      <section className="grid lg:grid-cols-[1fr_18rem] gap-8 items-center">
+    <div className="max-w-4xl mx-auto px-6 pt-12 sm:pt-20 pb-12">
+      <section aria-labelledby="welcome-title" className="grid gap-8 md:grid-cols-[1.35fr_1fr] md:gap-12 items-center">
         <div>
-          <p className="text-xs uppercase tracking-wide text-accent-warm mb-3">A quieter way to think in public or private</p>
-          <h1 className="font-serif text-4xl sm:text-6xl leading-tight">
-            What are you thinking about?
+          <h1 id="welcome-title" className="font-serif text-5xl sm:text-6xl leading-[1.08] tracking-tight">
+            Follow your<br /><span className="italic text-accent">curiosity.</span>
           </h1>
-          <p className="text-foreground-muted mt-5 mb-8 max-w-2xl leading-relaxed">
-            Bring a question, compare several philosophical lenses, then write the position you can actually defend.
+          <p className="text-foreground-muted mt-5 mb-7 leading-relaxed">
+            Different perspectives. Your own point of view.
           </p>
-
-          <QuestionInput />
+          <form action="/questions" role="search" className="flex flex-col sm:flex-row gap-2 rounded-xl border border-border bg-surface p-2 shadow-sm focus-within:border-ring">
+            <label htmlFor="topic-search" className="sr-only">Search for a topic</label>
+            <input id="topic-search" name="q" type="search" required maxLength={200} placeholder="A topic on your mind…" className="focusable min-w-0 flex-1 rounded-lg bg-surface px-3 py-3 text-sm" />
+            <button type="submit" className="rounded-lg bg-accent-strong text-background px-5 py-3 text-sm font-medium hover:opacity-90">Search →</button>
+          </form>
+          <Link href="/questions" className="inline-flex min-h-11 items-center mt-2 text-sm text-accent hover:underline underline-offset-4">Browse questions</Link>
         </div>
 
-        <div className="paper-panel hairline-grid rounded-xl border border-border p-5">
-          <p className="text-xs uppercase tracking-wide text-foreground-muted mb-4">Today&apos;s path</p>
-          <div className="space-y-3">
-            {["Ask", "Compare", "Revise"].map((step, index) => (
-              <div key={step} className="flex items-center gap-3 rounded-lg border border-border bg-surface/80 p-3">
-                <span className="grid h-7 w-7 place-items-center rounded-md bg-surface-muted text-xs font-medium text-accent-strong">
-                  {index + 1}
-                </span>
-                <span className="text-sm font-medium">{step}</span>
-              </div>
-            ))}
+        <aside aria-label="Today's inspiration" className="home-daily relative flex flex-col gap-6 overflow-hidden rounded-2xl p-7 sm:p-8">
+          <div className="relative">
+            <p className="text-xs uppercase tracking-[0.16em] opacity-75 mb-2">Today’s topic</p>
+            <Link href={`/questions?domain=${daily.domain}`} className="font-serif text-2xl hover:underline underline-offset-4">{domainLabels[daily.domain]} →</Link>
           </div>
-        </div>
+          <Link href={`/council?slug=${daily.slug}`} className="relative group">
+            <h2 className="font-serif text-3xl leading-snug">{daily.text}</h2>
+            <span className="inline-block text-sm mt-3 group-hover:underline underline-offset-4">Consider this question →</span>
+          </Link>
+          {thinker && <div className="relative border-t border-current/20 pt-4">
+            <p className="text-xs opacity-75 mb-1">A thinker to meet</p>
+            <Link href={`/philosophers/${thinker.slug}`} className="text-sm hover:underline underline-offset-4">{thinker.name} ↗</Link>
+          </div>}
+        </aside>
       </section>
-
-      <div className="mt-12 grid sm:grid-cols-3 gap-3">
-        <InfoBlock title="Compare" text="See how different traditions frame the same question without collapsing them into one answer." />
-        <InfoBlock title="Pressure-test" text="Write your own view, then let the Council expose assumptions, values, and possible weak spots." />
-        <InfoBlock title="Return" text="Save revised positions privately and watch how your thinking changes across questions." />
-      </div>
-
-      <div className="mt-14 rounded-xl border border-border bg-surface p-6 shadow-sm">
-        <p className="text-xs uppercase tracking-wide text-accent-cool mb-2">Today&apos;s question</p>
-        <h2 className="font-serif text-2xl sm:text-3xl leading-snug mb-4">{daily.text}</h2>
-        <Link
-          href={`/council?slug=${daily.slug}`}
-          className="inline-block rounded-lg bg-accent-strong text-background font-medium px-5 py-2.5 text-sm shadow-sm hover:opacity-90 transition-opacity"
-        >
-          Explore
-        </Link>
-      </div>
-
-      <div className="mt-8 flex flex-wrap items-center gap-x-2 gap-y-2 text-sm text-foreground-muted">
-        <span>Thinkers</span>
-        {featured.map((p, i) => (
-          <span key={p.slug}>
-            {i > 0 && <span className="mx-1">·</span>}
-            <Link href={`/philosophers/${p.slug}`} className="hover:text-accent-strong hover:underline underline-offset-2">
-              {p.name.split(" (")[0]}
-            </Link>
-          </span>
-        ))}
-      </div>
-
       <ContinueThinking />
-
-      <div className="mt-8 rounded-xl border border-border bg-surface/70 p-6">
-        <p className="text-xs uppercase tracking-wide text-accent-warm mb-2">Challenge yourself</p>
-        <p className="mb-4">
-          Defend a position you disagree with: <span className="font-serif text-lg">{challengeQuestion.text}</span>
-        </p>
-        <Link
-          href={`/council?slug=${challengeQuestion.slug}&mode=steelman`}
-          className="inline-block rounded-lg border border-border px-5 py-2.5 text-sm hover:border-ring transition-colors"
-        >
-          Start
-        </Link>
-      </div>
-
-      <p className="text-center mt-10">
-        <Link href="/questions" className="text-sm text-foreground-muted hover:text-accent-strong hover:underline">
-          Browse all questions →
-        </Link>
-      </p>
-    </div>
-  );
-}
-
-function InfoBlock({ title, text }: { title: string; text: string }) {
-  return (
-    <div className="rounded-lg border border-border bg-surface px-4 py-3 shadow-sm">
-      <h2 className="font-medium text-sm">{title}</h2>
-      <p className="text-xs text-foreground-muted leading-relaxed mt-1">{text}</p>
     </div>
   );
 }

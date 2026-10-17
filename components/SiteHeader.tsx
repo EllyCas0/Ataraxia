@@ -5,11 +5,14 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const NAV = [
+  { href: "/", label: "Home" },
   { href: "/questions", label: "Questions" },
+  { href: "/journal", label: "My journal" },
+];
+const MORE = [
   { href: "/philosophers", label: "Philosophers" },
-  { href: "/analyze", label: "Analyze" },
-  { href: "/journal", label: "Journal" },
-  { href: "/profile", label: "Profile" },
+  { href: "/analyze", label: "Review my writing" },
+  { href: "/profile", label: "My profile" },
 ];
 
 export default function SiteHeader() {
@@ -31,7 +34,7 @@ export default function SiteHeader() {
             <Link
               key={item.href}
               href={item.href}
-              aria-current={pathname === item.href ? "page" : undefined}
+              aria-current={pathname === item.href || pathname.startsWith(`${item.href}/`) ? "page" : undefined}
               className={`hover:text-foreground transition-colors whitespace-nowrap shrink-0 ${
                 pathname === item.href ? "text-foreground" : ""
               }`}
@@ -39,6 +42,14 @@ export default function SiteHeader() {
               {item.label}
             </Link>
           ))}
+          <details key={pathname} className="relative">
+            <summary className={`cursor-pointer rounded-lg px-2 py-2 ${MORE.some((item) => pathname.startsWith(item.href)) ? "text-foreground" : ""}`}>More</summary>
+            <div className="absolute right-0 top-full mt-2 w-48 rounded-xl border border-border bg-surface p-2 shadow-lg">
+              {MORE.map((item) => (
+                <Link key={item.href} href={item.href} aria-current={pathname.startsWith(item.href) ? "page" : undefined} className="block rounded-lg px-3 py-3 hover:bg-surface-muted hover:text-foreground">{item.label}</Link>
+              ))}
+            </div>
+          </details>
         </nav>
         <button
           type="button"
@@ -62,7 +73,7 @@ export default function SiteHeader() {
           className="md:hidden border-t border-border/80 bg-background/96 shadow-sm"
         >
           <div className="max-w-4xl mx-auto px-3 py-3">
-            {NAV.map((item) => (
+            {[...NAV, ...MORE].map((item) => (
               <Link
                 key={item.href}
                 onClick={() => setMenu({ pathname, open: false })}

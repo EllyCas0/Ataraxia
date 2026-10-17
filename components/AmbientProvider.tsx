@@ -68,10 +68,8 @@ export default function AmbientProvider({ children }: { children: React.ReactNod
       setVolume(volumeRef.current);
     }
 
-    // Music is on unless the visitor has turned it off before. Browsers block
-    // sound until the first click, tap, or keypress, so if the attempt below is
-    // blocked it starts on that first interaction instead.
-    const want = readStorage(PREF_KEY) !== "off";
+    // Sound starts only after the visitor explicitly enables it.
+    const want = readStorage(PREF_KEY) === "on";
     wantedRef.current = want;
     setWanted(want);
     if (want) p.start(domainRef.current, volumeRef.current / 100);
@@ -132,7 +130,7 @@ export default function AmbientProvider({ children }: { children: React.ReactNod
         <div className="fixed bottom-4 right-4 z-50 flex items-center gap-2 pb-[env(safe-area-inset-bottom)]">
           {status === "waiting" && (
             <p role="status" className="rounded-full border border-border bg-surface px-3 py-1.5 text-xs text-foreground-muted shadow-sm">
-              Tap anywhere to start music
+              Music paused
             </p>
           )}
           {status === "playing" && (
