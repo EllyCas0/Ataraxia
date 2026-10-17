@@ -28,11 +28,13 @@ export default function JournalPage() {
 
   useEffect(() => {
     // localStorage only exists in the browser — read after mount so SSR markup matches.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setEntries(getEntries());
+    /* eslint-disable react-hooks/set-state-in-effect */
+    try { setEntries(getEntries()); }
+    catch (error) { setNotice((error as Error).message); }
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
-  if (entries === null) return <p role="status" className="max-w-2xl mx-auto px-6 py-16">Loading your journal…</p>;
+  if (entries === null) return <p role={notice ? "alert" : "status"} className="max-w-2xl mx-auto px-6 py-16">{notice || "Loading your journal…"}</p>;
 
   if (entries.length === 0) {
     return (

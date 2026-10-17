@@ -7,14 +7,19 @@ import { getEntries } from "@/lib/journal-storage";
 
 export default function ContinueThinking() {
   const [latest, setLatest] = useState<JournalEntry | null | undefined>(undefined);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     // localStorage only exists in the browser — read after mount so SSR markup matches.
-    const entries = getEntries();
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setLatest([...entries].sort((a, b) => b.createdAt.localeCompare(a.createdAt))[0] ?? null);
+    /* eslint-disable react-hooks/set-state-in-effect */
+    try {
+      const entries = getEntries();
+      setLatest([...entries].sort((a, b) => b.createdAt.localeCompare(a.createdAt))[0] ?? null);
+    } catch (error) { setError((error as Error).message); }
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
+  if (error) return <p role="alert" className="mt-8 text-sm text-foreground-muted">{error}</p>;
   if (!latest) return null;
 
   return (

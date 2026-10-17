@@ -1,7 +1,7 @@
 "use client";
 
 import type { JournalEntry } from "./types";
-import { appendEntry, mergeJournalEntries, parseJournalEntries, removeEntry } from "./journal";
+import { appendEntry, isJournalEntry, mergeJournalEntries, removeEntry } from "./journal";
 
 const KEY = "agora:journal";
 
@@ -9,9 +9,12 @@ export function getEntries(): JournalEntry[] {
   if (typeof window === "undefined") return [];
   try {
     const raw = window.localStorage.getItem(KEY);
-    return parseJournalEntries(raw ? JSON.parse(raw) : []);
+    if (raw === null) return [];
+    const entries: unknown = JSON.parse(raw);
+    if (!Array.isArray(entries) || !entries.every(isJournalEntry)) throw new Error("Invalid journal data");
+    return entries;
   } catch {
-    return [];
+    throw new Error("Could not read your journal. Your stored data has not been changed. Try reloading the page.");
   }
 }
 

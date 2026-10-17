@@ -91,7 +91,7 @@ export default function CouncilClient({
     });
     setSaved(true);
     try { window.localStorage.removeItem(draftKey); } catch { /* Journal was saved successfully. */ }
-    } catch { setError("Could not save your journal. Browser storage may be full or disabled. Copy your text before leaving."); }
+    } catch { setError("Could not read or save your journal. Existing entries were not overwritten. Copy your text before leaving."); }
   }
 
   if (saved) {

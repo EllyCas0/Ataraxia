@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { appendEntry, isJournalEntry, mergeJournalEntries, parseJournalEntries, removeEntry } from "../lib/journal";
 import type { JournalEntry } from "../lib/types";
+import { deleteEntry, getEntries, importEntries, saveEntry } from "../lib/journal-storage";
 
 const entry: JournalEntry = {
   id: "entry-1",
@@ -47,4 +48,53 @@ test("backup imports preserve existing entries and are repeatable", () => {
 test("invalid backups are rejected as a whole", () => {
   assert.throws(() => mergeJournalEntries([entry], [entry, {...entry,createdAt:"not a date"}]));
   assert.throws(() => mergeJournalEntries([entry], {}));
+});
+
+function withStorage(raw: string | null, run: (storage: { raw: string | null; writes: number; failRead: boolean }) => void) {
+  const original = Object.getOwnPropertyDescriptor(globalThis, "window");
+  const storage = { raw, writes: 0, failRead: false };
+  Object.defineProperty(globalThis, "window", {
+    configurable: true,
+    value: { localStorage: {
+      getItem: () => {
+        if (storage.failRead) throw new Error("Storage unavailable");
+        return storage.raw;
+      },
+      setItem: (_key: string, value: string) => { storage.raw = value; storage.writes++; },
+    } },
+  });
+  try { run(storage); }
+  finally {
+    if (original) Object.defineProperty(globalThis, "window", original);
+    else Reflect.deleteProperty(globalThis, "window");
+  }
+}
+
+test("missing and empty journals remain usable", () => {
+  for (const raw of [null, "[]"]) withStorage(raw, () => {
+    assert.deepEqual(getEntries(), []);
+    saveEntry(entry);
+    assert.deepEqual(getEntries(), [entry]);
+    deleteEntry(entry.id);
+    assert.deepEqual(getEntries(), []);
+    assert.deepEqual(importEntries([entry]), [entry]);
+  });
+});
+
+test("unreadable journals block all writes and preserve the original data", () => {
+  const valid = JSON.stringify([entry]);
+  const cases = ["{broken", "", "null", "{}", JSON.stringify([entry, { id: "broken" }]), valid];
+  for (const raw of cases) withStorage(raw, (storage) => {
+    // Simulate a read failure while writes would still succeed.
+    storage.failRead = raw === valid;
+    for (const operation of [getEntries, () => saveEntry(entry), () => deleteEntry(entry.id), () => importEntries([entry])]) {
+      assert.throws(operation, /Could not read your journal/);
+      assert.equal(storage.raw, raw);
+      assert.equal(storage.writes, 0);
+    }
+    if (storage.failRead) {
+      storage.failRead = false;
+      assert.deepEqual(getEntries(), [entry]);
+    }
+  });
 });
