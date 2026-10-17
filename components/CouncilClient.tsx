@@ -116,46 +116,12 @@ export default function CouncilClient({
   return (
     <div className="max-w-2xl mx-auto px-6 pt-10 pb-24">
       <h1 className="font-serif text-3xl sm:text-4xl leading-snug mb-6">{question.text}</h1>
-      <p className="text-sm text-foreground-muted mb-4">Read a perspective below, then write and refine your own view.</p>
-      <a href="#initial-position" onClick={(event) => {
-        event.preventDefault();
-        document.getElementById("initial-position")?.focus();
-      }} className="inline-block rounded-lg bg-accent-strong text-background px-5 py-3 text-sm font-medium mb-6">Write my initial view</a>
-
-      <details className="mb-6 rounded-lg border border-border bg-surface">
-        <summary className="cursor-pointer px-4 py-3 text-sm font-medium">Perspective style: {councilModes.find((item) => item.id === mode)?.label}</summary>
-      <div className="flex flex-wrap gap-2 px-4 pb-4">
-        {councilModes.map((m) => (
-          <button
-            key={m.id}
-            type="button"
-            aria-pressed={mode === m.id}
-            onClick={() => setMode(m.id)}
-            title={m.hint}
-            className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
-              mode === m.id ? "border-accent-strong bg-accent-strong text-background" : "border-border text-foreground-muted hover:border-ring"
-            }`}
-          >
-            {m.label}
-          </button>
-        ))}
-      </div>
-      </details>
-
-      <p className="text-xs text-foreground-muted mb-3">
-        Generalized from each thinker&apos;s philosophy — not a literal quotation.
-      </p>
+      <p className="text-sm text-foreground-muted mb-6">Start with your own view, then explore other perspectives and refine your response.</p>
       {error && <p role="alert" className="text-sm text-foreground-muted mb-4">{error}</p>}
-
-      <div className="space-y-3 mb-10">
-        {ordered.map((p) => (
-          <PhilosopherVoice key={p.slug} philosopher={p} line={speak(mode, p, question)} />
-        ))}
-      </div>
 
       <div className="border-t border-border pt-8">
         {draftStatus && <p role="status" className="text-xs text-foreground-muted mb-3">{draftStatus}</p>}
-        <h2 className="font-serif text-xl mb-1">Your turn</h2>
+        <h2 className="font-serif text-xl mb-1">Your starting point</h2>
         <p className="text-sm text-foreground-muted mb-4">What&apos;s your initial position?</p>
         <textarea
           id="initial-position"
@@ -168,7 +134,7 @@ export default function CouncilClient({
           }}
           aria-label="Initial position"
           rows={4}
-          placeholder="Write freely — there's no wrong answer here."
+          placeholder="Write freely. It's okay if you're not sure yet."
           className="w-full scroll-mt-24 rounded-lg border border-border bg-surface px-4 py-3 text-sm outline-none focus:border-ring focus:ring-1 focus:ring-ring resize-none mb-3"
         />
         <label className="block text-xs text-foreground-muted mb-1">Why do you think that? (optional)</label>
@@ -180,6 +146,45 @@ export default function CouncilClient({
           rows={2}
           className="w-full rounded-lg border border-border bg-surface px-4 py-3 text-sm outline-none focus:border-ring focus:ring-1 focus:ring-ring resize-none mb-4"
         />
+
+        <section aria-labelledby="perspectives-title" className="my-8 border-t border-border pt-8">
+          <h2 id="perspectives-title" className="font-serif text-xl mb-2">Explore other perspectives</h2>
+          <p className="text-xs text-foreground-muted mb-4">
+            Generalized from each thinker&apos;s philosophy — not a literal quotation.
+          </p>
+          <div className="space-y-3">
+            {ordered.slice(0, 2).map((p) => (
+              <PhilosopherVoice key={p.slug} philosopher={p} line={speak(mode, p, question)} />
+            ))}
+          </div>
+          <details className="mt-4 rounded-lg border border-border bg-surface p-4">
+            <summary className="cursor-pointer text-sm font-medium">Explore more</summary>
+            <fieldset className="mt-4 mb-5">
+              <legend className="text-xs text-foreground-muted mb-2">Perspective style: {councilModes.find((item) => item.id === mode)?.label}</legend>
+              <div className="flex flex-wrap gap-2">
+                {councilModes.map((m) => (
+                  <button
+                    key={m.id}
+                    type="button"
+                    aria-pressed={mode === m.id}
+                    onClick={() => setMode(m.id)}
+                    title={m.hint}
+                    className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                      mode === m.id ? "border-accent-strong bg-accent-strong text-background" : "border-border text-foreground-muted hover:border-ring"
+                    }`}
+                  >
+                    {m.label}
+                  </button>
+                ))}
+              </div>
+            </fieldset>
+            <div className="space-y-3">
+              {ordered.slice(2).map((p) => (
+                <PhilosopherVoice key={p.slug} philosopher={p} line={speak(mode, p, question)} />
+              ))}
+            </div>
+          </details>
+        </section>
 
         {!challengeShown && (
           <button
