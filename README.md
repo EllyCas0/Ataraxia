@@ -65,3 +65,16 @@ It uses the plain Canvas 2D API (`lib/map-engine.ts`), so there is no charting d
 
 The slider is a real `<input type="range">` laid invisibly over custom-drawn visuals, so keyboard (arrows, Home, End), touch, and screen-reader support come built in, and the drawn thumb glides between stops. All the versions are stacked in one grid cell and fade by opacity, so the cross-fade works between any two steps and the layout never jumps. With reduced motion on, the transitions are instant.
 
+
+## The Shadow
+
+`/shadow` is a minimal Socratic chat. There are no speech bubbles: the conversation reads like a plain script, with "You:" and "The Shadow:" as speaker names and the text beside them. The Shadow's lines type themselves out with `typeText` in `lib/typing.ts`, which waits a random 30 to 70 ms between characters, after a short "thinking" pause, so the rhythm feels deliberate rather than mechanical.
+
+```ts
+typeText(text, { onUpdate: (shown) => setShown(shown), onDone: () => setTyping(false) });
+```
+
+It returns `{ cancel, finish }`, splits by character (so emoji are never cut in half), and takes an injectable scheduler and random source, which is how the 30 to 70 ms range is tested. Esc (or tapping the text) shows the rest of a line instantly, and sending a message while The Shadow is still typing finishes its line first. With reduced motion on, lines appear at once. Screen readers hear each finished line once rather than letter by letter.
+
+The Shadow's questions come from `shadowReply` in `lib/shadow.ts`, a scripted stand-in rather than a live model. It quotes a fragment of what you said and rotates through classic Socratic moves (meaning, grounds, assumptions, counterexamples, implications, other views, certainty), and every reply is made only of questions. Replace `shadowReply` to connect a real model; the chat and typing effect do not need to change.
+
