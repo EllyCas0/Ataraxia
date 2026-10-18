@@ -5,6 +5,7 @@ import type { KeyboardEvent, PointerEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { LavaLamp } from "@/components/content/lava-lamp";
 import type { InsightImage } from "@/lib/content/insight-image";
 import type { Insight } from "@/lib/content/insights";
 
@@ -19,12 +20,14 @@ const SWIPE_DISTANCE = 50; // px
 // and next/previous (buttons, arrow keys, or a swipe) wrap around the list in either direction.
 // Each slide is a link to its reading view. There is no autoplay, so nothing moves on its own.
 export function InsightCarousel({ slides }: { slides: InsightSlide[] }) {
-  const [index, setIndex] = useState(0);
+  // The previous slide keeps its animated background until it has faded out; the rest are not drawn.
+  const [position, setPosition] = useState({ index: 0, previous: -1 });
+  const { index, previous } = position;
   const swipeStart = useRef<number | null>(null);
   const swiped = useRef(false);
   const count = slides.length;
 
-  const go = (step: number) => setIndex((i) => (i + step + count) % count);
+  const go = (step: number) => setPosition(({ index: i }) => ({ index: (i + step + count) % count, previous: i }));
 
   function onKeyDown(event: KeyboardEvent) {
     if (event.key === "ArrowRight") go(1);
@@ -84,24 +87,26 @@ export function InsightCarousel({ slides }: { slides: InsightSlide[] }) {
               opacity: active ? 1 : 0,
               transform: active ? "none" : "translateX(1.5rem)",
               pointerEvents: active ? "auto" : "none",
-              // Until a real picture exists, each school gets its own colour.
-              background: image.placeholder ? `linear-gradient(160deg, oklch(0.52 0.2 ${insight.hue}), oklch(0.3 0.12 ${insight.hue}))` : undefined,
             }}
           >
-            <Image src={image.src} alt="" fill sizes="(min-width: 768px) 40vw, 100vw" className="-z-20 object-cover" priority={i === 0} draggable={false} />
-            <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+            {image.placeholder ? (
+              (active || i === previous) && <LavaLamp hue={insight.hue} paused={!active} />
+            ) : (
+              <Image src={image.src} alt="" fill sizes="(min-width: 768px) 40vw, 100vw" className="-z-20 object-cover" priority={i === 0} draggable={false} />
+            )}
+            <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/55 to-black/10" />
 
             <p className="absolute left-7 top-7 text-xs font-medium uppercase tracking-[0.2em] text-white/70 md:left-9 md:top-9">Daily insight</p>
 
             <div>
-              <blockquote className="font-serif text-2xl leading-relaxed md:text-3xl md:leading-relaxed">&ldquo;{insight.quote}&rdquo;</blockquote>
+              <blockquote className="font-serif text-2xl leading-relaxed [text-shadow:0_1px_14px_rgb(0_0_0/0.55)] md:text-3xl md:leading-relaxed">&ldquo;{insight.quote}&rdquo;</blockquote>
               <p className="mt-6 inline-flex items-center gap-1.5 text-base">
                 <span>
                   &mdash; {insight.philosopher}, {insight.context}
                 </span>
                 <ArrowRight className="size-4 shrink-0 transition-transform motion-safe:group-hover:translate-x-0.5" aria-hidden />
               </p>
-              {!image.placeholder && <p className="mt-3 text-xs text-white/60">Illustration generated with AI</p>}
+              {!image.placeholder && <p className="mt-3 text-xs text-white/70">Illustration generated with AI</p>}
             </div>
           </Link>
         );

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { LavaLamp } from "@/components/content/lava-lamp";
 import { buttonVariants } from "@/components/ui/button";
 import { content } from "@/lib/content/repository";
 import { insightImage } from "@/lib/content/insight-image";
@@ -33,11 +34,12 @@ export default async function InsightPage({ params }: { params: Params }) {
         Back to Discover
       </Link>
 
-      <div
-        className="relative mt-6 aspect-[4/3] overflow-hidden rounded-[2rem]"
-        style={image.placeholder ? { background: `linear-gradient(160deg, oklch(0.52 0.2 ${insight.hue}), oklch(0.3 0.12 ${insight.hue}))` } : undefined}
-      >
-        <Image src={image.src} alt="" fill sizes="(min-width: 768px) 42rem, 100vw" className="object-cover" priority />
+      <div className="relative isolate mt-6 aspect-[4/3] overflow-hidden rounded-[2rem]">
+        {image.placeholder ? (
+          <LavaLamp hue={insight.hue} />
+        ) : (
+          <Image src={image.src} alt="" fill sizes="(min-width: 768px) 42rem, 100vw" className="object-cover" priority />
+        )}
       </div>
       {!image.placeholder && <p className="mt-2 text-xs text-muted-foreground">Illustration generated with AI.</p>}
 

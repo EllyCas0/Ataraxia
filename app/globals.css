@@ -169,3 +169,79 @@
   background-clip: text;
   color: transparent;
 }
+
+/* The lava-lamp / kaleidoscope background behind the daily insight (components/content/lava-lamp.tsx).
+   Only transforms are animated, so it stays on the GPU. --h is the school's hue. */
+.lamp {
+  background: linear-gradient(160deg, oklch(0.5 0.19 var(--h)), oklch(0.27 0.11 var(--h)));
+}
+.lamp-kaleido {
+  position: absolute;
+  left: 50%;
+  top: 36%;
+  width: 170%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  background: repeating-conic-gradient(
+    from 0deg,
+    oklch(0.72 0.17 var(--h) / 0.34) 0deg 9deg,
+    oklch(0.55 0.2 calc(var(--h) + 55) / 0.3) 9deg 18deg,
+    transparent 18deg 27deg
+  );
+  mask-image: radial-gradient(circle, #000 0%, transparent 64%);
+  mix-blend-mode: screen;
+  filter: blur(3px);
+  animation: lamp-spin 90s linear infinite;
+}
+.lamp-kaleido-mirror {
+  scale: -1 1;
+  opacity: 0.8;
+  animation-duration: 130s;
+  animation-direction: reverse;
+}
+.lamp-blob {
+  position: absolute;
+  bottom: -35%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 35% 32%,
+    oklch(0.8 0.17 calc(var(--h) + var(--shift)) / 0.8),
+    oklch(0.62 0.2 calc(var(--h) + var(--shift) + 30) / 0.5) 52%,
+    transparent 72%
+  );
+  animation: lamp-rise 24s ease-in-out infinite alternate;
+  will-change: transform;
+}
+.lamp[data-paused="true"] .lamp-kaleido,
+.lamp[data-paused="true"] .lamp-blob {
+  animation-play-state: paused;
+}
+@keyframes lamp-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes lamp-rise {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1, 1);
+  }
+  33% {
+    transform: translate3d(10%, -80%, 0) scale(1.14, 0.9);
+  }
+  66% {
+    transform: translate3d(-12%, -140%, 0) scale(0.9, 1.14);
+  }
+  100% {
+    transform: translate3d(6%, -200%, 0) scale(1.06, 0.94);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lamp-kaleido,
+  .lamp-blob {
+    animation: none !important;
+  }
+  .lamp-blob {
+    transform: translate3d(0, -70%, 0);
+  }
+}
