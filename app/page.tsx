@@ -37,6 +37,14 @@ export default function Home() {
         </aside>
       </section>
       <ContinueThinking />
+      <Link href="/reframe" className="group mt-8 flex items-center justify-between gap-6 rounded-2xl border border-border bg-surface p-5 hover:border-ring sm:p-6">
+        <span>
+          <span className="block text-xs uppercase tracking-[0.16em] text-foreground-muted">Try this</span>
+          <span className="mt-1 block font-serif text-xl">Reframe a worried thought</span>
+          <span className="mt-1 block text-sm leading-relaxed text-foreground-muted">See one thought through four lenses: anxious, Stoic, growth, and cosmic.</span>
+        </span>
+        <span aria-hidden="true" className="text-xl text-accent transition-transform group-hover:translate-x-1">→</span>
+      </Link>
     </div>
   );
 }

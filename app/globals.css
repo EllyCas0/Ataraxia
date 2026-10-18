@@ -181,6 +181,42 @@ p { overflow-wrap: anywhere; }
   .contemplation-bg { animation: none; }
 }
 
+/* Mental Reframing: a native range input made invisible and laid over custom visuals.
+   Its thumb is sized to match the drawn thumb (28px) so pointer positions line up exactly. */
+.reframe-input {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  margin: 0;
+  touch-action: pan-y;
+}
+
+.reframe-input::-webkit-slider-runnable-track {
+  height: 44px;
+  background: transparent;
+}
+
+.reframe-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 28px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+}
+
+.reframe-input::-moz-range-track {
+  height: 44px;
+  background: transparent;
+}
+
+.reframe-input::-moz-range-thumb {
+  width: 28px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }

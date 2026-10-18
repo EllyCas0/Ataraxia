@@ -58,3 +58,10 @@ The quote rotates daily from `lib/quotes.ts` using the visitor's local date. Hap
 
 It uses the plain Canvas 2D API (`lib/map-engine.ts`), so there is no charting dependency. It is keyboard accessible through a school list that appears on focus, announces selections to screen readers, and respects reduced motion (no floating, instant camera moves).
 
+
+## Mental Reframing
+
+`/reframe` shows one thought through four lenses: Anxious, Stoic, Growth, and Cosmic. A custom slider with four stops steps through them, and the text at the top cross-fades to the matching version while the accent color changes with the step. The four versions are an array of objects in `lib/reframing.ts` (`id`, `label`, `lens`, `text`, `accent`), and `<MentalReframing versions={...} />` accepts any array of the same shape.
+
+The slider is a real `<input type="range">` laid invisibly over custom-drawn visuals, so keyboard (arrows, Home, End), touch, and screen-reader support come built in, and the drawn thumb glides between stops. All the versions are stacked in one grid cell and fade by opacity, so the cross-fade works between any two steps and the layout never jumps. With reduced motion on, the transitions are instant.
+
