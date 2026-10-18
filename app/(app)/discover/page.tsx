@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { DailyInsightCard } from "@/components/content/daily-insight-card";
+import { InsightCarousel } from "@/components/content/insight-carousel";
 import { buttonVariants } from "@/components/ui/button";
 import { insightImage } from "@/lib/content/insight-image";
-import { insights, pickDailyInsight } from "@/lib/content/insights";
+import { insights, insightsStartingFrom } from "@/lib/content/insights";
 import { getAppTimezone, zonedDateKey } from "@/lib/time";
 import { cn } from "@/lib/utils";
 
@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
 
 export default function DiscoverPage() {
   const dateKey = zonedDateKey(new Date(), getAppTimezone());
-  const insight = pickDailyInsight(insights, dateKey);
+  const slides = insightsStartingFrom(insights, dateKey).map((insight) => ({ insight, image: insightImage(insight.slug) }));
 
   return (
     <div className="space-y-12 md:space-y-16">
@@ -53,7 +53,7 @@ export default function DiscoverPage() {
           </Link>
         </div>
 
-        <DailyInsightCard insight={insight} image={insightImage(insight.slug)} />
+        <InsightCarousel slides={slides} />
       </div>
 
       <Link

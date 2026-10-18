@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { insights, pickDailyInsight } from "@/lib/content/insights";
+import { insights, insightsStartingFrom, pickDailyInsight } from "@/lib/content/insights";
 import { content } from "@/lib/content/repository";
 
 describe("insights", () => {
@@ -27,5 +27,15 @@ describe("insights", () => {
 
   it("throws when there is nothing to show", () => {
     expect(() => pickDailyInsight([], "2026-01-01")).toThrow();
+  });
+
+  it("lists every insight once, starting with the daily one, in a fixed order", () => {
+    const list = insightsStartingFrom(insights, "2026-03-04");
+    expect(list).toHaveLength(insights.length);
+    expect(new Set(list.map((i) => i.slug)).size).toBe(insights.length);
+    expect(list[0]).toBe(pickDailyInsight(insights, "2026-03-04"));
+    expect(insightsStartingFrom(insights, "2026-03-04")).toEqual(list);
+    const ids = list.map((i) => i.id);
+    for (let n = 1; n < ids.length; n++) expect(ids[n] === ids[n - 1] + 1 || (ids[n - 1] === insights.length && ids[n] === 1)).toBe(true);
   });
 });

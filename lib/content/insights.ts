@@ -7,8 +7,8 @@ import { dayNumber } from "@/lib/time";
 // misattributions (for example "You have power over your mind, not outside events" is not in Marcus
 // Aurelius), so add new ones only after checking them against the cited text.
 //
-// Images are optional. To add one, put a file named `<slug>.jpg` (or .webp / .png) in
-// `public/modern-minds/`; it is picked up on the next build or server start (dev picks it up immediately). Until then the card uses a plain green background.
+// Each quote has a picture slot. Until a real one is added a generic placeholder is shown. To add one,
+// put a file named `<slug>.jpg` (or .webp / .png) in `public/modern-minds/`; it replaces the placeholder on the next build or server start (dev picks it up immediately).
 export interface Insight {
   id: number;
   slug: string;
@@ -92,6 +92,57 @@ export const insights: Insight[] = [
     source: "Utilitarianism, chapter 2 (1863)",
     relatedConceptSlug: "experience-machine",
   },
+  {
+    id: 9,
+    slug: "epictetus-in-our-power",
+    philosopher: "Epictetus",
+    context: "Stoicism",
+    quote: "Of things some are in our power, and others are not.",
+    source: "Enchiridion 1, trans. George Long",
+    relatedConceptSlug: "dichotomy-of-control",
+  },
+  {
+    id: 10,
+    slug: "kant-universal-law",
+    philosopher: "Immanuel Kant",
+    context: "Kantian ethics",
+    quote: "Act only on that maxim whereby thou canst at the same time will that it should become a universal law.",
+    source: "Fundamental Principles of the Metaphysic of Morals, section 2, trans. Thomas Kingsmill Abbott",
+    relatedConceptSlug: "categorical-imperative",
+  },
+  {
+    id: 11,
+    slug: "hume-reason-and-passions",
+    philosopher: "David Hume",
+    context: "Empiricism",
+    quote: "Reason is, and ought only to be the slave of the passions, and can never pretend to any other office than to serve and obey them.",
+    source: "A Treatise of Human Nature, book 2, part 3, section 3 (1739)",
+    relatedConceptSlug: "is-ought-gap",
+  },
+  {
+    id: 12,
+    slug: "descartes-i-think",
+    philosopher: "René Descartes",
+    context: "Rationalism",
+    quote: "I think, therefore I am.",
+    source: "Principles of Philosophy 1.7, trans. John Veitch",
+  },
+  {
+    id: 13,
+    slug: "pascal-thinking-reed",
+    philosopher: "Blaise Pascal",
+    context: "Christian philosophy",
+    quote: "Man is but a reed, the most feeble thing in nature; but he is a thinking reed.",
+    source: "Pensées 347, trans. W. F. Trotter",
+  },
+  {
+    id: 14,
+    slug: "emerson-misunderstood",
+    philosopher: "Ralph Waldo Emerson",
+    context: "Transcendentalism",
+    quote: "To be great is to be misunderstood.",
+    source: "Self-Reliance, in Essays: First Series (1841)",
+  },
 ];
 
 export function insightBySlug(slug: string): Insight | undefined {
@@ -103,4 +154,13 @@ export function pickDailyInsight(items: Insight[], dateKey: string): Insight {
   if (items.length === 0) throw new Error("No insights");
   const sorted = [...items].sort((a, b) => a.id - b.id);
   return sorted[((dayNumber(dateKey) % sorted.length) + sorted.length) % sorted.length];
+}
+
+// All insights in a fixed order starting from the one for the given date. The carousel loops through
+// this list endlessly, so it opens on the daily insight and then continues in the same order.
+export function insightsStartingFrom(items: Insight[], dateKey: string): Insight[] {
+  const sorted = [...items].sort((a, b) => a.id - b.id);
+  const first = pickDailyInsight(sorted, dateKey);
+  const at = sorted.indexOf(first);
+  return [...sorted.slice(at), ...sorted.slice(0, at)];
 }

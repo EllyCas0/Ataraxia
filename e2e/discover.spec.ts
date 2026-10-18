@@ -13,6 +13,48 @@ test("the daily insight is shown and stays the same when the page is reloaded", 
   }
 });
 
+test("the insight carousel loops without end in both directions and by keyboard", async ({ page }) => {
+  await open(page, "/discover");
+  const carousel = page.getByRole("region", { name: "Daily insights from philosophers" });
+  const shown = () => carousel.getByRole("link").first().textContent();
+  const first = await shown();
+
+  await carousel.getByRole("button", { name: "Next quote" }).click();
+  const second = await shown();
+  expect(second).not.toBe(first);
+
+  await carousel.getByRole("button", { name: "Previous quote" }).click();
+  expect(await shown()).toBe(first);
+
+  // Previous from the first quote wraps to the last, and next from there wraps back to the first.
+  await carousel.getByRole("button", { name: "Previous quote" }).click();
+  const last = await shown();
+  expect(last).not.toBe(first);
+  await carousel.getByRole("button", { name: "Next quote" }).click();
+  expect(await shown()).toBe(first);
+
+  // Going forward through every quote and around again returns to the start.
+  const total = Number(/of (\d+):/.exec((await carousel.locator("[aria-live]").textContent()) ?? "")?.[1]);
+  expect(total).toBeGreaterThanOrEqual(8);
+  await carousel.focus();
+  for (let n = 0; n < total; n++) await page.keyboard.press("ArrowRight");
+  expect(await shown()).toBe(first);
+});
+
+test("swiping the carousel moves to the next quote without opening it", async ({ page }) => {
+  await open(page, "/discover");
+  const carousel = page.getByRole("region", { name: "Daily insights from philosophers" });
+  const first = await carousel.getByRole("link").first().textContent();
+  const box = (await carousel.boundingBox())!;
+  const y = box.y + box.height / 2;
+  await page.mouse.move(box.x + box.width * 0.8, y);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width * 0.2, y, { steps: 6 });
+  await page.mouse.up();
+  await expect(page).toHaveURL(/\/discover$/);
+  expect(await carousel.getByRole("link").first().textContent()).not.toBe(first);
+});
+
 test("the daily insight opens its reading view with the source", async ({ page }) => {
   await open(page, "/discover");
   await page.getByRole("link", { name: /Daily insight/ }).click();

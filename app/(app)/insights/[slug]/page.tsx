@@ -33,12 +33,10 @@ export default async function InsightPage({ params }: { params: Params }) {
         Back to Discover
       </Link>
 
-      {image && (
-        <div className="relative mt-6 aspect-[4/3] overflow-hidden rounded-3xl">
-          <Image src={image} alt="" fill sizes="(min-width: 768px) 42rem, 100vw" className="object-cover" priority />
-        </div>
-      )}
-      {image && <p className="mt-2 text-xs text-muted-foreground">Illustration generated with AI.</p>}
+      <div className="relative mt-6 aspect-[4/3] overflow-hidden rounded-3xl">
+        <Image src={image.src} alt="" fill sizes="(min-width: 768px) 42rem, 100vw" className="object-cover" priority />
+      </div>
+      {!image.placeholder && <p className="mt-2 text-xs text-muted-foreground">Illustration generated with AI.</p>}
 
       <p className="mt-8 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Daily insight</p>
       <h1 className="mt-3 text-3xl leading-relaxed md:text-4xl md:leading-relaxed">&ldquo;{insight.quote}&rdquo;</h1>
