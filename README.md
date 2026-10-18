@@ -38,3 +38,10 @@ npm run build
 ```
 
 Built with Next.js 16, React 19, TypeScript, and Tailwind CSS v4.
+
+## Daily Contemplation
+
+`/contemplation` is a full-screen, one-quote-a-day screen. A slow gradient drifts behind the quote (`app/globals.css`), and the quote starts blurred under a `backdrop-filter` veil. Pressing and holding it (finger, mouse, or Space/Enter) clears the blur over 2 seconds with a haptic tap at the end; letting go early re-blurs it. A minimal "Reflect" button opens a slide-up drawer (swipe down, Escape, or Close to dismiss) whose entry is saved to the Journal.
+
+The quote rotates daily from `lib/quotes.ts` using the visitor's local date. Haptics use the Vibration API (Android and most desktop browsers); iOS Safari has no such API, so it tries a native switch-input tap, which works on recent iOS versions but is best effort. With "reduce motion" on, the gradient stays still and the blur clears at the end of the hold instead of gradually.
+

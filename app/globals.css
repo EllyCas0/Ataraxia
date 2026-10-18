@@ -123,6 +123,64 @@ button:disabled { cursor: not-allowed; }
 textarea { overflow-wrap: anywhere; }
 p { overflow-wrap: anywhere; }
 
+/* Daily Contemplation: slow-shifting gradient, serif quote, blur-to-reveal veil. */
+.contemplation {
+  background: hsl(245 40% 9%);
+  color: #f5efe6;
+}
+
+.contemplation-bg {
+  position: absolute;
+  inset: -35%;
+  background:
+    radial-gradient(48% 48% at 22% 28%, hsl(262 48% 30%) 0%, transparent 70%),
+    radial-gradient(46% 46% at 78% 22%, hsl(205 55% 26%) 0%, transparent 70%),
+    radial-gradient(52% 52% at 72% 80%, hsl(335 42% 28%) 0%, transparent 70%),
+    radial-gradient(50% 50% at 20% 82%, hsl(165 42% 20%) 0%, transparent 70%),
+    hsl(245 40% 10%);
+  /* Two very slow, offset cycles (about 80s and 2 minutes) so the colors never visibly repeat. */
+  animation: contemplation-drift 80s ease-in-out infinite alternate, contemplation-hue 120s ease-in-out infinite alternate;
+  will-change: transform, filter;
+}
+
+.contemplation::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 35%, rgb(0 0 0 / 0.38) 100%);
+}
+
+@keyframes contemplation-drift {
+  from { transform: translate3d(-3%, -2%, 0) rotate(-4deg) scale(1); }
+  to { transform: translate3d(3%, 2%, 0) rotate(4deg) scale(1.12); }
+}
+
+@keyframes contemplation-hue {
+  from { filter: hue-rotate(-40deg); }
+  to { filter: hue-rotate(40deg); }
+}
+
+.contemplation-quote {
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Charter, Georgia, serif;
+  text-shadow: 0 1px 28px rgb(0 0 0 / 0.35);
+}
+
+.contemplation-hold {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: none;
+}
+
+.contemplation-veil {
+  border-radius: 2rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contemplation-bg { animation: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
