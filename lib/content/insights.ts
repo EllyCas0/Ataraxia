@@ -7,7 +7,8 @@ import { dayNumber } from "@/lib/time";
 // misattributions (for example "You have power over your mind, not outside events" is not in Marcus
 // Aurelius), so add new ones only after checking them against the cited text.
 //
-// Each quote has a picture slot. Until a real one is added the card shows an animated lava-lamp background in the school's colour. To add one,
+// Each quote has a picture slot. Until a real one is added the card shows an animated stormy
+// background (lava-lamp blobs and lightning) in the school's colour. To add one,
 // put a file named `<slug>.jpg` (or .webp / .png) in `public/modern-minds/`; it replaces the placeholder on the next build or server start (dev picks it up immediately).
 export interface Insight {
   id: number;

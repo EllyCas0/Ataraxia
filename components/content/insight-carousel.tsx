@@ -5,7 +5,7 @@ import type { KeyboardEvent, PointerEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
-import { LavaLamp } from "@/components/content/lava-lamp";
+import { StormBackground } from "@/components/content/storm-background";
 import type { InsightImage } from "@/lib/content/insight-image";
 import type { Insight } from "@/lib/content/insights";
 
@@ -90,7 +90,7 @@ export function InsightCarousel({ slides }: { slides: InsightSlide[] }) {
             }}
           >
             {image.placeholder ? (
-              (active || i === previous) && <LavaLamp hue={insight.hue} paused={!active} />
+              (active || i === previous) && <StormBackground hue={insight.hue} paused={!active} />
             ) : (
               <Image src={image.src} alt="" fill sizes="(min-width: 768px) 40vw, 100vw" className="-z-20 object-cover" priority={i === 0} draggable={false} />
             )}
