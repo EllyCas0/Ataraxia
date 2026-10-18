@@ -45,8 +45,11 @@ test("swiping the carousel moves to the next quote without opening it", async ({
   await open(page, "/discover");
   const carousel = page.getByRole("region", { name: "Daily insights from philosophers" });
   const first = await carousel.getByRole("link").first().textContent();
+  await carousel.scrollIntoViewIfNeeded();
   const box = (await carousel.boundingBox())!;
-  const y = box.y + box.height / 2;
+  const viewportHeight = page.viewportSize()!.height;
+  // Swipe across the middle of the part of the card that is on screen.
+  const y = Math.max(box.y, 0) + (Math.min(box.y + box.height, viewportHeight) - Math.max(box.y, 0)) / 2;
   await page.mouse.move(box.x + box.width * 0.8, y);
   await page.mouse.down();
   await page.mouse.move(box.x + box.width * 0.2, y, { steps: 6 });
@@ -78,9 +81,9 @@ test("the home page search opens the idea library with results", async ({ page }
   await expect(page.getByRole("link", { name: /The veil of ignorance/ }).first()).toBeVisible();
 });
 
-test("start reflecting opens a new conversation", async ({ page }) => {
+test("start thinking opens a new conversation", async ({ page }) => {
   await open(page, "/discover");
-  await page.getByRole("link", { name: /Start reflecting/ }).click();
+  await page.getByRole("link", { name: /Start thinking/ }).click();
   await expect(page).toHaveURL(/\/reflect\/new$/);
 });
 
@@ -99,4 +102,11 @@ test("the weekly perspective is still reachable from the idea library", async ({
   expect(await cards.count()).toBeGreaterThanOrEqual(2);
   expect(await cards.count()).toBeLessThanOrEqual(3);
   await expect(page.getByLabel(/Your own thoughts/)).toBeVisible();
+});
+
+test("a vibe chip opens the ideas in that theme", async ({ page }) => {
+  await open(page, "/discover");
+  await page.getByRole("link", { name: /Love & friends/ }).click();
+  await expect(page).toHaveURL(/theme=love-relationships/);
+  await expect(page.getByRole("status")).toContainText("love and relationships");
 });

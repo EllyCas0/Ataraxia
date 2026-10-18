@@ -67,7 +67,7 @@ export function InsightCarousel({ slides }: { slides: InsightSlide[] }) {
           swiped.current = false;
         }
       }}
-      className="relative isolate grid min-h-[28rem] touch-pan-y overflow-clip rounded-3xl bg-accent text-white transition-transform motion-safe:hover:scale-[1.01]"
+      className="relative isolate grid min-h-[28rem] touch-pan-y overflow-clip rounded-[2rem] bg-accent text-white transition-transform motion-safe:hover:scale-[1.01]"
     >
       {slides.map(({ insight, image }, i) => {
         const active = i === index;
@@ -80,7 +80,13 @@ export function InsightCarousel({ slides }: { slides: InsightSlide[] }) {
             aria-hidden={!active}
             tabIndex={active ? 0 : -1}
             className="group relative col-start-1 row-start-1 flex flex-col justify-end gap-10 p-7 pt-20 transition-[opacity,transform] duration-500 ease-out md:p-9 md:pt-24 motion-reduce:transition-none"
-            style={{ opacity: active ? 1 : 0, transform: active ? "none" : "translateX(1.5rem)", pointerEvents: active ? "auto" : "none" }}
+            style={{
+              opacity: active ? 1 : 0,
+              transform: active ? "none" : "translateX(1.5rem)",
+              pointerEvents: active ? "auto" : "none",
+              // Until a real picture exists, each school gets its own colour.
+              background: image.placeholder ? `linear-gradient(160deg, oklch(0.52 0.2 ${insight.hue}), oklch(0.3 0.12 ${insight.hue}))` : undefined,
+            }}
           >
             <Image src={image.src} alt="" fill sizes="(min-width: 768px) 40vw, 100vw" className="-z-20 object-cover" priority={i === 0} draggable={false} />
             <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
