@@ -63,6 +63,8 @@ It uses the plain Canvas 2D API (`lib/map-engine.ts`), so there is no charting d
 
 `/reframe` shows one thought through four lenses: Anxious, Stoic, Growth, and Cosmic. A custom slider with four stops steps through them, and the text at the top cross-fades to the matching version while the accent color changes with the step. The four versions are an array of objects in `lib/reframing.ts` (`id`, `label`, `lens`, `text`, `accent`), and `<MentalReframing versions={...} />` accepts any array of the same shape.
 
+People can also type a worry of their own into the box under the heading. `reframeThought` in `lib/reframe-thought.ts` turns it into the same four versions: it picks a topic from keywords (work, school, relationships, health, money, or self-worth), writes each lens around that topic, echoes the person's own words in the Anxious version, and calls out absolute words like "never" or "always" in the Growth version. This is rule-based, not a language model, so replace `reframeThought` to connect a real one; the screen does not need to change. If the text points to self-harm, nothing is reframed and the screen shows a support message instead (988 in the US, findahelpline.com elsewhere). "Back to the example" restores the built-in thought. Nothing typed is stored or sent anywhere.
+
 The slider is a real `<input type="range">` laid invisibly over custom-drawn visuals, so keyboard (arrows, Home, End), touch, and screen-reader support come built in, and the drawn thumb glides between stops. All the versions are stacked in one grid cell and fade by opacity, so the cross-fade works between any two steps and the layout never jumps. With reduced motion on, the transitions are instant.
 
 
