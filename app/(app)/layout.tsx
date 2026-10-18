@@ -1,5 +1,6 @@
 import { BottomNav } from "@/components/shell/bottom-nav";
 import { MobileHeader } from "@/components/shell/mobile-header";
+import { MusicPlayer } from "@/components/shell/music-player";
 import { Sidebar } from "@/components/shell/sidebar";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
@@ -11,6 +12,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         {children}
       </main>
       <BottomNav />
+      <MusicPlayer />
     </div>
   );
 }
