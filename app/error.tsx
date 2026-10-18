@@ -1,12 +1,16 @@
 "use client";
 
-import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
-export default function ErrorPage({ retry }: { error: Error & { digest?: string }; retry: () => void }) {
-  return <div className="max-w-xl mx-auto px-6 py-24 text-center">
-    <h1 className="font-serif text-3xl mb-3">Something went wrong</h1>
-    <p className="text-foreground-muted mb-6">Try loading this page again. Your saved journal stays in this browser.</p>
-    <button onClick={retry} className="rounded-lg bg-accent-strong text-background px-5 py-3 mr-4">Try again</button>
-    <Link href="/" className="underline">Back home</Link>
-  </div>;
+// Shown when something unexpected fails. It deliberately shows no technical detail to the visitor.
+export default function GlobalError({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
+  return (
+    <main className="mx-auto flex min-h-dvh max-w-xl flex-col items-center justify-center px-6 text-center">
+      <h1 className="text-4xl">Something went wrong</h1>
+      <p className="mt-3 text-muted-foreground">That was our mistake, not yours. Your writing has not been lost. Please try again.</p>
+      <Button type="button" size="lg" className="mt-6 h-11 px-5 text-base" onClick={reset}>
+        Try again
+      </Button>
+    </main>
+  );
 }
