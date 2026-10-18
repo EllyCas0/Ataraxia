@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { AssistantMessage, UserMessage } from "@/components/chat/message";
 import { Composer } from "@/components/chat/composer";
 import { AiNotice } from "@/components/chat/notice";
 import { ModeSwitcher } from "@/components/chat/mode-switcher";
@@ -17,6 +18,38 @@ export function NewConversation({
 }) {
   const [mode, setMode] = useState<ConversationMode>(initialMode);
   const [seed, setSeed] = useState({ text: initialText, n: 0 });
+  const [messages, setMessages] = useState<{ role: "user" | "assistant"; content: string }[]>([]);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const sending = useRef(false);
+
+  async function send(text: string) {
+    if (sending.current) return;
+    sending.current = true;
+    setBusy(true);
+    setError("");
+    const next = [...messages, { role: "user" as const, content: text }];
+    setMessages(next);
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mode, messages: next.slice(-20) }),
+        signal: AbortSignal.timeout(60_000),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Unable to send your message. Please try again.");
+      if (typeof data.content !== "string" || !data.content.trim()) throw new Error("No reply was returned. Please try again.");
+      setMessages([...next, { role: "assistant", content: data.content }]);
+    } catch (cause) {
+      setMessages(messages);
+      setSeed((s) => ({ text, n: s.n + 1 }));
+      setError(cause instanceof Error && cause.name !== "TimeoutError" ? cause.message : "The reply took too long. Please try again.");
+    } finally {
+      sending.current = false;
+      setBusy(false);
+    }
+  }
 
   return (
     <div className="space-y-8">
@@ -50,6 +83,7 @@ export function NewConversation({
             <li key={starter.text}>
               <button
                 type="button"
+                disabled={busy}
                 onClick={() => {
                   setMode(starter.mode);
                   setSeed((s) => ({ text: starter.text, n: s.n + 1 }));
@@ -64,12 +98,20 @@ export function NewConversation({
       </section>
 
       <section aria-label="Write your first message" className="space-y-3">
+        {messages.length > 0 && (
+          <div aria-label="Conversation" role="log" className="space-y-6">
+            {messages.map((message, index) => message.role === "user"
+              ? <UserMessage key={index} content={message.content} />
+              : <AssistantMessage key={index} content={message.content} />)}
+          </div>
+        )}
+        {busy && <p role="status" className="text-sm text-muted-foreground">Thinking…</p>}
+        {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
         <Composer
           key={seed.n}
           initialValue={seed.text}
-          onSend={() => {}}
-          disabled
-          disabledReason="Preview: live AI replies are connected in a later step of the build. Nothing you type here is sent anywhere."
+          onSend={send}
+          busy={busy}
         />
         <AiNotice />
       </section>

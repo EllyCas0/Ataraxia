@@ -1,6 +1,36 @@
 import { expect, test } from "@playwright/test";
 import { open } from "./helpers";
 
+test("a starter can be edited and sent with conversation history", async ({ page }) => {
+  const requests: { mode: string; messages: { content: string }[] }[] = [];
+  await page.route("**/api/chat", async (route) => {
+    requests.push(route.request().postDataJSON());
+    await route.fulfill({ json: { content: "Which part matters most to you?" } });
+  });
+  await open(page, "/reflect/new");
+  await page.getByRole("button", { name: "Help me examine a difficult decision.", exact: true }).click();
+  const composer = page.getByLabel("Your message");
+  await expect(composer).toBeEnabled();
+  await composer.fill("Should I change careers?");
+  await page.getByRole("button", { name: "Send message" }).click();
+  await expect(page.getByRole("log")).toContainText("Which part matters most to you?");
+  expect(requests[0].mode).toBe("examine_dilemma");
+  await composer.fill("Having time for family.");
+  await composer.press("Enter");
+  await expect.poll(() => requests.length).toBe(2);
+  expect(requests[1].messages).toHaveLength(3);
+});
+
+test("a failed send restores the draft for retry", async ({ page }) => {
+  await page.route("**/api/chat", (route) => route.fulfill({ status: 503, json: { error: "Replies are unavailable. Please retry." } }));
+  await open(page, "/reflect/new");
+  await page.getByLabel("Your message").fill("What makes a life meaningful?");
+  await page.getByRole("button", { name: "Send message" }).click();
+  await expect(page.getByRole("alert")).toContainText("Please retry");
+  await expect(page.getByLabel("Your message")).toHaveValue("What makes a life meaningful?");
+  await expect(page.getByRole("button", { name: "Send message" })).toBeEnabled();
+});
+
 test("a new conversation offers three modes and starter prompts", async ({ page }) => {
   await open(page, "/reflect/new");
   const modes = page.getByRole("radiogroup", { name: "Conversation mode" }).getByRole("radio");
