@@ -45,3 +45,16 @@ Built with Next.js 16, React 19, TypeScript, and Tailwind CSS v4.
 
 The quote rotates daily from `lib/quotes.ts` using the visitor's local date. Haptics use the Vibration API (Android and most desktop browsers); iOS Safari has no such API, so it tries a native switch-input tap, which works on recent iOS versions but is best effort. With "reduce motion" on, the gradient stays still and the blur clears at the end of the hold instead of gradually.
 
+
+## Schools of Thought map
+
+`/map` is an interactive canvas map of five major schools (Stoicism, Buddhism, Confucianism, Existentialism, Utilitarianism) and how they relate. The nodes float gently. Clicking one glides the camera so it sits in the center, lights its connections with neon edges (cyan for shared ground, magenta for tension, with light pulses and relationship labels), and fires a callback with that school's data.
+
+```tsx
+<PhilosophyMap onSelect={(school) => setSelected(school)} />
+```
+
+`onSelect` receives the full `School` object (`lib/philosophy-map.ts`: name, era, region, tagline, summary, key ideas, thinkers, and `connections`), or `null` when the selection is cleared by clicking empty space or pressing Escape. The demo in `components/SchoolsExplorer.tsx` renders a bottom summary sheet from it. Other props: `selectedId` (control the selection yourself), `selectedOffsetY` (shift the centered node, for example up when a sheet covers the bottom), `schools` (your own data), `listClassName`.
+
+It uses the plain Canvas 2D API (`lib/map-engine.ts`), so there is no charting dependency. It is keyboard accessible through a school list that appears on focus, announces selections to screen readers, and respects reduced motion (no floating, instant camera moves).
+
