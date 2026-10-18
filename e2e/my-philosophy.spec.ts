@@ -1,8 +1,10 @@
 import { expect, test } from "@playwright/test";
 import { open } from "./helpers";
 
-test("the privacy notice is shown and the four areas are available", async ({ page }) => {
+test("the privacy notice appears on title hover and the four areas are available", async ({ page }) => {
   await open(page, "/my-philosophy");
+  await expect(page.getByLabel("Privacy")).toBeHidden();
+  await page.getByRole("button", { name: "My Philosophy", exact: true }).hover();
   await expect(page.getByLabel("Privacy")).toContainText("private to you");
   await expect(page.getByRole("tab")).toHaveCount(4);
   for (const name of ["Journal", "Saved insights", "My values", "History"]) {
