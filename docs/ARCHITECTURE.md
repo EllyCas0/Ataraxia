@@ -1,4 +1,4 @@
-# Philosophy Companion: architecture plan (Phase 1)
+# The Agora: architecture plan (Phase 1)
 
 This app replaces the earlier "Agora" app in this repository. The old code and PRD remain in git history (last Agora commit: `e1d8aa3`) and the PRD is archived in `docs/archive/`.
 

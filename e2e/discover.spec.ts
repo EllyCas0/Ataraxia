@@ -14,37 +14,42 @@ test("the question of the day is shown and stays the same when the page is reloa
   }
 });
 
-test("reflecting on the daily question opens a conversation that starts from it", async ({ page }) => {
+test("considering the daily question opens a conversation that starts from it", async ({ page }) => {
   await open(page, "/discover");
   const question = await page.locator("section[aria-labelledby='qotd-heading'] h2").first().innerText();
-  await page.getByRole("link", { name: /Reflect on this with the AI/ }).click();
+  await page.getByRole("link", { name: /Consider this question/ }).click();
   await expect(page).toHaveURL(/\/reflect\/new\?question=/);
   await expect(page.getByText("Starting from:")).toBeVisible();
   await expect(page.getByLabel("Your message")).toHaveValue(question);
 });
 
-test("browse-by-theme links filter the idea library", async ({ page }) => {
+test("today's topic links to the ideas in that theme", async ({ page }) => {
   await open(page, "/discover");
-  await page.getByRole("link", { name: /Death and impermanence/ }).first().click();
-  await expect(page).toHaveURL(/theme=death-impermanence/);
-  await expect(page.getByRole("status")).toContainText("in death and impermanence");
-  await expect(page.getByRole("link", { name: /Impermanence/ }).first()).toBeVisible();
+  await page.locator("section[aria-labelledby='qotd-heading'] a").first().click();
+  await expect(page).toHaveURL(/\/ideas\?theme=/);
+  await expect(page.getByRole("status")).toContainText("ideas");
 });
 
-test("the weekly perspective card opens the comparison", async ({ page }) => {
+test("the home page search opens the idea library with results", async ({ page }) => {
   await open(page, "/discover");
-  await page.getByRole("link", { name: "Compare the perspectives" }).click();
+  await page.getByLabel("Search ideas by topic").fill("justice");
+  await page.getByRole("button", { name: "Search" }).click();
+  await expect(page).toHaveURL(/\/ideas\?q=justice/);
+  await expect(page.getByRole("link", { name: /The veil of ignorance/ }).first()).toBeVisible();
+});
+
+test("start reflecting opens a new conversation", async ({ page }) => {
+  await open(page, "/discover");
+  await page.getByRole("link", { name: /Start reflecting/ }).click();
+  await expect(page).toHaveURL(/\/reflect\/new$/);
+});
+
+test("the weekly card opens the comparison", async ({ page }) => {
+  await open(page, "/discover");
+  await page.getByRole("link", { name: /^This week:/ }).click();
   await expect(page).toHaveURL(/\/weekly$/);
   const cards = page.locator("section[aria-labelledby='perspectives'] > ul > li");
   expect(await cards.count()).toBeGreaterThanOrEqual(2);
   expect(await cards.count()).toBeLessThanOrEqual(3);
   await expect(page.getByLabel(/Your own thoughts/)).toBeVisible();
-});
-
-test("featured ideas open their detail page", async ({ page }) => {
-  await open(page, "/discover");
-  const card = page.locator("section[aria-label='Featured ideas'] a").first();
-  const title = await card.locator("h3").innerText();
-  await card.click();
-  await expect(page.getByRole("heading", { level: 1, name: title })).toBeVisible();
 });

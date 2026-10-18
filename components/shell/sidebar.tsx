@@ -10,8 +10,8 @@ export function Sidebar() {
   const pathname = usePathname();
   return (
     <aside className="fixed inset-y-0 left-0 z-30 hidden w-24 flex-col items-center gap-6 border-r border-sidebar-border bg-sidebar py-6 md:flex">
-      <Link href="/discover" className="font-serif text-lg leading-none tracking-tight text-foreground" aria-label="Philosophy Companion home">
-        <span className="flex size-10 items-center justify-center rounded-full border border-foreground/20 text-[1.05rem]">P</span>
+      <Link href="/discover" className="font-serif text-lg leading-none tracking-tight text-foreground" aria-label="The Agora home">
+        <span className="flex size-10 items-center justify-center rounded-full border border-foreground/20 text-[1.05rem]">A</span>
       </Link>
 
       <Link
