@@ -10,7 +10,13 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   reporter: [["list"]],
-  use: { baseURL: `http://localhost:${PORT}`, trace: "retain-on-failure" },
+  use: {
+    baseURL: `http://localhost:${PORT}`,
+    trace: "retain-on-failure",
+    // Real browsers block sound until the person interacts with the page. The tests allow it so the
+    // "starts by itself" case can be checked; the blocked case is tested by stubbing audio.play().
+    launchOptions: { args: ["--autoplay-policy=no-user-gesture-required"] },
+  },
   projects: [
     { name: "desktop", use: { ...devices["Desktop Chrome"], channel: "chrome", viewport: { width: 1280, height: 800 } } },
     { name: "mobile", use: { ...devices["Pixel 7"], channel: "chrome" } },
