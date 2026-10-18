@@ -33,6 +33,11 @@ export default async function IdeasPage({ searchParams }: { searchParams: Search
         <p className="mt-3 max-w-2xl text-lg leading-relaxed text-muted-foreground">
           Short, plain-language notes on ideas from many traditions. They are starting points for your own thinking, not a replacement for the original texts.
         </p>
+        <p className="mt-3 text-sm">
+          <Link href="/weekly" className="text-accent-foreground underline underline-offset-4">
+            This week&apos;s human perspective
+          </Link>
+        </p>
       </header>
 
       <form method="get" action="/ideas" role="search" className="grid gap-3 md:grid-cols-[1fr_12rem_12rem_auto]">

@@ -1,33 +1,31 @@
 import { expect, test } from "@playwright/test";
 import { open } from "./helpers";
 
-test("the question of the day is shown and stays the same when the page is reloaded", async ({ page }) => {
+test("the daily insight is shown and stays the same when the page is reloaded", async ({ page }) => {
   await open(page, "/discover");
-  const heading = page.locator("section[aria-labelledby='qotd-heading'] h2").first();
-  await expect(heading).toBeVisible();
-  const first = await heading.innerText();
-  expect(first.endsWith("?")).toBe(true);
-
+  const card = page.getByRole("link", { name: /Daily insight/ });
+  await expect(card).toBeVisible();
+  const first = (await card.textContent()) ?? "";
+  expect(first).toContain("\u2014");
   for (let i = 0; i < 3; i++) {
     await page.reload();
-    await expect(heading).toHaveText(first);
+    await expect(card).toHaveText(first.replace(/\s+/g, " ").trim());
   }
 });
 
-test("considering the daily question opens a conversation that starts from it", async ({ page }) => {
+test("the daily insight opens its reading view with the source", async ({ page }) => {
   await open(page, "/discover");
-  const question = await page.locator("section[aria-labelledby='qotd-heading'] h2").first().innerText();
-  await page.getByRole("link", { name: /Consider this question/ }).click();
-  await expect(page).toHaveURL(/\/reflect\/new\?question=/);
-  await expect(page.getByText("Starting from:")).toBeVisible();
-  await expect(page.getByLabel("Your message")).toHaveValue(question);
+  await page.getByRole("link", { name: /Daily insight/ }).click();
+  await expect(page).toHaveURL(/\/insights\/[a-z-]+$/);
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await expect(page.getByText(/^Source:/)).toBeVisible();
+  await page.getByRole("link", { name: "Reflect on this" }).click();
+  await expect(page).toHaveURL(/\/reflect\/new/);
 });
 
-test("today's topic links to the ideas in that theme", async ({ page }) => {
-  await open(page, "/discover");
-  await page.locator("section[aria-labelledby='qotd-heading'] a").first().click();
-  await expect(page).toHaveURL(/\/ideas\?theme=/);
-  await expect(page.getByRole("status")).toContainText("ideas");
+test("an unknown insight is a 404", async ({ page }) => {
+  const response = await page.goto("/insights/not-a-real-one");
+  expect(response?.status()).toBe(404);
 });
 
 test("the home page search opens the idea library with results", async ({ page }) => {
@@ -44,9 +42,16 @@ test("start reflecting opens a new conversation", async ({ page }) => {
   await expect(page).toHaveURL(/\/reflect\/new$/);
 });
 
-test("the weekly card opens the comparison", async ({ page }) => {
+test("the Try this card opens Reframe", async ({ page }) => {
   await open(page, "/discover");
-  await page.getByRole("link", { name: /^This week:/ }).click();
+  await page.getByRole("link", { name: /Reframe a worried thought/ }).click();
+  await expect(page).toHaveURL(/\/reframe$/);
+  await expect(page.getByRole("heading", { level: 1, name: "Reframe a worried thought" })).toBeVisible();
+});
+
+test("the weekly perspective is still reachable from the idea library", async ({ page }) => {
+  await open(page, "/ideas");
+  await page.getByRole("link", { name: "This week's human perspective" }).click();
   await expect(page).toHaveURL(/\/weekly$/);
   const cards = page.locator("section[aria-labelledby='perspectives'] > ul > li");
   expect(await cards.count()).toBeGreaterThanOrEqual(2);

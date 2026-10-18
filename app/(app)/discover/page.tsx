@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { DailyInsightCard } from "@/components/content/daily-insight-card";
 import { buttonVariants } from "@/components/ui/button";
-import { content } from "@/lib/content/repository";
-import { getTheme } from "@/lib/content/themes";
+import { insightImage } from "@/lib/content/insight-image";
+import { insights, pickDailyInsight } from "@/lib/content/insights";
 import { getAppTimezone, zonedDateKey } from "@/lib/time";
 import { cn } from "@/lib/utils";
 
@@ -13,9 +14,7 @@ export const dynamic = "force-dynamic";
 
 export default function DiscoverPage() {
   const dateKey = zonedDateKey(new Date(), getAppTimezone());
-  const question = content.dailyQuestion(dateKey);
-  const theme = getTheme(question.theme);
-  const weekly = content.weeklyPrompt(dateKey);
+  const insight = pickDailyInsight(insights, dateKey);
 
   return (
     <div className="space-y-12 md:space-y-16">
@@ -54,36 +53,17 @@ export default function DiscoverPage() {
           </Link>
         </div>
 
-        <section aria-labelledby="qotd-heading" className="rounded-3xl bg-accent p-7 md:p-9">
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-foreground/70">Today&apos;s topic</p>
-          <Link href={`/ideas?theme=${theme.slug}`} className="mt-3 inline-flex items-center gap-2 font-serif text-2xl hover:underline">
-            {theme.name}
-            <ArrowRight className="size-5" aria-hidden />
-          </Link>
-          <h2 id="qotd-heading" className="mt-8 text-3xl leading-snug md:text-4xl">
-            {question.question}
-          </h2>
-          <Link
-            href={`/reflect/new?question=${encodeURIComponent(question.slug)}`}
-            className="mt-6 inline-flex items-center gap-1.5 text-base hover:underline"
-          >
-            Consider this question
-            <ArrowRight className="size-4" aria-hidden />
-          </Link>
-        </section>
+        <DailyInsightCard insight={insight} image={insightImage(insight.slug)} />
       </div>
 
       <Link
-        href="/weekly"
-        aria-label={`This week: ${weekly.question}`}
+        href="/reframe"
         className="flex items-center justify-between gap-6 rounded-3xl border border-border bg-card p-6 transition-colors hover:border-foreground/30 md:p-8"
       >
         <span>
-          <span className="block text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">This week</span>
-          <span className="mt-2 block font-serif text-2xl leading-snug">{weekly.question}</span>
-          <span className="mt-2 block text-base text-muted-foreground">
-            See how {weekly.perspectives.map((p) => p.tradition).join(", ")} approach it.
-          </span>
+          <span className="block text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Try this</span>
+          <span className="mt-2 block font-serif text-2xl leading-snug">Reframe a worried thought</span>
+          <span className="mt-2 block text-base text-muted-foreground">See one thought through four lenses: anxious, Stoic, growth, and cosmic.</span>
         </span>
         <ArrowRight className="size-6 shrink-0 text-accent-foreground" aria-hidden />
       </Link>

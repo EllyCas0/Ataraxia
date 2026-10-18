@@ -123,3 +123,34 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Reframe: an invisible range input that sits on top of a custom-drawn slider (see components/reframe). */
+.reframe-input {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  margin: 0;
+  touch-action: pan-y;
+}
+.reframe-input::-webkit-slider-runnable-track {
+  height: 44px;
+  background: transparent;
+}
+.reframe-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 28px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+}
+.reframe-input::-moz-range-track {
+  height: 44px;
+  background: transparent;
+}
+.reframe-input::-moz-range-thumb {
+  width: 28px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+}
