@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Search } from "lucide-react";
+import { ArrowRight, Search } from "lucide-react";
 import { ConceptCard } from "@/components/content/concept-card";
 import { NativeSelect } from "@/components/content/native-select";
 import { Button } from "@/components/ui/button";
@@ -33,9 +33,12 @@ export default async function IdeasPage({ searchParams }: { searchParams: Search
         <p className="mt-3 max-w-2xl text-lg leading-relaxed text-muted-foreground">
           Short, plain-language notes on ideas from many traditions. They are starting points for your own thinking, not a replacement for the original texts.
         </p>
-        <p className="mt-3 text-sm">
+        <p className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm">
           <Link href="/weekly" className="text-accent-foreground underline underline-offset-4">
             This week&apos;s human perspective
+          </Link>
+          <Link href="/ethics" className="text-accent-foreground underline underline-offset-4">
+            Ethics: guided tours
           </Link>
         </p>
       </header>
@@ -86,6 +89,20 @@ export default async function IdeasPage({ searchParams }: { searchParams: Search
           Search
         </Button>
       </form>
+
+      {theme === "ethics-morality" && (
+        <Link
+          href="/ethics/natural-law"
+          className="flex items-center justify-between gap-4 rounded-3xl border border-accent-foreground/40 bg-card p-5 transition-colors hover:border-accent-foreground"
+        >
+          <span>
+            <span className="block text-xs font-semibold uppercase tracking-[0.2em] text-accent-foreground">Go deeper</span>
+            <span className="mt-1 block text-lg font-extrabold">Natural Law: a guided tour</span>
+            <span className="mt-1 block text-sm text-muted-foreground">Ten core ideas, the best objections, and space for your own reflections.</span>
+          </span>
+          <ArrowRight className="size-5 shrink-0 text-accent-foreground" aria-hidden />
+        </Link>
+      )}
 
       <section aria-label="Results">
         <p className="mb-4 text-sm text-muted-foreground" role="status">
