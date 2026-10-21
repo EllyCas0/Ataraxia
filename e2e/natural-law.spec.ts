@@ -24,7 +24,8 @@ test("Natural Law can be reached from the Ethics category", async ({ page }) => 
   await page.getByRole("link", { name: "Ethics: guided tours" }).click();
   await expect(page).toHaveURL(/\/ethics$/);
   await expect(page.getByRole("heading", { level: 1, name: "Ethics" })).toBeVisible();
-  await page.getByRole("link", { name: /Natural Law/ }).click();
+  // Scoped to the page content: the side navigation also has a "Natural Law" link.
+  await page.locator("#main").getByRole("link", { name: /Natural Law/ }).click();
   await expect(page).toHaveURL(/\/ethics\/natural-law$/);
   await expect(page.getByRole("heading", { level: 1, name: "Natural Law" })).toBeVisible();
 });
