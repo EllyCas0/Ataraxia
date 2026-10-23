@@ -10,7 +10,8 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Primary"
-      className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-3 border-t border-border bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"
+      style={{ gridTemplateColumns: `repeat(${navItems.length}, minmax(0, 1fr))` }}
+      className="fixed inset-x-0 bottom-0 z-30 grid border-t border-border bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"
     >
       {navItems.map((item) => {
         const active = isActive(item, pathname);

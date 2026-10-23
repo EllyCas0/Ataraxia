@@ -26,7 +26,8 @@ test("a failed send restores the draft for retry", async ({ page }) => {
   await open(page, "/reflect/new");
   await page.getByLabel("Your message").fill("What makes a life meaningful?");
   await page.getByRole("button", { name: "Send message" }).click();
-  await expect(page.getByRole("alert")).toContainText("Please retry");
+  // Next.js keeps an empty role="alert" route announcer on the page, so pick the error message by its text.
+  await expect(page.getByRole("alert").filter({ hasText: "Please retry" })).toBeVisible();
   await expect(page.getByLabel("Your message")).toHaveValue("What makes a life meaningful?");
   await expect(page.getByRole("button", { name: "Send message" })).toBeEnabled();
 });

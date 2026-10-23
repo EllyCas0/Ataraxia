@@ -7,7 +7,7 @@ test("the home page leads to Discover", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 });
 
-test("the three main destinations are reachable from the navigation", async ({ page, isMobile }) => {
+test("the main destinations are reachable from the navigation", async ({ page, isMobile }) => {
   await open(page, "/discover");
   const nav = page.getByRole("navigation", { name: "Primary" }).filter({ visible: true });
   await expect(nav.getByRole("link", { name: "Discover" })).toHaveAttribute("aria-current", "page");
@@ -71,5 +71,37 @@ test("the page does not scroll sideways", async ({ page }) => {
     await page.goto(path);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     expect(overflow, `${path} overflows horizontally`).toBeLessThanOrEqual(1);
+  }
+});
+
+test("the navigation has a Natural Law link that opens the Natural Law page and marks it as current", async ({ page }) => {
+  await open(page, "/discover");
+  const nav = page.getByRole("navigation", { name: "Primary" }).filter({ visible: true });
+  await expect(nav.getByRole("link", { name: "Natural Law" })).not.toHaveAttribute("aria-current", "page");
+
+  await nav.getByRole("link", { name: "Natural Law" }).click();
+  await expect(page).toHaveURL(/\/ethics\/natural-law$/);
+  await expect(page.getByRole("heading", { level: 1, name: "Natural Law" })).toBeVisible();
+  await expect(nav.getByRole("link", { name: "Natural Law" })).toHaveAttribute("aria-current", "page");
+  await expect(nav.getByRole("link", { name: "Discover" })).not.toHaveAttribute("aria-current", "page");
+
+  // It stays marked on the other Natural Law sections and on the Ethics index.
+  await open(page, "/ethics/natural-law?section=tenets");
+  await expect(nav.getByRole("link", { name: "Natural Law" })).toHaveAttribute("aria-current", "page");
+  await open(page, "/ethics");
+  await expect(nav.getByRole("link", { name: "Natural Law" })).toHaveAttribute("aria-current", "page");
+});
+
+test("every navigation item fits on the screen, in the sidebar and in the bottom bar", async ({ page }) => {
+  await open(page, "/discover");
+  const nav = page.getByRole("navigation", { name: "Primary" }).filter({ visible: true });
+  const viewport = page.viewportSize()!;
+  const links = nav.getByRole("link");
+  expect(await links.count()).toBe(4);
+  for (let i = 0; i < 4; i++) {
+    const box = (await links.nth(i).boundingBox())!;
+    expect(box.x).toBeGreaterThanOrEqual(0);
+    expect(box.x + box.width).toBeLessThanOrEqual(viewport.width);
+    expect(box.y + box.height).toBeLessThanOrEqual(viewport.height);
   }
 });
