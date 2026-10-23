@@ -43,7 +43,7 @@ export default async function IdeasPage({ searchParams }: { searchParams: Search
         </p>
       </header>
 
-      <form method="get" action="/ideas" role="search" className="grid gap-3 md:grid-cols-[1fr_12rem_12rem_auto]">
+      <form key={JSON.stringify([q, tradition, theme])} method="get" action="/ideas" role="search" className="grid gap-3 md:grid-cols-[1fr_12rem_12rem_auto]">
         <div className="relative">
           <label htmlFor="q" className="sr-only">
             Search ideas

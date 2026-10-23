@@ -32,9 +32,44 @@ export async function POST(request: Request) {
       input: parsed.data.messages,
       max_output_tokens: 1000,
       store: false,
+      stream: true,
     });
-    if (!reply.output_text.trim()) throw new Error("Empty reply");
-    return Response.json({ content: reply.output_text });
+    const encoder = new TextEncoder();
+    let cancelled = false;
+    const stream = new ReadableStream({
+      async start(controller) {
+        const send = (event: object) => {
+          if (!cancelled) controller.enqueue(encoder.encode(JSON.stringify(event) + "\n"));
+        };
+        let text = "";
+        let completed = false;
+        try {
+          for await (const event of reply) {
+            if (event.type === "response.output_text.delta") {
+              text += event.delta;
+              send({ delta: event.delta });
+            } else if (event.type === "response.completed") {
+              completed = true;
+            } else if (event.type === "response.failed" || event.type === "response.incomplete" || event.type === "error") {
+              throw new Error("Incomplete reply");
+            }
+          }
+          if (!completed || !text.trim()) throw new Error("Incomplete reply");
+          send({ done: true });
+        } catch {
+          send({ error: "Unable to finish the reply. Please try again. Your message has been kept." });
+        } finally {
+          if (!cancelled) controller.close();
+        }
+      },
+      cancel() {
+        cancelled = true;
+        reply.controller.abort();
+      },
+    });
+    return new Response(stream, {
+      headers: { "Content-Type": "application/x-ndjson", "Cache-Control": "no-cache, no-transform", "X-Accel-Buffering": "no" },
+    });
   } catch {
     return Response.json({ error: "Unable to get a reply right now. Please try again. Your message has been kept." }, { status: 502 });
   }

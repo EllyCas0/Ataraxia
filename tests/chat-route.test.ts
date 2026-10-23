@@ -21,9 +21,12 @@ it("explains missing configuration", async () => {
 });
 it("passes history and mode guidance and returns the reply", async () => {
   vi.stubEnv("OPENAI_API_KEY", "test");
-  create.mockResolvedValue({ output_text: "What values are in tension?" });
+  create.mockResolvedValue((async function* () {
+    yield { type: "response.output_text.delta", delta: "What values are in tension?" };
+    yield { type: "response.completed" };
+  })());
   const response = await POST(request(body));
-  expect(await response.json()).toEqual({ content: "What values are in tension?" });
+  expect(await response.text()).toBe('{"delta":"What values are in tension?"}\n{"done":true}\n');
   expect(create).toHaveBeenCalledWith(expect.objectContaining({ input: body.messages, store: false, instructions: expect.stringContaining("competing values") }));
 });
 it("handles provider failure without exposing details", async () => {

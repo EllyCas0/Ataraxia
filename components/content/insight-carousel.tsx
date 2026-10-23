@@ -96,7 +96,7 @@ export function InsightCarousel({ slides }: { slides: InsightSlide[] }) {
             )}
             <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/55 to-black/10" />
 
-            <p className="absolute left-7 top-7 text-xs font-medium uppercase tracking-[0.2em] text-white/70 md:left-9 md:top-9">Daily insight</p>
+            <p className="absolute left-7 top-7 text-xs font-medium uppercase tracking-[0.2em] text-white/70 md:left-9 md:top-9">Daily insights</p>
 
             <div>
               <blockquote className="font-serif text-2xl leading-relaxed [text-shadow:0_1px_14px_rgb(0_0_0/0.55)] md:text-3xl md:leading-relaxed">&ldquo;{insight.quote}&rdquo;</blockquote>

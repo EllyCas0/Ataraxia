@@ -105,7 +105,7 @@ export function MusicPlayer() {
   const showPill = playing || failed;
 
   return (
-    <div ref={container} className="fixed bottom-[4.75rem] left-4 z-40 flex items-center gap-3 md:bottom-6 md:left-28">
+    <div ref={container} className="group fixed bottom-[4.75rem] left-4 z-40 flex items-center gap-3 md:bottom-6 md:left-28">
       <audio
         ref={audio}
         src={TRACK.src}
@@ -130,7 +130,7 @@ export function MusicPlayer() {
       </button>
 
       {showPill && (
-        <div className="flex h-12 max-w-[calc(100vw-6.5rem)] items-center gap-3 rounded-full border border-border bg-card/90 px-4 backdrop-blur">
+        <div className="hidden h-12 max-w-[calc(100vw-6.5rem)] items-center gap-3 rounded-full border border-border bg-card/90 px-4 backdrop-blur group-hover:flex group-has-[:focus-visible]:flex">
           {failed ? (
             <p role="status" className="truncate text-sm text-muted-foreground">
               Audio file not found

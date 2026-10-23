@@ -9,7 +9,7 @@ export interface NavItem {
 }
 
 export const navItems: NavItem[] = [
-  { href: "/discover", label: "Discover", icon: Compass, matches: ["/discover", "/ideas", "/weekly", "/reframe"] },
+  { href: "/ideas", label: "Discover", icon: Compass, matches: ["/discover", "/ideas", "/weekly", "/reframe"] },
   { href: "/ethics/natural-law", label: "Natural Law", icon: Scale, matches: ["/ethics"] },
   { href: "/reflect", label: "Reflect", icon: MessageCircle, matches: ["/reflect"] },
   { href: "/my-philosophy", label: "My Philosophy", icon: BookMarked, matches: ["/my-philosophy"] },

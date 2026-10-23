@@ -75,7 +75,8 @@ export default function DiscoverPage() {
               {vibes.map((vibe) => (
                 <li key={vibe.theme}>
                   <Link
-                    href={`/ideas?theme=${vibe.theme}`}
+                    href={`/ideas?theme=${vibe.theme}#main`}
+                    prefetch={true}
                     className="inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm font-medium transition-transform hover:-translate-y-0.5 motion-reduce:transition-none"
                     style={{ background: `oklch(0.3 0.09 ${vibe.hue})`, borderColor: `oklch(0.52 0.15 ${vibe.hue})` }}
                   >

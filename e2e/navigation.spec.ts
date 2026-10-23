@@ -21,7 +21,12 @@ test("the main destinations are reachable from the navigation", async ({ page, i
   await expect(page.getByRole("heading", { level: 1, name: "My Philosophy" })).toBeVisible();
 
   await nav.getByRole("link", { name: "Discover" }).click();
-  await expect(page).toHaveURL(/\/discover$/);
+  await expect(page).toHaveURL(/\/ideas$/);
+  await expect(page.getByRole("heading", { level: 1, name: "Explore ideas" })).toBeVisible();
+  await page.goto("/ideas?theme=identity-self-knowledge");
+  await nav.getByRole("link", { name: "Discover" }).click();
+  await expect(page).toHaveURL(/\/ideas$/);
+  await expect(page.getByLabel("Theme", { exact: true })).toHaveValue("");
   expect(isMobile !== undefined).toBe(true);
 });
 

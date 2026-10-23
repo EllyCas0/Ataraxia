@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { readChatReply } from "@/lib/chat-stream";
 import { AssistantMessage, UserMessage } from "@/components/chat/message";
 import { Composer } from "@/components/chat/composer";
 import { AiNotice } from "@/components/chat/notice";
@@ -37,10 +38,9 @@ export function NewConversation({
         body: JSON.stringify({ mode, messages: next.slice(-20) }),
         signal: AbortSignal.timeout(60_000),
       });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Unable to send your message. Please try again.");
-      if (typeof data.content !== "string" || !data.content.trim()) throw new Error("No reply was returned. Please try again.");
-      setMessages([...next, { role: "assistant", content: data.content }]);
+      await readChatReply(response, (content) => {
+        setMessages([...next, { role: "assistant", content }]);
+      });
     } catch (cause) {
       setMessages(messages);
       setSeed((s) => ({ text, n: s.n + 1 }));

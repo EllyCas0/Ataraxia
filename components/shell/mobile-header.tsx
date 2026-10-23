@@ -9,7 +9,7 @@ export function MobileHeader() {
     <header className="sticky top-0 z-30 flex items-center justify-between border-b border-border bg-background/90 px-4 py-2.5 backdrop-blur md:hidden">
       <Link href="/discover" className="inline-flex items-baseline gap-2 font-serif text-lg tracking-tight">
         The Agora
-        <span className="font-sans text-xs font-medium tracking-normal text-muted-foreground">v0.1.0</span>
+        <span className="font-sans text-xs font-medium tracking-normal text-muted-foreground">v0.2.0</span>
       </Link>
       <Link
         href={NEW_CONVERSATION_HREF}
