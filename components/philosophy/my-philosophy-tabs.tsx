@@ -15,10 +15,7 @@ export function MyPhilosophyTabs({ defaultTab }: { defaultTab: MyPhilosophyTab }
     <Tabs value={tab} onValueChange={setTab} className="gap-6">
       <TabsList className="h-auto w-full flex-wrap justify-start gap-1 p-1 group-data-horizontal/tabs:h-auto sm:w-fit">
         <TabsTrigger value="journal" className="h-9 px-4 text-sm">
-          Journal
-        </TabsTrigger>
-        <TabsTrigger value="saved" className="h-9 px-4 text-sm">
-          Saved insights
+          Journal &amp; saved
         </TabsTrigger>
         <TabsTrigger value="values" className="h-9 px-4 text-sm">
           My values
@@ -27,11 +24,14 @@ export function MyPhilosophyTabs({ defaultTab }: { defaultTab: MyPhilosophyTab }
           History
         </TabsTrigger>
       </TabsList>
-      <TabsContent value="journal">
+      <TabsContent value="journal" className="space-y-10">
         <JournalPanel initialEntries={demoJournal} />
-      </TabsContent>
-      <TabsContent value="saved">
-        <SavedPanel initialItems={demoSaved} />
+        <section aria-labelledby="saved-heading" className="space-y-3">
+          <h2 id="saved-heading" className="text-2xl">
+            Saved for later
+          </h2>
+          <SavedPanel initialItems={demoSaved} />
+        </section>
       </TabsContent>
       <TabsContent value="values">
         <ValuesPanel initialRanked={demoRankedValues} />

@@ -141,8 +141,12 @@ test("a bolt really does flash during the cycle", async ({ page }) => {
   expect(opacity).toBeGreaterThan(0.9);
 });
 
-test("the reading page shows the storm too", async ({ page }) => {
+test("the reading page has a still colour instead of the storm", async ({ page }) => {
   await open(page, "/insights/socrates-unexamined-life");
-  await expect(page.getByTestId("storm")).toBeVisible();
+  await expect(page.getByTestId("storm")).toHaveCount(0);
+  const still = page.getByTestId("static-gradient");
+  await expect(still).toBeVisible();
+  // Nothing on the page's background is animated.
+  expect(await still.evaluate((el) => el.getAnimations({ subtree: true }).length)).toBe(0);
   await expect(page.getByRole("heading", { level: 1 })).toContainText("unexamined life");
 });

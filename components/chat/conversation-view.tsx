@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { AssistantMessage, UserMessage } from "@/components/chat/message";
 import { Composer } from "@/components/chat/composer";
 import { FollowUps } from "@/components/chat/follow-ups";
-import { ModeSwitcher } from "@/components/chat/mode-switcher";
+import { StyleControl } from "@/components/chat/style-control";
 import { AiNotice } from "@/components/chat/notice";
 import type { DemoConversation } from "@/lib/demo/data";
 import type { ConversationMode } from "@/lib/content/chat";
@@ -57,7 +57,7 @@ export function ConversationView({ conversation }: { conversation: DemoConversat
         </AlertDialog>
       </header>
 
-      <ModeSwitcher value={mode} onChange={setMode} />
+      <StyleControl value={mode} onChange={setMode} />
       <AiNotice />
 
       <section aria-label="Conversation" className="space-y-8 py-2">

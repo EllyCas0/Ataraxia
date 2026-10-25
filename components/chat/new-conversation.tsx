@@ -5,7 +5,7 @@ import { readChatReply } from "@/lib/chat-stream";
 import { AssistantMessage, UserMessage } from "@/components/chat/message";
 import { Composer } from "@/components/chat/composer";
 import { AiNotice } from "@/components/chat/notice";
-import { ModeSwitcher } from "@/components/chat/mode-switcher";
+import { StyleControl } from "@/components/chat/style-control";
 import { starterPrompts, type ConversationMode } from "@/lib/content/chat";
 
 export function NewConversation({
@@ -67,16 +67,11 @@ export function NewConversation({
         </p>
       )}
 
-      <section aria-labelledby="mode-heading" className="space-y-3">
-        <h2 id="mode-heading" className="text-sm font-medium uppercase tracking-[0.16em] text-muted-foreground">
-          How would you like to think?
-        </h2>
-        <ModeSwitcher value={mode} onChange={setMode} />
-      </section>
+      <StyleControl value={mode} onChange={setMode} disabled={busy} />
 
       <section aria-labelledby="starters-heading" className="space-y-3">
         <h2 id="starters-heading" className="text-sm font-medium uppercase tracking-[0.16em] text-muted-foreground">
-          Or start with one of these
+          Need a place to start?
         </h2>
         <ul className="flex flex-wrap gap-2">
           {starterPrompts.map((starter) => (

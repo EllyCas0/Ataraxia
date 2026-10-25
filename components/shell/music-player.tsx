@@ -17,7 +17,7 @@ function readEnabled(): boolean {
   try {
     return parseEnabled(window.localStorage.getItem(MUSIC_ENABLED_KEY));
   } catch {
-    return true;
+    return false;
   }
 }
 
@@ -29,16 +29,12 @@ function saveEnabled(enabled: boolean) {
   }
 }
 
-const GESTURES = ["pointerdown", "keydown", "touchstart"] as const;
-
-// A small music control in the bottom-left corner. The music tries to start when the page opens.
-// Browsers usually refuse sound until the person has interacted with the page, so if that happens it
-// starts on their first click, tap, or key press instead. The round button pauses and plays (a pause is
-// remembered for next time) and the slider sets the volume. It lives in the app layout, so the music
-// keeps playing while you move between pages.
+// A small music control in the bottom-left corner. It never starts on a first visit: the round button plays
+// and pauses, and the slider sets the volume. If the person left it playing last time, it tries to resume
+// quietly; when the browser refuses (it usually does until the page has been used) it simply stays paused and
+// waits for the button. It lives in the app layout, so the music keeps playing while you move between pages.
 export function MusicPlayer() {
   const audio = useRef<HTMLAudioElement>(null);
-  const container = useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = useState(false);
   const [failed, setFailed] = useState(false);
   // The slider is only drawn once music is playing, so reading storage here cannot change the server-rendered markup.
@@ -51,29 +47,10 @@ export function MusicPlayer() {
   useEffect(() => {
     const element = audio.current;
     if (!element || !readEnabled()) return;
-
-    const stopWaiting = () => GESTURES.forEach((name) => document.removeEventListener(name, onGesture, true));
-    const waitForGesture = () => GESTURES.forEach((name) => document.addEventListener(name, onGesture, true));
-
-    function onGesture(event: Event) {
-      // A press on the player's own button is handled by the button, not here.
-      if (container.current?.contains(event.target as Node)) return;
-      stopWaiting();
-      void start();
-    }
-
-    async function start() {
-      if (!element) return;
-      try {
-        await element.play();
-      } catch (error) {
-        if (error instanceof DOMException && error.name === "NotAllowedError") waitForGesture();
-        else if (!(error instanceof DOMException && error.name === "AbortError")) setFailed(true);
-      }
-    }
-
-    void start();
-    return stopWaiting;
+    element.play().catch((error: unknown) => {
+      // A blocked autoplay is expected and not an error; anything else (such as a missing file) is reported.
+      if (!(error instanceof DOMException && (error.name === "NotAllowedError" || error.name === "AbortError"))) setFailed(true);
+    });
   }, []);
 
   async function toggle() {
@@ -105,7 +82,7 @@ export function MusicPlayer() {
   const showPill = playing || failed;
 
   return (
-    <div ref={container} className="group fixed bottom-[4.75rem] left-4 z-40 flex items-center gap-3 md:bottom-6 md:left-28">
+    <div className="group fixed bottom-[4.75rem] left-4 z-40 flex items-center gap-3 md:bottom-6 md:left-28">
       <audio
         ref={audio}
         src={TRACK.src}

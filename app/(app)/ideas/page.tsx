@@ -37,8 +37,8 @@ export default async function IdeasPage({ searchParams }: { searchParams: Search
           <Link href="/weekly" className="text-accent-foreground underline underline-offset-4">
             This week&apos;s human perspective
           </Link>
-          <Link href="/ethics" className="text-accent-foreground underline underline-offset-4">
-            Ethics: guided tours
+          <Link href="/ethics/natural-law" className="text-accent-foreground underline underline-offset-4">
+            Natural Law: a guided tour
           </Link>
         </p>
       </header>
@@ -97,7 +97,7 @@ export default async function IdeasPage({ searchParams }: { searchParams: Search
         >
           <span>
             <span className="block text-xs font-semibold uppercase tracking-[0.2em] text-accent-foreground">Go deeper</span>
-            <span className="mt-1 block text-lg font-extrabold">Natural Law: a guided tour</span>
+            <span className="mt-1 block text-lg font-extrabold">Go deeper into Natural Law</span>
             <span className="mt-1 block text-sm text-muted-foreground">Ten core ideas, the best objections, and space for your own reflections.</span>
           </span>
           <ArrowRight className="size-5 shrink-0 text-accent-foreground" aria-hidden />

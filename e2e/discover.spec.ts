@@ -73,25 +73,10 @@ test("an unknown insight is a 404", async ({ page }) => {
   expect(response?.status()).toBe(404);
 });
 
-test("the home page search opens the idea library with results", async ({ page }) => {
-  await open(page, "/discover");
-  await page.getByLabel("Search ideas by topic").fill("justice");
-  await page.getByRole("button", { name: "Search" }).click();
-  await expect(page).toHaveURL(/\/ideas\?q=justice/);
-  await expect(page.getByRole("link", { name: /The veil of ignorance/ }).first()).toBeVisible();
-});
-
 test("start thinking opens a new conversation", async ({ page }) => {
   await open(page, "/discover");
   await page.getByRole("link", { name: /Start thinking/ }).click();
   await expect(page).toHaveURL(/\/reflect\/new$/);
-});
-
-test("the Try this card opens Reframe", async ({ page }) => {
-  await open(page, "/discover");
-  await page.getByRole("link", { name: /Reframe a worried thought/ }).click();
-  await expect(page).toHaveURL(/\/reframe$/);
-  await expect(page.getByRole("heading", { level: 1, name: "Reframe a worried thought" })).toBeVisible();
 });
 
 test("the weekly perspective is still reachable from the idea library", async ({ page }) => {
@@ -104,9 +89,61 @@ test("the weekly perspective is still reachable from the idea library", async ({
   await expect(page.getByLabel(/Your own thoughts/)).toBeVisible();
 });
 
-test("a vibe chip opens the ideas in that theme", async ({ page }) => {
+test("the home page has no vibe chips and no search box", async ({ page }) => {
   await open(page, "/discover");
-  await page.getByRole("link", { name: /Love & friends/ }).click();
-  await expect(page).toHaveURL(/theme=love-relationships/);
-  await expect(page.getByRole("status")).toContainText("love and relationships");
+  await expect(page.getByText("Pick a vibe")).toHaveCount(0);
+  await expect(page.getByRole("search")).toHaveCount(0);
+  await expect(page.getByLabel("Search ideas by topic")).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "Browse ideas" })).toBeVisible();
+});
+
+test("search still works on the Ideas page", async ({ page }) => {
+  await open(page, "/discover");
+  await page.getByRole("link", { name: "Browse ideas" }).click();
+  await expect(page).toHaveURL(/\/ideas$/);
+  await page.getByLabel("Search ideas", { exact: true }).fill("justice");
+  await page.getByRole("button", { name: "Search" }).click();
+  await expect(page).toHaveURL(/\/ideas\?q=justice/);
+  await expect(page.getByRole("link", { name: /The veil of ignorance/ }).first()).toBeVisible();
+});
+
+test("there is one secondary card, it is stable on reload, and it opens Reframe or Natural Law", async ({ page }) => {
+  await open(page, "/discover");
+  const card = page.getByTestId("try-this");
+  await expect(card).toHaveCount(1);
+  const href = await card.getAttribute("href");
+  expect(["/reframe", "/ethics/natural-law"]).toContain(href);
+  const text = ((await card.textContent()) ?? "").replace(/\s+/g, " ").trim();
+  expect(text).toMatch(/^Try this/);
+  for (let i = 0; i < 2; i++) {
+    await page.reload();
+    await expect(page.getByTestId("try-this")).toHaveAttribute("href", href!);
+  }
+  await card.click();
+  await expect(page).toHaveURL(new RegExp(`${href}$`));
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+});
+
+test("both Reframe and Natural Law are within two clicks of the home page, whichever the card shows", async ({ page }) => {
+  // Reframe: Reflect, then the Reframe link.
+  await open(page, "/discover");
+  await page.getByRole("navigation", { name: "Primary" }).filter({ visible: true }).getByRole("link", { name: "Reflect" }).click();
+  await page.getByRole("link", { name: "Reframe a worried thought" }).click();
+  await expect(page).toHaveURL(/\/reframe$/);
+
+  // Natural Law: Browse ideas, then the Natural Law link.
+  await open(page, "/discover");
+  await page.getByRole("link", { name: "Browse ideas" }).click();
+  await page.getByRole("link", { name: "Natural Law: a guided tour" }).click();
+  await expect(page).toHaveURL(/\/ethics\/natural-law$/);
+});
+
+test("the home page stays simple: at most 12 things can be tabbed to", async ({ page }) => {
+  await open(page, "/discover");
+  const focusable = await page.evaluate(() =>
+    [...document.querySelectorAll<HTMLElement>("a[href], button, input, select, textarea, [tabindex]")]
+      .filter((el) => el.tabIndex >= 0 && !(el as HTMLButtonElement).disabled && !el.closest("[aria-hidden='true']") && el.getClientRects().length > 0 && getComputedStyle(el).visibility !== "hidden")
+      .map((el) => (el.getAttribute("aria-label") || el.textContent || el.tagName).replace(/\s+/g, " ").trim().slice(0, 40)),
+  );
+  expect(focusable.length, focusable.join(" | ")).toBeLessThanOrEqual(12);
 });

@@ -19,20 +19,27 @@ const card = (page: Page, n: number) => page.locator(`#tenet-${n}`);
 // The card's own expand/collapse button lives inside its heading (the "Reflect" button does not).
 const toggle = (page: Page, n: number) => card(page, n).getByRole("heading", { level: 3 }).getByRole("button");
 
-test("Natural Law can be reached from the Ethics category", async ({ page }) => {
-  await open(page, "/ideas");
-  await page.getByRole("link", { name: "Ethics: guided tours" }).click();
-  await expect(page).toHaveURL(/\/ethics$/);
-  await expect(page.getByRole("heading", { level: 1, name: "Ethics" })).toBeVisible();
-  // Scoped to the page content: the side navigation also has a "Natural Law" link.
-  await page.locator("#main").getByRole("link", { name: /Natural Law/ }).click();
+test("Natural Law can be reached from Discover through Ideas", async ({ page }) => {
+  await open(page, "/discover");
+  await page.getByRole("link", { name: "Browse ideas" }).click();
+  await page.getByRole("link", { name: "Natural Law: a guided tour" }).click();
   await expect(page).toHaveURL(/\/ethics\/natural-law$/);
   await expect(page.getByRole("heading", { level: 1, name: "Natural Law" })).toBeVisible();
 });
 
+test("the Ethics category lists Natural Law and the breadcrumb leads back to it", async ({ page }) => {
+  await open(page, "/ethics/natural-law");
+  await page.getByRole("navigation", { name: "Breadcrumb" }).getByRole("link", { name: "Ethics" }).click();
+  await expect(page).toHaveURL(/\/ethics$/);
+  await expect(page.getByRole("heading", { level: 1, name: "Ethics" })).toBeVisible();
+  // Scoped to the page content, which has the card for the tour.
+  await page.locator("#main").getByRole("link", { name: /Natural Law/ }).click();
+  await expect(page).toHaveURL(/\/ethics\/natural-law$/);
+});
+
 test("the ethics theme in the idea library points to the Natural Law tour", async ({ page }) => {
   await open(page, "/ideas?theme=ethics-morality");
-  await page.getByRole("link", { name: /Natural Law: a guided tour/ }).click();
+  await page.getByRole("link", { name: /Go deeper into Natural Law/ }).click();
   await expect(page).toHaveURL(/\/ethics\/natural-law$/);
 });
 

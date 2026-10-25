@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { modes } from "@/lib/content/chat";
 import { demoConversations } from "@/lib/demo/data";
+import { NEW_CONVERSATION_HREF } from "@/components/shell/nav-items";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Reflect" };
@@ -20,11 +21,19 @@ export default function ReflectPage() {
           <h1 className="text-4xl md:text-5xl">Reflect</h1>
           <p className="mt-3 max-w-xl text-lg leading-relaxed text-muted-foreground">A place to think out loud with a patient partner. Pick up an earlier conversation or begin a new one.</p>
         </div>
-        <Link href="/reflect/new" className={cn(buttonVariants({ size: "lg" }), "h-11 px-5 text-base")}>
+        <Link href={NEW_CONVERSATION_HREF} className={cn(buttonVariants({ size: "lg" }), "h-11 px-5 text-base")}>
           <Plus data-icon="inline-start" aria-hidden />
           New conversation
         </Link>
       </header>
+
+      <p className="text-muted-foreground">
+        Carrying a worry?{" "}
+        <Link href="/reframe" className="text-accent-foreground underline underline-offset-4">
+          Reframe a worried thought
+        </Link>{" "}
+        to see it through four lenses.
+      </p>
 
       <section aria-labelledby="recent">
         <h2 id="recent" className="mb-3 text-sm font-medium uppercase tracking-[0.16em] text-muted-foreground">

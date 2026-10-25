@@ -32,18 +32,50 @@ test("a failed send restores the draft for retry", async ({ page }) => {
   await expect(page.getByRole("button", { name: "Send message" })).toBeEnabled();
 });
 
-test("a new conversation offers three modes and starter prompts", async ({ page }) => {
+test("a new conversation starts in one simple style, with the others one press away", async ({ page }) => {
   await open(page, "/reflect/new");
+  await expect(page.getByText("Style:")).toContainText("Explore an idea");
+  // The three styles are hidden until asked for.
+  await expect(page.getByRole("radiogroup", { name: "Conversation mode" })).toHaveCount(0);
+
+  const change = page.getByRole("button", { name: "Change style" });
+  await expect(change).toHaveAttribute("aria-expanded", "false");
+  await change.click();
+  await expect(page.getByRole("button", { name: "Hide styles" })).toHaveAttribute("aria-expanded", "true");
   const modes = page.getByRole("radiogroup", { name: "Conversation mode" }).getByRole("radio");
   await expect(modes).toHaveCount(3);
   await expect(modes.nth(0)).toBeChecked();
 
   await modes.nth(2).click();
   await expect(page.getByRole("radio", { name: /Challenge my assumptions/ })).toBeChecked();
+  await expect(page.getByText("Style:")).toContainText("Challenge my assumptions");
+  await page.getByRole("button", { name: "Hide styles" }).click();
+  await expect(page.getByRole("radiogroup", { name: "Conversation mode" })).toHaveCount(0);
+  await expect(page.getByText("Style:")).toContainText("Challenge my assumptions");
+});
 
-  await page.getByRole("button", { name: "Is forgiveness always a virtue?" }).click();
-  await expect(page.getByLabel("Your message")).toHaveValue("Is forgiveness always a virtue?");
-  await expect(page.getByRole("radio", { name: /Explore an idea/ })).toBeChecked();
+test("there are three starter prompts, one for each style, and a starter sets the style", async ({ page }) => {
+  await open(page, "/reflect/new");
+  const starters = page.locator("section[aria-labelledby='starters-heading']").getByRole("button");
+  await expect(starters).toHaveCount(3);
+  await page.getByRole("button", { name: "What am I assuming without realizing it?" }).click();
+  await expect(page.getByLabel("Your message")).toHaveValue("What am I assuming without realizing it?");
+  await expect(page.getByText("Style:")).toContainText("Challenge my assumptions");
+});
+
+test("a conversation opened from a question or an idea picks its style and says so", async ({ page }) => {
+  await open(page, "/reflect/new?concept=eudaimonia");
+  await expect(page.getByText("Style:")).toContainText("Explore an idea");
+  await expect(page.getByText("Starting from:")).toBeVisible();
+  await open(page, "/reflect/new?question=breaking-a-promise");
+  await expect(page.getByText("Style:")).toContainText("Examine a dilemma");
+  await expect(page.getByLabel("Your message")).not.toHaveValue("");
+});
+
+test("the Reflect page has one main button and a way to reframe a worry", async ({ page }) => {
+  await open(page, "/reflect");
+  await expect(page.getByRole("link", { name: "New conversation" })).toHaveCount(1);
+  await expect(page.getByRole("link", { name: "Reframe a worried thought" })).toBeVisible();
 });
 
 test("every conversation page says the replies are AI-generated and not therapy", async ({ page }) => {

@@ -26,11 +26,12 @@ describe("music", () => {
     for (const bad of [null, undefined, "", "  ", "loud", "-0.1", "1.5", "NaN", "Infinity"]) expect(parseVolume(bad)).toBe(DEFAULT_MUSIC_VOLUME);
   });
 
-  it("starts by default and stays off only after the person paused it", () => {
-    expect(parseEnabled(null)).toBe(true);
-    expect(parseEnabled(undefined)).toBe(true);
-    expect(parseEnabled("1")).toBe(true);
-    expect(parseEnabled("garbage")).toBe(true);
+  it("stays off on a first visit and only tries to resume if the person last left it playing", () => {
+    expect(parseEnabled(null)).toBe(false);
+    expect(parseEnabled(undefined)).toBe(false);
+    expect(parseEnabled("")).toBe(false);
+    expect(parseEnabled("garbage")).toBe(false);
     expect(parseEnabled("0")).toBe(false);
+    expect(parseEnabled("1")).toBe(true);
   });
 });

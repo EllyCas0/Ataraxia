@@ -30,17 +30,6 @@ test("the main destinations are reachable from the navigation", async ({ page, i
   expect(isMobile !== undefined).toBe(true);
 });
 
-test("a new conversation can be started from anywhere", async ({ page }) => {
-  for (const path of ["/discover", "/ideas", "/my-philosophy"]) {
-    await page.goto(path);
-    const entry = page.getByRole("link", { name: "Start a new conversation" }).filter({ visible: true });
-    await expect(entry).toHaveCount(1);
-    await entry.click();
-    await expect(page).toHaveURL(/\/reflect\/new$/);
-    await expect(page.getByRole("heading", { level: 1, name: "New conversation" })).toBeVisible();
-  }
-});
-
 test("desktop shows a sidebar and mobile shows a bottom bar, never both", async ({ page, isMobile }) => {
   await open(page, "/discover");
   const navs = page.getByRole("navigation", { name: "Primary" });
@@ -79,34 +68,49 @@ test("the page does not scroll sideways", async ({ page }) => {
   }
 });
 
-test("the navigation has a Natural Law link that opens the Natural Law page and marks it as current", async ({ page }) => {
-  await open(page, "/discover");
-  const nav = page.getByRole("navigation", { name: "Primary" }).filter({ visible: true });
-  await expect(nav.getByRole("link", { name: "Natural Law" })).not.toHaveAttribute("aria-current", "page");
-
-  await nav.getByRole("link", { name: "Natural Law" }).click();
-  await expect(page).toHaveURL(/\/ethics\/natural-law$/);
-  await expect(page.getByRole("heading", { level: 1, name: "Natural Law" })).toBeVisible();
-  await expect(nav.getByRole("link", { name: "Natural Law" })).toHaveAttribute("aria-current", "page");
-  await expect(nav.getByRole("link", { name: "Discover" })).not.toHaveAttribute("aria-current", "page");
-
-  // It stays marked on the other Natural Law sections and on the Ethics index.
-  await open(page, "/ethics/natural-law?section=tenets");
-  await expect(nav.getByRole("link", { name: "Natural Law" })).toHaveAttribute("aria-current", "page");
-  await open(page, "/ethics");
-  await expect(nav.getByRole("link", { name: "Natural Law" })).toHaveAttribute("aria-current", "page");
-});
-
-test("every navigation item fits on the screen, in the sidebar and in the bottom bar", async ({ page }) => {
+test("the navigation has exactly three items and every one fits on the screen", async ({ page }) => {
   await open(page, "/discover");
   const nav = page.getByRole("navigation", { name: "Primary" }).filter({ visible: true });
   const viewport = page.viewportSize()!;
   const links = nav.getByRole("link");
-  expect(await links.count()).toBe(4);
-  for (let i = 0; i < 4; i++) {
+  await expect(links).toHaveText([/Discover/, /Reflect/, /My Philosophy/]);
+  for (let i = 0; i < 3; i++) {
     const box = (await links.nth(i).boundingBox())!;
     expect(box.x).toBeGreaterThanOrEqual(0);
     expect(box.x + box.width).toBeLessThanOrEqual(viewport.width);
     expect(box.y + box.height).toBeLessThanOrEqual(viewport.height);
+  }
+});
+
+test("there is no separate New button: starting a conversation is the main button on Discover and Reflect", async ({ page }) => {
+  for (const path of ["/discover", "/ideas", "/my-philosophy", "/reflect"]) {
+    await open(page, path);
+    await expect(page.getByRole("link", { name: "Start a new conversation" })).toHaveCount(0);
+  }
+  await open(page, "/discover");
+  await page.getByRole("link", { name: /Start thinking/ }).click();
+  await expect(page).toHaveURL(/\/reflect\/new$/);
+  await open(page, "/reflect");
+  await page.getByRole("link", { name: "New conversation" }).click();
+  await expect(page).toHaveURL(/\/reflect\/new$/);
+});
+
+test("exactly one navigation item is marked as current, and Discover covers the pages reached from it", async ({ page }) => {
+  const cases: [string, string][] = [
+    ["/discover", "Discover"],
+    ["/ideas", "Discover"],
+    ["/reframe", "Discover"],
+    ["/ethics/natural-law", "Discover"],
+    ["/ethics/natural-law?section=tenets", "Discover"],
+    ["/insights/socrates-unexamined-life", "Discover"],
+    ["/reflect", "Reflect"],
+    ["/reflect/new", "Reflect"],
+    ["/my-philosophy", "My Philosophy"],
+  ];
+  const nav = page.getByRole("navigation", { name: "Primary" }).filter({ visible: true });
+  for (const [path, expected] of cases) {
+    await open(page, path);
+    await expect(nav.locator("[aria-current='page']"), path).toHaveCount(1);
+    await expect(nav.getByRole("link", { name: expected }), path).toHaveAttribute("aria-current", "page");
   }
 });

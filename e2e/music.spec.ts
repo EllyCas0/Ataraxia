@@ -26,13 +26,41 @@ function silentWav(): Buffer {
 const playButton = new RegExp(`Play music: ${TRACK.title} by ${TRACK.artist}`);
 const isPaused = (page: import("@playwright/test").Page) => page.evaluate(() => document.querySelector("audio")!.paused);
 
-test("the music control plays, pauses, and sets the volume", async ({ page }) => {
-  await page.route(`**${TRACK.src}`, (route) => route.fulfill({ status: 200, contentType: "audio/wav", body: silentWav() }));
-  await open(page, "/discover");
+const stubAudio = (page: import("@playwright/test").Page) => page.route(`**${TRACK.src}`, (route) => route.fulfill({ status: 200, contentType: "audio/wav", body: silentWav() }));
+const playCalls = (page: import("@playwright/test").Page) => page.evaluate(() => (window as unknown as { __playCalls: number }).__playCalls);
 
-  // Autoplay is switched off by the test helper, so nothing is playing yet.
+// Counts calls to audio.play() and can make them fail the way a browser does before the person has
+// interacted with the page (NotAllowedError).
+async function stubPlay(page: import("@playwright/test").Page, blocked: boolean) {
+  await page.addInitScript((block) => {
+    const original = HTMLMediaElement.prototype.play;
+    const w = window as unknown as { __playCalls: number };
+    w.__playCalls = 0;
+    HTMLMediaElement.prototype.play = function () {
+      w.__playCalls += 1;
+      if (block && w.__playCalls === 1) return Promise.reject(new DOMException("blocked", "NotAllowedError"));
+      return original.call(this);
+    };
+  }, blocked);
+}
+
+test("on a first visit nothing plays, and the button invites you to press play", async ({ page }) => {
+  await stubAudio(page);
+  await stubPlay(page, false);
+  await open(page, "/discover");
   expect(await isPaused(page)).toBe(true);
+  expect(await playCalls(page)).toBe(0);
+  await expect(page.getByRole("button", { name: playButton })).toHaveAttribute("aria-pressed", "false");
   await expect(page.getByText(TRACK.title, { exact: true })).toHaveCount(0);
+  // Staying on the page and using it does not start the music either.
+  await page.getByRole("heading", { level: 1 }).click();
+  await page.keyboard.press("Tab");
+  expect(await isPaused(page)).toBe(true);
+});
+
+test("the music control plays, pauses, and sets the volume", async ({ page }) => {
+  await stubAudio(page);
+  await open(page, "/discover");
 
   await page.getByRole("button", { name: playButton }).click();
   await expect(page.getByRole("button", { name: /Pause music/ })).toHaveAttribute("aria-pressed", "true");
@@ -48,7 +76,7 @@ test("the music control plays, pauses, and sets the volume", async ({ page }) =>
 });
 
 test("the music keeps playing when moving between pages", async ({ page }) => {
-  await page.route(`**${TRACK.src}`, (route) => route.fulfill({ status: 200, contentType: "audio/wav", body: silentWav() }));
+  await stubAudio(page);
   await open(page, "/discover");
   await page.getByRole("button", { name: playButton }).click();
   await expect(page.getByRole("button", { name: /Pause music/ })).toBeVisible();
@@ -85,65 +113,41 @@ test("the real track file is served as audio", async ({ request }) => {
   expect((await response.body()).length).toBeGreaterThan(100_000);
 });
 
-// Counts calls to audio.play() and can make the first one fail the way a browser does before the
-// person has interacted with the page (NotAllowedError).
-async function stubPlay(page: import("@playwright/test").Page, blockFirst: boolean) {
-  await page.addInitScript((block) => {
-    const original = HTMLMediaElement.prototype.play;
-    const w = window as unknown as { __playCalls: number };
-    w.__playCalls = 0;
-    HTMLMediaElement.prototype.play = function () {
-      w.__playCalls += 1;
-      if (block && w.__playCalls === 1) return Promise.reject(new DOMException("blocked", "NotAllowedError"));
-      return original.call(this);
-    };
-  }, blockFirst);
-}
-
-test("the music starts by itself when the page opens", async ({ page }) => {
-  await page.route(`**${TRACK.src}`, (route) => route.fulfill({ status: 200, contentType: "audio/wav", body: silentWav() }));
+test("someone who left it playing gets it back next visit, and someone who paused it does not", async ({ page }) => {
+  await stubAudio(page);
   await stubPlay(page, false);
-  await open(page, "/discover", { music: true });
-  await expect(page.getByRole("button", { name: /Pause music/ })).toHaveAttribute("aria-pressed", "true");
-  expect(await isPaused(page)).toBe(false);
-});
+  await open(page, "/discover");
+  expect(await playCalls(page)).toBe(0);
 
-test("when the browser blocks autoplay, the music starts on the first click or key press", async ({ page }) => {
-  await page.route(`**${TRACK.src}`, (route) => route.fulfill({ status: 200, contentType: "audio/wav", body: silentWav() }));
-  await stubPlay(page, true);
-  await open(page, "/discover", { music: true });
-  expect(await isPaused(page)).toBe(true);
-  expect(await page.evaluate(() => (window as unknown as { __playCalls: number }).__playCalls)).toBe(1);
-
-  await page.getByRole("heading", { level: 1 }).click();
-  await expect(page.getByRole("button", { name: /Pause music/ })).toBeVisible();
-  expect(await isPaused(page)).toBe(false);
-});
-
-test("pressing the music button itself after a blocked autoplay plays once, not twice", async ({ page }) => {
-  await page.route(`**${TRACK.src}`, (route) => route.fulfill({ status: 200, contentType: "audio/wav", body: silentWav() }));
-  await stubPlay(page, true);
-  await open(page, "/discover", { music: true });
+  // Press play: that choice is remembered.
   await page.getByRole("button", { name: playButton }).click();
   await expect(page.getByRole("button", { name: /Pause music/ })).toBeVisible();
-  expect(await isPaused(page)).toBe(false);
-});
+  await page.reload();
+  await page.locator("html[data-hydrated='true']").waitFor();
+  await expect(page.getByRole("button", { name: /Pause music/ })).toHaveAttribute("aria-pressed", "true");
+  expect(await playCalls(page)).toBeGreaterThanOrEqual(1);
 
-test("pausing is remembered, so the music does not start by itself next time", async ({ page }) => {
-  await page.route(`**${TRACK.src}`, (route) => route.fulfill({ status: 200, contentType: "audio/wav", body: silentWav() }));
-  await stubPlay(page, false);
-  await open(page, "/discover", { music: true });
+  // Pause: that choice is remembered too.
   await page.getByRole("button", { name: /Pause music/ }).click();
-  await expect(page.getByRole("button", { name: playButton })).toBeVisible();
-
   await page.reload();
   await page.locator("html[data-hydrated='true']").waitFor();
   expect(await isPaused(page)).toBe(true);
-  expect(await page.evaluate(() => (window as unknown as { __playCalls: number }).__playCalls)).toBe(0);
+  expect(await playCalls(page)).toBe(0);
+});
 
-  // Playing again turns it back on for the next visit.
+test("if the browser refuses to resume, the music just stays paused, with no error and no click needed to dismiss it", async ({ page }) => {
+  await stubAudio(page);
+  await stubPlay(page, true);
+  await open(page, "/discover", { music: true });
+  expect(await playCalls(page)).toBe(1);
+  expect(await isPaused(page)).toBe(true);
+  await expect(page.getByRole("status").filter({ hasText: "Audio file not found" })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: playButton })).toBeVisible();
+
+  // Using the page does not start it; only the button does, and it plays once.
+  await page.getByRole("heading", { level: 1 }).click();
+  expect(await isPaused(page)).toBe(true);
   await page.getByRole("button", { name: playButton }).click();
   await expect(page.getByRole("button", { name: /Pause music/ })).toBeVisible();
-  await page.reload();
-  await expect(page.getByRole("button", { name: /Pause music/ })).toBeVisible();
+  expect(await isPaused(page)).toBe(false);
 });

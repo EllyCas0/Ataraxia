@@ -29,12 +29,9 @@ export function isConversationMode(value: unknown): value is ConversationMode {
   return typeof value === "string" && (CONVERSATION_MODES as readonly string[]).includes(value);
 }
 
+// Three starters, one for each style of conversation. More would only make the choice harder.
 export const starterPrompts: { text: string; mode: ConversationMode }[] = [
   { text: "What makes a life meaningful?", mode: "explore_idea" },
   { text: "Help me examine a difficult decision.", mode: "examine_dilemma" },
   { text: "What am I assuming without realizing it?", mode: "challenge_assumptions" },
-  { text: "Compare Stoicism and existentialism.", mode: "explore_idea" },
-  { text: "Help me clarify my personal values.", mode: "examine_dilemma" },
-  { text: "Is forgiveness always a virtue?", mode: "explore_idea" },
-  { text: "What does freedom mean in the age of AI?", mode: "explore_idea" },
 ];

@@ -66,4 +66,10 @@ describe("My Philosophy tab parameter", () => {
   it("uses the first value when the parameter is repeated", () => {
     expect(parseMyPhilosophyTab(["values", "saved"])).toBe("values");
   });
+
+  it("has three tabs, and the old saved tab now opens the journal tab that contains saved items", () => {
+    expect([...MY_PHILOSOPHY_TABS]).toEqual(["journal", "values", "history"]);
+    expect(parseMyPhilosophyTab("saved")).toBe("journal");
+    expect(parseMyPhilosophyTab(["saved"])).toBe("journal");
+  });
 });

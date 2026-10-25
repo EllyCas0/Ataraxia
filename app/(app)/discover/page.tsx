@@ -5,27 +5,18 @@ import { InsightCarousel } from "@/components/content/insight-carousel";
 import { buttonVariants } from "@/components/ui/button";
 import { insightImage } from "@/lib/content/insight-image";
 import { insights, insightsStartingFrom } from "@/lib/content/insights";
+import { pickTryThis } from "@/lib/content/try-this";
 import { getAppTimezone, zonedDateKey } from "@/lib/time";
+import { NEW_CONVERSATION_HREF } from "@/components/shell/nav-items";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Discover" };
 // "Today" depends on the request time, so this page must not be prerendered at build time.
 export const dynamic = "force-dynamic";
 
-// Short, casual labels for browsing by theme, each with its own colour.
-const vibes = [
-  { theme: "meaning-purpose", label: "Meaning", emoji: "🧭", hue: 95 },
-  { theme: "identity-self-knowledge", label: "Identity", emoji: "🪞", hue: 330 },
-  { theme: "ethics-morality", label: "Right & wrong", emoji: "⚖️", hue: 255 },
-  { theme: "love-relationships", label: "Love & friends", emoji: "💬", hue: 10 },
-  { theme: "freedom-responsibility", label: "Freedom", emoji: "🕊️", hue: 195 },
-  { theme: "death-impermanence", label: "Time & loss", emoji: "⏳", hue: 290 },
-  { theme: "knowledge-truth", label: "Truth", emoji: "🔎", hue: 150 },
-  { theme: "society-technology-humanity", label: "Tech & society", emoji: "📱", hue: 40 },
-] as const;
-
 export default function DiscoverPage() {
   const dateKey = zonedDateKey(new Date(), getAppTimezone());
+  const tryThis = pickTryThis(dateKey);
   const slides = insightsStartingFrom(insights, dateKey).map((insight) => ({ insight, image: insightImage(insight.slug) }));
 
   return (
@@ -44,65 +35,29 @@ export default function DiscoverPage() {
           </h1>
           <p className="mt-6 max-w-md text-lg text-muted-foreground">Short, weird, surprisingly useful. Pick a thought and see where your head goes.</p>
 
-          <Link href="/reflect/new" className={cn(buttonVariants({ size: "lg" }), "mt-8 h-12 rounded-full px-7 text-base font-semibold")}>
-            Start thinking
-            <ArrowRight data-icon="inline-end" aria-hidden />
-          </Link>
-
-          <form action="/ideas" role="search" className="mt-8 flex items-center gap-2 rounded-full border border-border bg-card p-2 pl-5">
-            <label htmlFor="home-search" className="sr-only">
-              Search ideas by topic
-            </label>
-            <input
-              id="home-search"
-              name="q"
-              type="search"
-              maxLength={100}
-              placeholder="What's on your mind?"
-              className="min-w-0 flex-1 bg-transparent py-2 text-base placeholder:text-muted-foreground focus:outline-none"
-            />
-            <button type="submit" className={cn(buttonVariants({ variant: "outline", size: "lg" }), "h-11 rounded-full px-5 text-base")}>
-              Search
+          <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4">
+            <Link href={NEW_CONVERSATION_HREF} className={cn(buttonVariants({ size: "lg" }), "h-12 rounded-full px-7 text-base font-semibold")}>
+              Start thinking
               <ArrowRight data-icon="inline-end" aria-hidden />
-            </button>
-          </form>
-
-          <section aria-labelledby="vibes-heading" className="mt-7">
-            <h2 id="vibes-heading" className="text-sm font-semibold text-muted-foreground">
-              Pick a vibe
-            </h2>
-            <ul className="mt-3 flex flex-wrap gap-2">
-              {vibes.map((vibe) => (
-                <li key={vibe.theme}>
-                  <Link
-                    href={`/ideas?theme=${vibe.theme}#main`}
-                    prefetch={true}
-                    className="inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm font-medium transition-transform hover:-translate-y-0.5 motion-reduce:transition-none"
-                    style={{ background: `oklch(0.3 0.09 ${vibe.hue})`, borderColor: `oklch(0.52 0.15 ${vibe.hue})` }}
-                  >
-                    <span aria-hidden>{vibe.emoji}</span>
-                    {vibe.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <Link href="/ideas" className="mt-4 inline-block text-base text-accent-foreground underline-offset-4 hover:underline">
-              Browse all ideas
             </Link>
-          </section>
+            <Link href="/ideas" className="text-base text-accent-foreground underline-offset-4 hover:underline">
+              Browse ideas
+            </Link>
+          </div>
         </div>
 
         <InsightCarousel slides={slides} />
       </div>
 
       <Link
-        href="/reframe"
+        href={tryThis.href}
+        data-testid="try-this"
         className="group flex items-center justify-between gap-6 rounded-[2rem] border border-border bg-card p-6 transition-colors hover:border-accent-foreground/60 md:p-8"
       >
         <span>
           <span className="block text-xs font-semibold uppercase tracking-[0.2em] text-accent-foreground">Try this</span>
-          <span className="mt-2 block text-2xl font-extrabold leading-snug">Reframe a worried thought</span>
-          <span className="mt-2 block text-base text-muted-foreground">See one thought through four lenses: anxious, Stoic, growth, and cosmic.</span>
+          <span className="mt-2 block text-2xl font-extrabold leading-snug">{tryThis.title}</span>
+          <span className="mt-2 block text-base text-muted-foreground">{tryThis.line}</span>
         </span>
         <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground transition-transform motion-safe:group-hover:translate-x-1">
           <ArrowRight className="size-5" aria-hidden />

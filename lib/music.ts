@@ -18,10 +18,11 @@ export function parseVolume(raw: string | null | undefined): number {
   return Number.isFinite(value) && value >= 0 && value <= 1 ? value : DEFAULT_MUSIC_VOLUME;
 }
 
-// Whether the music should start by itself. On unless the person has paused it before: pressing pause
-// is remembered, so it stays quiet on the next visit until they press play again.
+// Whether to try playing when the page opens. The music is OFF on a first visit and makes no sound until the
+// person presses play. After that it remembers the last choice: if they left it playing it tries to resume
+// next time (browsers may still refuse until the page has been used), and if they paused it, it stays quiet.
 export const MUSIC_ENABLED_KEY = "agora.music.enabled.v1";
 
 export function parseEnabled(raw: string | null | undefined): boolean {
-  return raw !== "0";
+  return raw === "1";
 }

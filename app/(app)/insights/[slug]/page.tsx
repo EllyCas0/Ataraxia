@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { StormBackground } from "@/components/content/storm-background";
 import { buttonVariants } from "@/components/ui/button";
 import { content } from "@/lib/content/repository";
 import { insightImage } from "@/lib/content/insight-image";
@@ -36,7 +35,8 @@ export default async function InsightPage({ params }: { params: Params }) {
 
       <div className="relative isolate mt-6 aspect-[4/3] overflow-hidden rounded-[2rem]">
         {image.placeholder ? (
-          <StormBackground hue={insight.hue} />
+          // A still gradient in the school's colour: the reading page is for reading, so nothing moves here.
+          <div aria-hidden data-testid="static-gradient" className="absolute inset-0" style={{ background: `linear-gradient(160deg, oklch(0.5 0.19 ${insight.hue}), oklch(0.27 0.11 ${insight.hue}))` }} />
         ) : (
           <Image src={image.src} alt="" fill sizes="(min-width: 768px) 42rem, 100vw" className="object-cover" priority />
         )}
