@@ -49,7 +49,7 @@ test("discussing an idea starts a conversation with that idea as context", async
   await expect(page).toHaveURL(/\/reflect\/new\?concept=ubuntu/);
   await expect(page.getByText("Starting from:")).toBeVisible();
   await expect(page.getByLabel("Your message")).toHaveValue(/Ubuntu/);
-  await expect(page.getByText("Style:")).toContainText("Explore an idea");
+  await expect(page.getByRole("button", { name: /Change style, now Explore an idea/ })).toBeVisible();
 });
 
 test("an unknown idea is a real 404", async ({ page }) => {

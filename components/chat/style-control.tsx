@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
+import { ChevronDown } from "lucide-react";
 import { ModeSwitcher } from "@/components/chat/mode-switcher";
 import { modes, type ConversationMode } from "@/lib/content/chat";
 
@@ -33,5 +34,26 @@ export function StyleControl({ value, onChange, disabled }: { value: Conversatio
         </div>
       )}
     </section>
+  );
+}
+
+// A compact version of the same control: a small chip that sits inside the message box. It names the current
+// style and opens a panel with the three styles. The panel itself is drawn by the page (see NewConversation),
+// so the chip only needs to know whether it is open.
+export function StyleChip({ value, open, onToggle, panelId, disabled }: { value: ConversationMode; open: boolean; onToggle: () => void; panelId: string; disabled?: boolean }) {
+  const current = modes.find((mode) => mode.id === value);
+  return (
+    <button
+      type="button"
+      aria-expanded={open}
+      aria-controls={panelId}
+      aria-label={`Change style, now ${current?.label}`}
+      disabled={disabled}
+      onClick={onToggle}
+      className="inline-flex h-9 items-center gap-1.5 rounded-full border border-border bg-background/60 px-3.5 text-sm font-medium transition-colors hover:border-accent-foreground/60 disabled:opacity-60"
+    >
+      {current?.label}
+      <ChevronDown className={`size-4 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} aria-hidden />
+    </button>
   );
 }
