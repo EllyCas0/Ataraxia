@@ -132,12 +132,20 @@ test("the app is called Stoa everywhere people can see it", async ({ page }) => 
   await open(page, "/discover");
   await expect(page).toHaveTitle("Discover · Stoa");
   // The logo link in the sidebar (desktop) or the header (phone) carries the name.
-  await expect(page.getByRole("link", { name: /^Stoa( home| v[0-9.]+)?$/ }).filter({ visible: true })).toHaveCount(1);
+  const logo = page.getByRole("link", { name: /^Stoa( home| v[0-9.]+)?$/ }).filter({ visible: true });
+  await expect(logo).toHaveCount(1);
+  // The whole word is written out, not just an initial, and it fits inside the sidebar or header.
+  expect(((await logo.innerText()) ?? "").trim()).toMatch(/^Stoa/);
+  const box = (await logo.boundingBox())!;
+  expect(box.x).toBeGreaterThanOrEqual(0);
+  expect(box.x + box.width).toBeLessThanOrEqual(page.viewportSize()!.width);
+  if (!(await page.locator("aside").isHidden())) expect(box.width).toBeLessThanOrEqual(96);
   for (const path of ["/discover", "/ideas", "/reflect", "/reflect/new", "/my-philosophy", "/ethics/natural-law", "/reframe", "/insights/socrates-unexamined-life"]) {
     await open(page, path);
     expect(await page.title(), path).toMatch(/Stoa$/);
     expect(await page.locator("body").innerText(), path).not.toMatch(/agora/i);
   }
   await open(page, "/reflect/demo-worry");
-  await expect(page.getByText("Stoa", { exact: true }).first()).toBeVisible();
+  // The AI's messages are labelled with the name too.
+  await expect(page.getByRole("region", { name: "Conversation" }).getByText("Stoa", { exact: true }).first()).toBeVisible();
 });
