@@ -84,6 +84,7 @@ test("the weekly perspective is still reachable from the idea library", async ({
   await page.getByRole("link", { name: "This week's human perspective" }).click();
   await expect(page).toHaveURL(/\/weekly$/);
   const cards = page.locator("section[aria-labelledby='perspectives'] > ul > li");
+  await expect(cards.first()).toBeVisible(); // the page streams in after the click
   expect(await cards.count()).toBeGreaterThanOrEqual(2);
   expect(await cards.count()).toBeLessThanOrEqual(3);
   await expect(page.getByLabel(/Your own thoughts/)).toBeVisible();

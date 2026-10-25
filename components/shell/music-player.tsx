@@ -79,6 +79,7 @@ export function MusicPlayer() {
     }
   }
 
+  // On a mouse the title and volume appear on hover or keyboard focus. A touch screen cannot hover, so there they are always shown while playing.
   const showPill = playing || failed;
 
   return (
@@ -107,7 +108,7 @@ export function MusicPlayer() {
       </button>
 
       {showPill && (
-        <div className="hidden h-12 max-w-[calc(100vw-6.5rem)] items-center gap-3 rounded-full border border-border bg-card/90 px-4 backdrop-blur group-hover:flex group-has-[:focus-visible]:flex">
+        <div className="hidden h-12 max-w-[calc(100vw-6.5rem)] items-center gap-3 rounded-full border border-border bg-card/90 px-4 backdrop-blur group-hover:flex group-has-[:focus-visible]:flex pointer-coarse:flex">
           {failed ? (
             <p role="status" className="truncate text-sm text-muted-foreground">
               Audio file not found
