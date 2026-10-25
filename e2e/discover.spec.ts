@@ -139,12 +139,12 @@ test("both Reframe and Natural Law are within two clicks of the home page, which
   await expect(page).toHaveURL(/\/ethics\/natural-law$/);
 });
 
-test("the home page stays simple: at most 12 things can be tabbed to", async ({ page }) => {
+test("the home page stays simple: at most 13 things can be tabbed to", async ({ page }) => {
   await open(page, "/discover");
   const focusable = await page.evaluate(() =>
     [...document.querySelectorAll<HTMLElement>("a[href], button, input, select, textarea, [tabindex]")]
       .filter((el) => el.tabIndex >= 0 && !(el as HTMLButtonElement).disabled && !el.closest("[aria-hidden='true']") && el.getClientRects().length > 0 && getComputedStyle(el).visibility !== "hidden")
       .map((el) => (el.getAttribute("aria-label") || el.textContent || el.tagName).replace(/\s+/g, " ").trim().slice(0, 40)),
   );
-  expect(focusable.length, focusable.join(" | ")).toBeLessThanOrEqual(12);
+  expect(focusable.length, focusable.join(" | ")).toBeLessThanOrEqual(13);
 });

@@ -1,6 +1,6 @@
-# The Agora: contemporary, fun, simple (feature specification)
+# Stoa: contemporary, fun, simple (feature specification)
 
-Goal: make The Agora feel modern and playful to any age group, especially young people, without becoming noisy. Simple first: one idea per screen, one clear action.
+Goal: make Stoa feel modern and playful to any age group, especially young people, without becoming noisy. Simple first: one idea per screen, one clear action.
 
 This is written so each section can be handed to a coding assistant on its own. Read **Section 0** before any other section; it applies to all of them.
 
@@ -267,7 +267,7 @@ scoreQuiz(answers: Record<number, string>): { top: SchoolSlug; runnerUp: SchoolS
 
 ## 9. Installable web app [now]
 
-- Add `app/manifest.ts` (name "The Agora", `display: "standalone"`, theme and background colours matching the tokens) and icon set (192, 512, maskable) in `public/icons/`.
+- Add `app/manifest.ts` (name "Stoa", `display: "standalone"`, theme and background colours matching the tokens) and icon set (192, 512, maskable) in `public/icons/`.
 - Add a mobile viewport theme colour via `viewport` export.
 - **Do not** add a service worker that caches authenticated or private pages. If offline support is wanted later, cache only static public content and never `/reflect` or `/my-philosophy`.
 

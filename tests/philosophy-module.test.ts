@@ -167,9 +167,9 @@ describe("the registry and sections", () => {
   });
 
   it("falls back to the overview for an unknown section", () => {
-    expect(SECTIONS.map((s) => s.label)).toEqual(["Overview", "Core Tenets", "Critical Perspectives", "Apply & Reflect"]);
+    expect(SECTIONS.map((s) => s.label)).toEqual(["Overview", "Core Tenets", "Critical Perspectives"]);
     expect(parseSection("tenets")).toBe("tenets");
-    expect(parseSection("reflect")).toBe("reflect");
+    expect(parseSection("reflect")).toBe("overview"); // the Apply & Reflect section was removed
     expect(parseSection("<script>")).toBe("overview");
     expect(parseSection(undefined)).toBe("overview");
   });

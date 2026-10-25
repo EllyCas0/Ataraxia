@@ -2,7 +2,7 @@ import Link from "next/link";
 import { SECTIONS, type SectionId } from "@/lib/philosophy/views";
 import { cn } from "@/lib/utils";
 
-// Each section is its own address (?section=...), so it can be bookmarked and works without scripts.
+// Each section is its own address (/ethics/natural-law/tenets), so it can be bookmarked and works without scripts.
 export function SectionNav({ basePath, current, label }: { basePath: string; current: SectionId; label: string }) {
   return (
     <nav aria-label={label} className="-mx-1 overflow-x-auto px-1">
@@ -12,7 +12,7 @@ export function SectionNav({ basePath, current, label }: { basePath: string; cur
           return (
             <li key={section.id}>
               <Link
-                href={section.id === "overview" ? basePath : `${basePath}?section=${section.id}`}
+                href={section.id === "overview" ? basePath : `${basePath}/${section.id}`}
                 aria-current={active ? "page" : undefined}
                 className={cn(
                   "inline-flex h-10 items-center rounded-full px-4 text-sm font-semibold whitespace-nowrap transition-colors",

@@ -40,7 +40,6 @@ export const SECTIONS = [
   { id: "overview", label: "Overview" },
   { id: "tenets", label: "Core Tenets" },
   { id: "perspectives", label: "Critical Perspectives" },
-  { id: "reflect", label: "Apply & Reflect" },
 ] as const;
 
 export type SectionId = (typeof SECTIONS)[number]["id"];

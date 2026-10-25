@@ -8,6 +8,38 @@ export function TraditionOverview({ bundle, tenetsHref }: { bundle: TraditionBun
   const thinkers = thinkersOf(bundle);
   return (
     <div className="space-y-12">
+      <section aria-labelledby="history" className="space-y-4">
+        <h2 id="history" className="text-2xl">
+          Where it comes from
+        </h2>
+        <p className="max-w-3xl leading-relaxed text-muted-foreground">{tradition.historicalContext}</p>
+        <ol className="relative max-w-3xl space-y-5 border-l border-border pl-6">
+          {overview.timeline.map((entry) => (
+            <li key={entry.period} className="relative">
+              <span aria-hidden className="absolute -left-[1.85rem] top-1.5 size-3 rounded-full bg-primary" />
+              <p className="text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground">{entry.period}</p>
+              <p className="mt-0.5 font-bold">{entry.who}</p>
+              <p className="mt-0.5 leading-relaxed text-muted-foreground">{entry.idea}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section aria-labelledby="distinctions" className="space-y-4">
+        <h2 id="distinctions" className="text-2xl">
+          Four ideas that are easy to mix up
+        </h2>
+        <dl className="grid gap-4 md:grid-cols-2">
+          {overview.distinctions.map((item) => (
+            <div key={item.term} className="rounded-3xl border border-border bg-card p-5">
+              <dt className="text-xl font-extrabold">{item.term}</dt>
+              <dd className="mt-2 leading-relaxed">{item.meaning}</dd>
+              <dd className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.contrast}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
       <section aria-labelledby="what-is" className="space-y-4">
         <h2 id="what-is" className="text-2xl">
           What is {tradition.name}?
@@ -31,22 +63,6 @@ export function TraditionOverview({ bundle, tenetsHref }: { bundle: TraditionBun
         </a>
       </section>
 
-      <section aria-labelledby="history" className="space-y-4">
-        <h2 id="history" className="text-2xl">
-          Where it comes from
-        </h2>
-        <p className="max-w-3xl leading-relaxed text-muted-foreground">{tradition.historicalContext}</p>
-        <ol className="relative max-w-3xl space-y-5 border-l border-border pl-6">
-          {overview.timeline.map((entry) => (
-            <li key={entry.period} className="relative">
-              <span aria-hidden className="absolute -left-[1.85rem] top-1.5 size-3 rounded-full bg-primary" />
-              <p className="text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground">{entry.period}</p>
-              <p className="mt-0.5 font-bold">{entry.who}</p>
-              <p className="mt-0.5 leading-relaxed text-muted-foreground">{entry.idea}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
 
       <section aria-labelledby="thinkers" className="space-y-4">
         <h2 id="thinkers" className="text-2xl">
@@ -65,20 +81,6 @@ export function TraditionOverview({ bundle, tenetsHref }: { bundle: TraditionBun
         </ul>
       </section>
 
-      <section aria-labelledby="distinctions" className="space-y-4">
-        <h2 id="distinctions" className="text-2xl">
-          Four ideas that are easy to mix up
-        </h2>
-        <dl className="grid gap-4 md:grid-cols-2">
-          {overview.distinctions.map((item) => (
-            <div key={item.term} className="rounded-3xl border border-border bg-card p-5">
-              <dt className="text-xl font-extrabold">{item.term}</dt>
-              <dd className="mt-2 leading-relaxed">{item.meaning}</dd>
-              <dd className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.contrast}</dd>
-            </div>
-          ))}
-        </dl>
-      </section>
     </div>
   );
 }

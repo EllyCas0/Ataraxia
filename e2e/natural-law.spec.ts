@@ -57,25 +57,49 @@ test("the overview covers the definition, central question, thinkers, history, a
   await expect(page.getByText(/not an official list/)).toBeVisible();
 });
 
-test("the four sections are reachable and the current one is marked", async ({ page }) => {
+test("the overview starts with where it comes from, then the four ideas that are easy to mix up", async ({ page }) => {
+  await open(page, "/ethics/natural-law");
+  const headings = await page.locator("#main").getByRole("heading", { level: 2 }).allInnerTexts();
+  expect(headings.slice(0, 4)).toEqual(["Where it comes from", "Four ideas that are easy to mix up", "What is Natural Law?", "How to read this module"]);
+  expect(headings).toContain("Major thinkers");
+  // Both are on screen without scrolling past the definition.
+  const history = (await page.getByRole("heading", { level: 2, name: "Where it comes from" }).boundingBox())!;
+  const definition = (await page.getByRole("heading", { level: 2, name: "What is Natural Law?" }).boundingBox())!;
+  expect(history.y).toBeLessThan(definition.y);
+  await expect(page.locator("#history").locator("..").getByRole("listitem")).toHaveCount(6);
+  await expect(page.locator("#distinctions").locator("..").locator("dt")).toHaveText(["Natural law", "Natural rights", "Positive law", "Scientific laws of nature"]);
+});
+
+test("the three sections are reachable, the current one is marked, and there is no Apply & Reflect page", async ({ page }) => {
   await open(page, "/ethics/natural-law");
   const nav = page.getByRole("navigation", { name: "Natural Law sections" });
   await expect(nav.getByRole("link", { name: "Overview" })).toHaveAttribute("aria-current", "page");
   for (const [name, url] of [
-    ["Core Tenets", /section=tenets/],
-    ["Critical Perspectives", /section=perspectives/],
-    ["Apply & Reflect", /section=reflect/],
+    ["Core Tenets", /\/ethics\/natural-law\/tenets$/],
+    ["Critical Perspectives", /\/ethics\/natural-law\/perspectives$/],
   ] as const) {
     await nav.getByRole("link", { name }).click();
     await expect(page).toHaveURL(url);
     await expect(nav.getByRole("link", { name })).toHaveAttribute("aria-current", "page");
   }
-  await open(page, "/ethics/natural-law?section=nonsense");
-  await expect(nav.getByRole("link", { name: "Overview" })).toHaveAttribute("aria-current", "page");
+  await expect(nav.getByRole("link")).toHaveText(["Overview", "Core Tenets", "Critical Perspectives"]);
+  await expect(nav.getByRole("link", { name: "Apply & Reflect" })).toHaveCount(0);
+  // The Apply & Reflect page is gone for good: its address is a real 404, and an old ?section=reflect link just shows the overview.
+  expect((await page.goto("/ethics/natural-law/reflect"))?.status()).toBe(404);
+  await page.goto("/ethics/natural-law?section=reflect");
+  await expect(page).toHaveURL(/\/ethics\/natural-law\?section=reflect$/);
+  await expect(page.getByRole("heading", { level: 2, name: "Where it comes from" })).toBeVisible();
+  // An unknown section is a real 404, not a quiet fallback.
+  expect((await page.goto("/ethics/natural-law/nonsense"))?.status()).toBe(404);
+  expect((await page.goto("/ethics/natural-law/tenets/extra"))?.status()).toBe(404);
+  // Old links that chose the section with ?section= still work.
+  await page.goto("/ethics/natural-law?section=perspectives");
+  await expect(page).toHaveURL(/\/ethics\/natural-law\/perspectives/);
+  await expect(page.getByRole("heading", { level: 2, name: "Major criticisms" })).toBeVisible();
 });
 
 test("all ten tenet cards render with a title, a short definition, and a status label", async ({ page }) => {
-  await open(page, "/ethics/natural-law?section=tenets");
+  await open(page, "/ethics/natural-law/tenets");
   const cards = page.getByRole("list", { name: "Core tenets" }).locator("> li");
   await expect(cards).toHaveCount(10);
   for (let n = 1; n <= 10; n++) {
@@ -87,7 +111,7 @@ test("all ten tenet cards render with a title, a short definition, and a status 
 });
 
 test("a tenet card expands to show every part, and collapses again", async ({ page }) => {
-  await open(page, "/ethics/natural-law?section=tenets");
+  await open(page, "/ethics/natural-law/tenets");
   const one = card(page, 1);
   await toggle(page, 1).click();
   const region = one.getByRole("region");
@@ -102,7 +126,7 @@ test("a tenet card expands to show every part, and collapses again", async ({ pa
 });
 
 test("cards can be opened and closed from the keyboard", async ({ page }) => {
-  await open(page, "/ethics/natural-law?section=tenets");
+  await open(page, "/ethics/natural-law/tenets");
   const button = toggle(page, 2);
   await button.focus();
   await page.keyboard.press("Enter");
@@ -112,7 +136,7 @@ test("cards can be opened and closed from the keyboard", async ({ page }) => {
 });
 
 test("each tenet has a status, and Aquinas's views are kept distinct from the broader framework", async ({ page }) => {
-  await open(page, "/ethics/natural-law?section=tenets");
+  await open(page, "/ethics/natural-law/tenets");
   await expect(card(page, 5).getByText("Modern interpretation")).toBeVisible();
   await expect(card(page, 10).getByText("Contested")).toBeVisible();
   await toggle(page, 5).click();
@@ -121,7 +145,7 @@ test("each tenet has a status, and Aquinas's views are kept distinct from the br
 });
 
 test("related ideas and thinkers are links", async ({ page }) => {
-  await open(page, "/ethics/natural-law?section=tenets");
+  await open(page, "/ethics/natural-law/tenets");
   await toggle(page, 3).click();
   await card(page, 3).getByRole("link", { name: "Virtue as a mean" }).click();
   await expect(page).toHaveURL(/\/ideas\/golden-mean/);
@@ -129,11 +153,11 @@ test("related ideas and thinkers are links", async ({ page }) => {
   await page.locator("html[data-hydrated='true']").waitFor();
   await toggle(page, 3).click();
   await card(page, 3).getByRole("link", { name: "Aristotle" }).click();
-  await expect(page).toHaveURL(/\/ethics\/natural-law\?section=overview#thinker-aristotle/);
+  await expect(page).toHaveURL(/\/ethics\/natural-law#thinker-aristotle/);
 });
 
 test("a reflection can be written, saved, edited, and survives a refresh", async ({ page }) => {
-  await open(page, "/ethics/natural-law?section=tenets");
+  await open(page, "/ethics/natural-law/tenets");
   await card(page, 1).getByRole("button", { name: "Reflect on Objective Morality" }).click();
   const box = card(page, 1).getByRole("textbox");
   await expect(box).toBeFocused();
@@ -163,7 +187,7 @@ test("a reflection can be written, saved, edited, and survives a refresh", async
 });
 
 test("discarding changes restores the saved text, and a reflection can be deleted after confirming", async ({ page }) => {
-  await open(page, "/ethics/natural-law?section=tenets");
+  await open(page, "/ethics/natural-law/tenets");
   await card(page, 2).getByRole("button", { name: "Reflect on Human Nature" }).click();
   await card(page, 2).getByRole("textbox").fill("Reason and relationships.");
   await card(page, 2).getByRole("button", { name: "Save reflection" }).click();
@@ -179,39 +203,8 @@ test("discarding changes restores the saved text, and a reflection can be delete
   await expect(card(page, 2).getByText("Reflection saved")).toHaveCount(0);
 });
 
-test("saved reflections can be revisited and edited in Apply & Reflect", async ({ page }) => {
-  await open(page, "/ethics/natural-law?section=tenets");
-  await card(page, 4).getByRole("button", { name: "Reflect on Human Flourishing" }).click();
-  await card(page, 4).getByRole("textbox").fill("A life with good friends and work that matters.");
-  await card(page, 4).getByRole("button", { name: "Save reflection" }).click();
-
-  await page.getByRole("navigation", { name: "Natural Law sections" }).getByRole("link", { name: "Apply & Reflect" }).click();
-  await page.locator("html[data-hydrated='true']").waitFor();
-  await expect(page.getByTestId("reflection-progress")).toHaveText("1 of 10 questions reflected on so far");
-  const saved = page.getByTestId("saved-reflection");
-  await expect(saved).toHaveCount(1);
-  await expect(saved).toContainText("A life with good friends and work that matters.");
-  await expect(page.getByTestId("open-question")).toHaveCount(9);
-  // Each open question comes with a scenario.
-  await expect(page.getByTestId("open-question").first()).toContainText("Scenario");
-
-  await saved.getByRole("button", { name: "Edit your reflection on Human Flourishing" }).click();
-  await saved.getByRole("textbox").fill("Friends, work that matters, and time to rest.");
-  await saved.getByRole("button", { name: "Save changes" }).click();
-  await page.reload();
-  await page.locator("html[data-hydrated='true']").waitFor();
-  await expect(page.getByTestId("saved-reflection")).toContainText("Friends, work that matters, and time to rest.");
-
-  // Answering a new question moves it into the revisit list.
-  await page.getByRole("button", { name: "Reflect on Justice" }).click();
-  await page.getByRole("textbox").fill("Fairness matters even when the law is silent.");
-  await page.getByRole("button", { name: "Save reflection" }).click();
-  await expect(page.getByTestId("reflection-progress")).toHaveText("2 of 10 questions reflected on so far");
-  await expect(page.getByTestId("saved-reflection")).toHaveCount(2);
-});
-
 test("critical perspectives include criticisms, debates, and arguments in support", async ({ page }) => {
-  await open(page, "/ethics/natural-law?section=perspectives");
+  await open(page, "/ethics/natural-law/perspectives");
   for (const heading of ["Major criticisms", "Open debates", "Arguments in support"]) await expect(page.getByRole("heading", { level: 2, name: heading })).toBeVisible();
   for (const title of ["The is–ought problem", "Cultural and historical bias", "Religious and secular versions", "Individual freedom and the common good"]) {
     await expect(page.getByText(title, { exact: true })).toBeVisible();
@@ -230,7 +223,7 @@ test("an unknown tradition is a 404", async ({ page }) => {
 });
 
 test("the page fits the screen and the tenet cards stack on a phone", async ({ page, isMobile }) => {
-  await open(page, "/ethics/natural-law?section=tenets");
+  await open(page, "/ethics/natural-law/tenets");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
   const first = (await card(page, 1).boundingBox())!;
   const second = (await card(page, 2).boundingBox())!;

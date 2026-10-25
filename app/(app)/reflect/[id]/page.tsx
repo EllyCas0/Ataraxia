@@ -7,6 +7,15 @@ import { demoConversations } from "@/lib/demo/data";
 
 type Params = Promise<{ id: string }>;
 
+// TEMPORARY: today these are the sample conversations only, so unknown ids are a real 404. When conversations come
+// from the database (Phase 3 and 4), remove dynamicParams and generateStaticParams here: real ids are not known at
+// build time, and a missing one must then be turned into a 404 another way (for example by checking before the
+// loading screen streams).
+export const dynamicParams = false;
+export function generateStaticParams() {
+  return demoConversations.map((c) => ({ id: c.id }));
+}
+
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { id } = await params;
   return { title: demoConversations.find((c) => c.id === id)?.title ?? "Conversation" };

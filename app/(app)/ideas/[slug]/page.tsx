@@ -13,6 +13,10 @@ import { cn } from "@/lib/utils";
 
 type Params = Promise<{ slug: string }>;
 
+// Only the pages listed in generateStaticParams exist. Anything else is a real HTTP 404 straight away. Without this,
+// the loading screens start streaming a "200 OK" response before the page can say it was not found.
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return content.concepts().map((c) => ({ slug: c.slug }));
 }

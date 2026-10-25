@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     const client = new OpenAI({ timeout: 45_000, maxRetries: 0 });
     const reply = await client.responses.create({
       model: process.env.OPENAI_MODEL || "gpt-4.1-mini",
-      instructions: `You are The Agora, a thoughtful philosophical conversation partner. ${guidance} Keep replies concise, use plain text, and end with one useful question. Do not claim to be a therapist or provide medical advice.`,
+      instructions: `You are Stoa, a thoughtful philosophical conversation partner. ${guidance} Keep replies concise, use plain text, and end with one useful question. Do not claim to be a therapist or provide medical advice.`,
       input: parsed.data.messages,
       max_output_tokens: 1000,
       store: false,

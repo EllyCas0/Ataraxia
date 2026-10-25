@@ -1,4 +1,4 @@
-import { BookMarked, Compass, MessageCircle, type LucideIcon } from "lucide-react";
+import { BookMarked, Compass, MessageCircle, Scale, type LucideIcon } from "lucide-react";
 
 export interface NavItem {
   href: string;
@@ -9,7 +9,8 @@ export interface NavItem {
 }
 
 export const navItems: NavItem[] = [
-  { href: "/ideas", label: "Discover", icon: Compass, matches: ["/discover", "/ideas", "/weekly", "/reframe", "/ethics", "/insights"] },
+  { href: "/ideas", label: "Discover", icon: Compass, matches: ["/discover", "/ideas", "/weekly", "/reframe", "/insights"] },
+  { href: "/ethics/natural-law", label: "Natural Law", icon: Scale, matches: ["/ethics"] },
   { href: "/reflect", label: "Reflect", icon: MessageCircle, matches: ["/reflect"] },
   { href: "/my-philosophy", label: "My Philosophy", icon: BookMarked, matches: ["/my-philosophy"] },
 ];

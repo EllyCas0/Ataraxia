@@ -1,4 +1,4 @@
-# The Agora: simplification (specification)
+# Stoa: simplification (specification)
 
 Goal: make the app feel "just right": fewer things on each screen and fewer ways to do the same thing, without losing the features that matter. This follows the simplification strategy agreed in conversation, and it builds on `docs/SPEC-contemporary-experience.md` (read Section 0 of that document: its shared rules, safety rules and quality bar apply here too).
 
@@ -180,3 +180,8 @@ Everything above was implemented. Where the build differs from the wording above
 - **"Change style"** is used on existing conversations as well as new ones, so both look the same.
 - **Music:** the first-gesture autoplay fallback was removed. After someone presses play once, the next visit tries to resume quietly; if the browser refuses, the player stays paused with no message.
 - **Interactive-element budget:** the test counts everything a keyboard can reach on Discover (including the skip link) and allows at most 12. It currently sits exactly at 12.
+
+## Later changes
+
+- **D2 reversed on request:** Natural Law is back in the side and bottom navigation (between Discover and Reflect), so the navigation has **four** items and the Discover interactive-element budget is **13**. The home card still alternates between Reframe and Natural Law; under D2b the spec suggests showing Reframe only, which has not been done.
+- **Natural Law page simplified:** the "Apply & Reflect" page was removed entirely (three sections remain: Overview, Core Tenets, Critical Perspectives), and the Overview now opens with "Where it comes from" and "Four ideas that are easy to mix up". Reflections live on the tenet cards.

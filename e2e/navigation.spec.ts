@@ -68,18 +68,29 @@ test("the page does not scroll sideways", async ({ page }) => {
   }
 });
 
-test("the navigation has exactly three items and every one fits on the screen", async ({ page }) => {
+test("the navigation has four items and every one fits on the screen", async ({ page }) => {
   await open(page, "/discover");
   const nav = page.getByRole("navigation", { name: "Primary" }).filter({ visible: true });
   const viewport = page.viewportSize()!;
   const links = nav.getByRole("link");
-  await expect(links).toHaveText([/Discover/, /Reflect/, /My Philosophy/]);
-  for (let i = 0; i < 3; i++) {
+  await expect(links).toHaveText([/Discover/, /Natural Law/, /Reflect/, /My Philosophy/]);
+  for (let i = 0; i < 4; i++) {
     const box = (await links.nth(i).boundingBox())!;
     expect(box.x).toBeGreaterThanOrEqual(0);
     expect(box.x + box.width).toBeLessThanOrEqual(viewport.width);
     expect(box.y + box.height).toBeLessThanOrEqual(viewport.height);
   }
+});
+
+test("the Natural Law item opens the Natural Law page and is marked on every Ethics page", async ({ page }) => {
+  await open(page, "/discover");
+  const nav = page.getByRole("navigation", { name: "Primary" }).filter({ visible: true });
+  await expect(nav.getByRole("link", { name: "Natural Law" })).not.toHaveAttribute("aria-current", "page");
+  await nav.getByRole("link", { name: "Natural Law" }).click();
+  await expect(page).toHaveURL(/\/ethics\/natural-law$/);
+  await expect(page.getByRole("heading", { level: 1, name: "Natural Law" })).toBeVisible();
+  await expect(nav.getByRole("link", { name: "Natural Law" })).toHaveAttribute("aria-current", "page");
+  await expect(nav.getByRole("link", { name: "Discover" })).not.toHaveAttribute("aria-current", "page");
 });
 
 test("there is no separate New button: starting a conversation is the main button on Discover and Reflect", async ({ page }) => {
@@ -95,13 +106,15 @@ test("there is no separate New button: starting a conversation is the main butto
   await expect(page).toHaveURL(/\/reflect\/new$/);
 });
 
-test("exactly one navigation item is marked as current, and Discover covers the pages reached from it", async ({ page }) => {
+test("exactly one navigation item is marked as current, and each covers the pages reached from it", async ({ page }) => {
   const cases: [string, string][] = [
     ["/discover", "Discover"],
     ["/ideas", "Discover"],
     ["/reframe", "Discover"],
-    ["/ethics/natural-law", "Discover"],
-    ["/ethics/natural-law?section=tenets", "Discover"],
+    ["/ethics", "Natural Law"],
+    ["/ethics/natural-law", "Natural Law"],
+    ["/ethics/natural-law/tenets", "Natural Law"],
+    ["/ethics/natural-law/perspectives", "Natural Law"],
     ["/insights/socrates-unexamined-life", "Discover"],
     ["/reflect", "Reflect"],
     ["/reflect/new", "Reflect"],
@@ -113,4 +126,18 @@ test("exactly one navigation item is marked as current, and Discover covers the 
     await expect(nav.locator("[aria-current='page']"), path).toHaveCount(1);
     await expect(nav.getByRole("link", { name: expected }), path).toHaveAttribute("aria-current", "page");
   }
+});
+
+test("the app is called Stoa everywhere people can see it", async ({ page }) => {
+  await open(page, "/discover");
+  await expect(page).toHaveTitle("Discover · Stoa");
+  // The logo link in the sidebar (desktop) or the header (phone) carries the name.
+  await expect(page.getByRole("link", { name: /^Stoa( home| v[0-9.]+)?$/ }).filter({ visible: true })).toHaveCount(1);
+  for (const path of ["/discover", "/ideas", "/reflect", "/reflect/new", "/my-philosophy", "/ethics/natural-law", "/reframe", "/insights/socrates-unexamined-life"]) {
+    await open(page, path);
+    expect(await page.title(), path).toMatch(/Stoa$/);
+    expect(await page.locator("body").innerText(), path).not.toMatch(/agora/i);
+  }
+  await open(page, "/reflect/demo-worry");
+  await expect(page.getByText("Stoa", { exact: true }).first()).toBeVisible();
 });

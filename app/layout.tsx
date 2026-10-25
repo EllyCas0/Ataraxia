@@ -4,7 +4,7 @@ import { HydrationMarker } from "@/components/hydration-marker";
 import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
-  title: { default: "The Agora", template: "%s · The Agora" },
+  title: { default: "Stoa", template: "%s · Stoa" },
   description: "A calm place to explore philosophical ideas, examine your assumptions, and reflect on your own life.",
 };
 

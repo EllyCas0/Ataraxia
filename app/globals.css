@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
-  Design tokens for The Agora: a late-night, playful look for curious people.
+  Design tokens for Stoa: a late-night, playful look for curious people.
   Deep violet-black ground, electric lime actions, aqua highlights, and one colour per school of thought.
   System font stacks only, so builds never depend on a font download.
 */

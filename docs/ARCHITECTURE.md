@@ -1,6 +1,6 @@
-# The Agora: architecture plan (Phase 1)
+# Stoa: architecture plan (Phase 1)
 
-This app replaces the earlier "Agora" app in this repository. The old code and PRD remain in git history (last Agora commit: `e1d8aa3`) and the PRD is archived in `docs/archive/`.
+This app replaces the earlier "Agora" app in this repository. It was called "The Agora" until it was renamed Stoa. The old code and PRD remain in git history (last Agora commit: `e1d8aa3`) and the PRD is archived in `docs/archive/`.
 
 ## Stack
 

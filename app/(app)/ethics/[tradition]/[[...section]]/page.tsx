@@ -1,28 +1,43 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ApplyReflect } from "@/components/philosophy-module/apply-reflect";
 import { CriticalPerspectives } from "@/components/philosophy-module/critical-perspectives";
 import { SectionNav } from "@/components/philosophy-module/section-nav";
 import { TenetGrid } from "@/components/philosophy-module/tenet-grid";
 import { TraditionOverview } from "@/components/philosophy-module/tradition-overview";
 import { content } from "@/lib/content/repository";
-import { getBundle } from "@/lib/philosophy/registry";
-import { parseSection, tenetViews } from "@/lib/philosophy/views";
+import { bundles, getBundle } from "@/lib/philosophy/registry";
+import { SECTIONS, parseSection, tenetViews } from "@/lib/philosophy/views";
 
-type Props = { params: Promise<{ tradition: string }>; searchParams: Promise<Record<string, string | string[] | undefined>> };
-const first = (value: string | string[] | undefined) => (Array.isArray(value) ? value[0] : value);
+type Props = { params: Promise<{ tradition: string; section?: string[] }> };
 
-export async function generateMetadata({ params }: Pick<Props, "params">): Promise<Metadata> {
-  const bundle = getBundle((await params).tradition);
+// Each section has its own address: /ethics/natural-law, /ethics/natural-law/tenets, and so on. Every page
+// is built ahead of time from the registry and anything else is a real HTTP 404, even with the loading
+// screens (see the note on dynamicParams in the other dynamic pages).
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return bundles.flatMap((bundle) => [
+    { tradition: bundle.tradition.id, section: [] as string[] },
+    ...SECTIONS.filter((s) => s.id !== "overview").map((s) => ({ tradition: bundle.tradition.id, section: [s.id] })),
+  ]);
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { tradition } = await params;
+  const bundle = getBundle(tradition);
   return bundle ? { title: bundle.tradition.name, description: bundle.tradition.summary } : { title: "Ethics" };
 }
 
 // One page for every tradition in the registry: the tradition id in the address picks the content.
-export default async function TraditionPage({ params, searchParams }: Props) {
-  const bundle = getBundle((await params).tradition);
+export default async function TraditionPage({ params }: Props) {
+  const { tradition, section: segments } = await params;
+  const bundle = getBundle(tradition);
   if (!bundle) notFound();
-  const section = parseSection(first((await searchParams).section));
+  // No segment means the overview. An unknown or repeated section is a 404, never a silent fallback.
+  const requested = segments?.[0];
+  if ((segments?.length ?? 0) > 1 || (requested !== undefined && !SECTIONS.some((s) => s.id === requested && s.id !== "overview"))) notFound();
+  const section = parseSection(requested);
   const basePath = `/ethics/${bundle.tradition.id}`;
   const tenets = tenetViews(bundle, (slug) => content.conceptBySlug(slug));
 
@@ -43,10 +58,9 @@ export default async function TraditionPage({ params, searchParams }: Props) {
       <SectionNav basePath={basePath} current={section} label={`${bundle.tradition.name} sections`} />
 
       <div id="section-content" className="pt-2">
-        {section === "overview" && <TraditionOverview bundle={bundle} tenetsHref={`${basePath}?section=tenets`} />}
-        {section === "tenets" && <TenetGrid tenets={tenets} frameworkNote={bundle.overview.frameworkNote} basePath={`${basePath}?section=overview`} />}
+        {section === "overview" && <TraditionOverview bundle={bundle} tenetsHref={`${basePath}/tenets`} />}
+        {section === "tenets" && <TenetGrid tenets={tenets} frameworkNote={bundle.overview.frameworkNote} basePath={basePath} />}
         {section === "perspectives" && <CriticalPerspectives bundle={bundle} />}
-        {section === "reflect" && <ApplyReflect tenets={tenets} />}
       </div>
     </div>
   );
