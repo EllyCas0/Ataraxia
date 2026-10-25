@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { X } from "lucide-react";
-import { useState } from "react";
+import { useSavedItems } from "@/lib/browser-library";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -11,9 +11,8 @@ import type { DemoSavedItem } from "@/lib/demo/data";
 const typeLabel: Record<DemoSavedItem["type"], string> = { question: "Question", concept: "Idea", insight: "Insight" };
 const fmt = (iso: string) => new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" }).format(new Date(iso));
 
-// PHASE 2 PREVIEW: removing an item only changes this component's state.
-export function SavedPanel({ initialItems }: { initialItems: DemoSavedItem[] }) {
-  const [items, setItems] = useState(initialItems);
+export function SavedPanel() {
+  const [items, setItems] = useSavedItems();
 
   if (items.length === 0) {
     return (
@@ -49,8 +48,7 @@ export function SavedPanel({ initialItems }: { initialItems: DemoSavedItem[] }) 
             size="icon"
             aria-label={`Remove “${item.title}” from saved`}
             onClick={() => {
-              setItems((list) => list.filter((i) => i.id !== item.id));
-              toast("Removed (preview only)");
+              if (setItems((list) => list.filter((i) => i.id !== item.id))) toast("Removed from saved");
             }}
           >
             <X aria-hidden />

@@ -62,7 +62,7 @@ export default async function ConceptPage({ params }: { params: Params }) {
             <MessageCircle data-icon="inline-start" aria-hidden />
             Discuss this idea
           </Link>
-          <SaveButton className="h-11 px-5 text-base" />
+          <SaveButton title={concept.title} href={`/ideas/${concept.slug}`} className="h-11 px-5 text-base" />
         </div>
       </div>
 

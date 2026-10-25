@@ -20,26 +20,25 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import type { DemoJournalEntry } from "@/lib/demo/data";
+import { useJournal } from "@/lib/browser-library";
 import { content } from "@/lib/content/repository";
 
 const MAX_BODY = 20000;
 const MAX_TITLE = 120;
 const fmt = (iso: string) => new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(iso));
 
-// PHASE 2 PREVIEW: entries live in this component's state and disappear on reload. Creating, editing,
-// and deleting are connected to the private database in a later step.
-export function JournalPanel({ initialEntries }: { initialEntries: DemoJournalEntry[] }) {
-  const [entries, setEntries] = useState(initialEntries);
+export function JournalPanel() {
+  const [entries, setEntries] = useJournal();
   const [editing, setEditing] = useState<DemoJournalEntry | "new" | null>(null);
 
   function save(values: { title?: string; body: string }) {
     const now = new Date().toISOString();
     if (editing === "new") {
-      setEntries((list) => [{ id: crypto.randomUUID(), ...values, createdAt: now, updatedAt: now }, ...list]);
-      toast("Entry added (preview only)");
+      if (!setEntries((list) => [{ id: crypto.randomUUID(), ...values, createdAt: now, updatedAt: now }, ...list])) return;
+      toast("Entry saved in this browser");
     } else if (editing) {
-      setEntries((list) => list.map((e) => (e.id === editing.id ? { ...e, ...values, updatedAt: now } : e)));
-      toast("Entry updated (preview only)");
+      if (!setEntries((list) => list.map((e) => (e.id === editing.id ? { ...e, ...values, updatedAt: now } : e)))) return;
+      toast("Entry updated in this browser");
     }
     setEditing(null);
   }
@@ -47,7 +46,7 @@ export function JournalPanel({ initialEntries }: { initialEntries: DemoJournalEn
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between gap-4">
-        <p className="text-sm text-muted-foreground">Write freely. Only you can read this.</p>
+        <p className="text-sm text-muted-foreground">Saved in this browser. Not synced between devices.</p>
         {editing === null && (
           <Button type="button" size="lg" className="h-10" onClick={() => setEditing("new")}>
             <Plus data-icon="inline-start" aria-hidden />
@@ -99,8 +98,7 @@ export function JournalPanel({ initialEntries }: { initialEntries: DemoJournalEn
                         <AlertDialogAction
                           variant="destructive"
                           onClick={() => {
-                            setEntries((list) => list.filter((e) => e.id !== entry.id));
-                            toast("Entry deleted (preview only)");
+                            if (setEntries((list) => list.filter((e) => e.id !== entry.id))) toast("Entry deleted from this browser");
                           }}
                         >
                           Delete entry

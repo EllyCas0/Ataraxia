@@ -10,10 +10,12 @@ import { StyleChip } from "@/components/chat/style-control";
 import { starterPrompts, type ConversationMode } from "@/lib/content/chat";
 
 export function NewConversation({
+  chatAvailable = false,
   initialMode = "explore_idea",
   initialText = "",
   contextLabel,
 }: {
+  chatAvailable?: boolean;
   initialMode?: ConversationMode;
   initialText?: string;
   contextLabel?: string;
@@ -28,7 +30,7 @@ export function NewConversation({
   const sending = useRef(false);
 
   async function send(text: string) {
-    if (sending.current) return;
+    if (!chatAvailable || sending.current) return;
     sending.current = true;
     setBusy(true);
     setError("");
@@ -69,6 +71,8 @@ export function NewConversation({
         </p>
       )}
 
+      {!chatAvailable && <p role="status" className="text-sm text-muted-foreground">Chat is not available yet. You can explore ideas and save reflections in My Philosophy.</p>}
+
       <section aria-label="Write your first message" className="space-y-4">
         {messages.length > 0 && (
           <div aria-label="Conversation" role="log" className="space-y-6">
@@ -98,6 +102,7 @@ export function NewConversation({
           initialValue={seed.text}
           onSend={send}
           busy={busy}
+          disabled={!chatAvailable}
           footerLeft={<StyleChip value={mode} open={stylesOpen} onToggle={() => setStylesOpen((v) => !v)} panelId={stylesId} disabled={busy} />}
         />
       </section>

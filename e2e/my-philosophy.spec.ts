@@ -5,7 +5,7 @@ test("the privacy notice appears on title hover and there are three areas", asyn
   await open(page, "/my-philosophy");
   await expect(page.getByLabel("Privacy")).toBeHidden();
   await page.getByRole("button", { name: "My Philosophy", exact: true }).hover();
-  await expect(page.getByLabel("Privacy")).toContainText("private to you");
+  await expect(page.getByLabel("Privacy")).toContainText("stay in this browser");
   await expect(page.getByRole("tab")).toHaveCount(3);
   for (const name of ["Journal & saved", "My values", "History"]) {
     await expect(page.getByRole("tab", { name })).toBeVisible();
@@ -24,7 +24,7 @@ test("an old link to the saved tab opens the journal tab, which now includes sav
   await open(page, "/my-philosophy?tab=saved");
   await expect(page.getByRole("tab", { name: "Journal & saved" })).toHaveAttribute("aria-selected", "true");
   await expect(page.getByRole("heading", { level: 2, name: "Saved for later" })).toBeVisible();
-  await expect(page.getByRole("button", { name: /^Remove “Bad faith”/ })).toBeVisible();
+  await expect(page.getByText("Nothing saved yet.", { exact: false })).toBeVisible();
 });
 
 test("journal entries can be created, edited, and deleted", async ({ page }) => {
@@ -82,6 +82,8 @@ test("a duplicate custom value is rejected with a clear message", async ({ page 
 });
 
 test("saved items sit under the journal and can be removed, and history lists everything", async ({ page }) => {
+  await open(page, "/ideas/bad-faith");
+  await page.getByRole("button", { name: "Save", exact: true }).click();
   await open(page, "/my-philosophy");
   const saved = page.locator("section[aria-labelledby='saved-heading']");
   const items = saved.locator("ul > li");

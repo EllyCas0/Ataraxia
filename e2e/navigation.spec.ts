@@ -10,7 +10,7 @@ test("the home page leads to Discover", async ({ page }) => {
 test("the main destinations are reachable from the navigation", async ({ page, isMobile }) => {
   await open(page, "/discover");
   const nav = page.getByRole("navigation", { name: "Primary" }).filter({ visible: true });
-  await expect(nav.getByRole("link", { name: "Discover" })).toHaveAttribute("aria-current", "page");
+  await expect(nav.getByRole("link", { name: "Explore ideas" })).toHaveAttribute("aria-current", "page");
 
   await nav.getByRole("link", { name: "Reflect" }).click();
   await expect(page).toHaveURL(/\/reflect$/);
@@ -20,11 +20,11 @@ test("the main destinations are reachable from the navigation", async ({ page, i
   await expect(page).toHaveURL(/\/my-philosophy/);
   await expect(page.getByRole("heading", { level: 1, name: "My Philosophy" })).toBeVisible();
 
-  await nav.getByRole("link", { name: "Discover" }).click();
+  await nav.getByRole("link", { name: "Explore ideas" }).click();
   await expect(page).toHaveURL(/\/ideas$/);
   await expect(page.getByRole("heading", { level: 1, name: "Explore ideas" })).toBeVisible();
   await page.goto("/ideas?theme=identity-self-knowledge");
-  await nav.getByRole("link", { name: "Discover" }).click();
+  await nav.getByRole("link", { name: "Explore ideas" }).click();
   await expect(page).toHaveURL(/\/ideas$/);
   await expect(page.getByLabel("Theme", { exact: true })).toHaveValue("");
   expect(isMobile !== undefined).toBe(true);
@@ -73,7 +73,7 @@ test("the navigation has four items and every one fits on the screen", async ({ 
   const nav = page.getByRole("navigation", { name: "Primary" }).filter({ visible: true });
   const viewport = page.viewportSize()!;
   const links = nav.getByRole("link");
-  await expect(links).toHaveText([/Discover/, /Natural Law/, /Reflect/, /My Philosophy/]);
+  await expect(links).toHaveText([/Explore ideas/, /Natural Law/, /Reflect/, /My Philosophy/]);
   for (let i = 0; i < 4; i++) {
     const box = (await links.nth(i).boundingBox())!;
     expect(box.x).toBeGreaterThanOrEqual(0);
@@ -90,7 +90,7 @@ test("the Natural Law item opens the Natural Law page and is marked on every Eth
   await expect(page).toHaveURL(/\/ethics\/natural-law$/);
   await expect(page.getByRole("heading", { level: 1, name: "Natural Law" })).toBeVisible();
   await expect(nav.getByRole("link", { name: "Natural Law" })).toHaveAttribute("aria-current", "page");
-  await expect(nav.getByRole("link", { name: "Discover" })).not.toHaveAttribute("aria-current", "page");
+  await expect(nav.getByRole("link", { name: "Explore ideas" })).not.toHaveAttribute("aria-current", "page");
 });
 
 test("there is no separate New button: Start thinking and Reflect both open the message box", async ({ page }) => {
@@ -105,15 +105,17 @@ test("there is no separate New button: Start thinking and Reflect both open the 
 });
 
 test("exactly one navigation item is marked as current, and each covers the pages reached from it", async ({ page }) => {
+  // This checks ten full navigations, including server-rendered pages.
+  test.setTimeout(90_000);
   const cases: [string, string][] = [
-    ["/discover", "Discover"],
-    ["/ideas", "Discover"],
-    ["/reframe", "Discover"],
+    ["/discover", "Explore ideas"],
+    ["/ideas", "Explore ideas"],
+    ["/reframe", "Explore ideas"],
     ["/ethics", "Natural Law"],
     ["/ethics/natural-law", "Natural Law"],
     ["/ethics/natural-law/tenets", "Natural Law"],
     ["/ethics/natural-law/perspectives", "Natural Law"],
-    ["/insights/socrates-unexamined-life", "Discover"],
+    ["/insights/socrates-unexamined-life", "Explore ideas"],
     ["/reflect", "Reflect"],
     ["/my-philosophy", "My Philosophy"],
   ];

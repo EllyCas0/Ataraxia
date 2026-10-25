@@ -6,6 +6,8 @@ import { isConversationMode, modes } from "@/lib/content/chat";
 import { content } from "@/lib/content/repository";
 import { demoConversations } from "@/lib/demo/data";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = { title: "Reflect" };
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
@@ -39,13 +41,13 @@ export default async function ReflectPage({ searchParams }: { searchParams: Sear
 
   return (
     <div className="space-y-12">
-      <NewConversation initialMode={mode ?? "explore_idea"} initialText={initialText} contextLabel={contextLabel} />
+      <NewConversation initialMode={mode ?? "explore_idea"} initialText={initialText} contextLabel={contextLabel} chatAvailable={!!process.env.OPENAI_API_KEY} />
 
       <section aria-labelledby="recent" className="space-y-3">
         <h2 id="recent" className="text-sm font-medium uppercase tracking-[0.16em] text-muted-foreground">
-          Recent conversations
+          Example conversations
         </h2>
-        <p className="text-xs text-muted-foreground">Sample conversations shown as a preview.</p>
+        <p className="text-xs text-muted-foreground">Read-only examples. You can save responses to this browser.</p>
         <ul className="space-y-2">
           {demoConversations.map((c) => (
             <li key={c.id}>
@@ -53,6 +55,7 @@ export default async function ReflectPage({ searchParams }: { searchParams: Sear
                 <span className="font-serif text-lg leading-snug">{c.title}</span>
                 <span className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
                   <Badge variant="secondary">{modeLabel(c.mode)}</Badge>
+                  <Badge variant="outline">Read-only</Badge>
                   <span>Updated {formatDate(c.updatedAt)}</span>
                 </span>
               </Link>

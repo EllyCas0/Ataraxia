@@ -6,7 +6,7 @@ import { HistoryPanel } from "@/components/philosophy/history-panel";
 import { JournalPanel } from "@/components/philosophy/journal-panel";
 import { SavedPanel } from "@/components/philosophy/saved-panel";
 import { ValuesPanel } from "@/components/philosophy/values-panel";
-import { demoJournal, demoRankedValues, demoSaved } from "@/lib/demo/data";
+import { demoRankedValues } from "@/lib/demo/data";
 import type { MyPhilosophyTab } from "@/lib/my-philosophy-tabs";
 
 export function MyPhilosophyTabs({ defaultTab }: { defaultTab: MyPhilosophyTab }) {
@@ -25,12 +25,13 @@ export function MyPhilosophyTabs({ defaultTab }: { defaultTab: MyPhilosophyTab }
         </TabsTrigger>
       </TabsList>
       <TabsContent value="journal" className="space-y-10">
-        <JournalPanel initialEntries={demoJournal} />
+        <JournalPanel />
         <section aria-labelledby="saved-heading" className="space-y-3">
           <h2 id="saved-heading" className="text-2xl">
             Saved for later
           </h2>
-          <SavedPanel initialItems={demoSaved} />
+          <p className="text-sm text-muted-foreground">Saved in this browser. Not synced between devices.</p>
+          <SavedPanel />
         </section>
       </TabsContent>
       <TabsContent value="values">

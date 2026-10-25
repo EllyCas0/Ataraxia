@@ -1,5 +1,6 @@
 "use client";
 
+import { useSavedItems } from "@/lib/browser-library";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -23,9 +24,9 @@ import { AiNotice } from "@/components/chat/notice";
 import type { DemoConversation } from "@/lib/demo/data";
 import type { ConversationMode } from "@/lib/content/chat";
 
-// PHASE 2 PREVIEW: shows a sample conversation. Sending, saving, and clearing are connected to the
-// real backend in later steps.
+// Sample conversations stay read-only; insights can be saved to this browser's library.
 export function ConversationView({ conversation }: { conversation: DemoConversation }) {
+  const [, updateSaved] = useSavedItems();
   const [mode, setMode] = useState<ConversationMode>(conversation.mode);
   const [seed, setSeed] = useState({ text: "", n: 0 });
 
@@ -57,6 +58,7 @@ export function ConversationView({ conversation }: { conversation: DemoConversat
         </AlertDialog>
       </header>
 
+      <p className="text-sm text-muted-foreground">Read-only example. Save responses in this browser; they are not synced between devices.</p>
       <StyleControl value={mode} onChange={setMode} />
       <AiNotice />
 
@@ -65,7 +67,13 @@ export function ConversationView({ conversation }: { conversation: DemoConversat
           message.role === "user" ? (
             <UserMessage key={message.id} content={message.content} />
           ) : (
-            <AssistantMessage key={message.id} content={message.content} onSaveInsight={() => toast("Preview only: saving insights comes with sign-in")} />
+            <AssistantMessage key={message.id} content={message.content} onSaveInsight={() => {
+              const id = `insight:${conversation.id}:${message.id}`;
+              if (updateSaved((items) => items.some((item) => item.id === id) ? items : [{
+                id, type: "insight", title: message.content, note: `From example: ${conversation.title}`,
+                createdAt: new Date().toISOString(),
+              }, ...items])) toast("Insight saved in this browser");
+            }} />
           ),
         )}
       </section>
@@ -77,7 +85,7 @@ export function ConversationView({ conversation }: { conversation: DemoConversat
         initialValue={seed.text}
         onSend={() => {}}
         disabled
-        disabledReason="Preview: live AI replies are connected in a later step of the build. Nothing you type here is sent anywhere."
+        disabledReason="Read-only example. Live replies are unavailable in example conversations."
       />
     </div>
   );

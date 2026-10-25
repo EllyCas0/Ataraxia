@@ -1,13 +1,14 @@
 "use client";
 
 import { Bookmark, BookmarkCheck } from "lucide-react";
-import { useState } from "react";
+import { useSavedItems } from "@/lib/browser-library";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 
-// PHASE 2 DEMO: this toggles local state only. Saving to the account is wired up in Phase 6.
-export function SaveButton({ label = "Save", className }: { label?: string; className?: string }) {
-  const [saved, setSaved] = useState(false);
+export function SaveButton({ title, href, label = "Save", className }: { title: string; href: string; label?: string; className?: string }) {
+  const [items, update] = useSavedItems();
+  const id = `concept:${href}`;
+  const saved = items.some((item) => item.id === id);
   return (
     <Button
       type="button"
@@ -15,8 +16,11 @@ export function SaveButton({ label = "Save", className }: { label?: string; clas
       className={className}
       aria-pressed={saved}
       onClick={() => {
-        setSaved((v) => !v);
-        toast(saved ? "Removed from saved" : "Saved (preview only; saving to your account comes with sign-in)");
+        if (update((list) => list.some((item) => item.id === id)
+          ? list.filter((item) => item.id !== id)
+          : [{ id, type: "concept", title, href, createdAt: new Date().toISOString() }, ...list])) {
+          toast(saved ? "Removed from saved" : "Saved in this browser");
+        }
       }}
     >
       {saved ? <BookmarkCheck data-icon="inline-start" aria-hidden /> : <Bookmark data-icon="inline-start" aria-hidden />}
