@@ -7,7 +7,7 @@ test("a starter can be edited and sent with conversation history", async ({ page
     requests.push(route.request().postDataJSON());
     await route.fulfill({ json: { content: "Which part matters most to you?" } });
   });
-  await open(page, "/reflect/new");
+  await open(page, "/reflect");
   await page.getByRole("button", { name: "Help me examine a difficult decision.", exact: true }).click();
   const composer = page.getByLabel("Your message");
   await expect(composer).toBeEnabled();
@@ -23,7 +23,7 @@ test("a starter can be edited and sent with conversation history", async ({ page
 
 test("a failed send restores the draft for retry", async ({ page }) => {
   await page.route("**/api/chat", (route) => route.fulfill({ status: 503, json: { error: "Replies are unavailable. Please retry." } }));
-  await open(page, "/reflect/new");
+  await open(page, "/reflect");
   await page.getByLabel("Your message").fill("What makes a life meaningful?");
   await page.getByRole("button", { name: "Send message" }).click();
   // Next.js keeps an empty role="alert" route announcer on the page, so pick the error message by its text.
@@ -35,7 +35,7 @@ test("a failed send restores the draft for retry", async ({ page }) => {
 const styleChip = (page: import("@playwright/test").Page, label?: string) => page.getByRole("button", { name: label ? new RegExp(`Change style, now ${label}`) : /Change style/ });
 
 test("a new conversation starts in one simple style, with the others one press away", async ({ page }) => {
-  await open(page, "/reflect/new");
+  await open(page, "/reflect");
   await expect(styleChip(page, "Explore an idea")).toBeVisible();
   // The three styles are hidden until asked for.
   await expect(page.getByRole("radiogroup", { name: "Conversation mode" })).toHaveCount(0);
@@ -62,7 +62,7 @@ test("a new conversation starts in one simple style, with the others one press a
 });
 
 test("there are three starter prompts, one for each style, and a starter sets the style", async ({ page }) => {
-  await open(page, "/reflect/new");
+  await open(page, "/reflect");
   const starters = page.locator("section[aria-labelledby='starters-heading']").getByRole("button");
   await expect(starters).toHaveCount(3);
   await page.getByRole("button", { name: "What am I assuming without realizing it?" }).click();
@@ -71,17 +71,17 @@ test("there are three starter prompts, one for each style, and a starter sets th
 });
 
 test("a conversation opened from a question or an idea picks its style and says so", async ({ page }) => {
-  await open(page, "/reflect/new?concept=eudaimonia");
+  await open(page, "/reflect?concept=eudaimonia");
   await expect(styleChip(page, "Explore an idea")).toBeVisible();
   await expect(page.getByText("Starting from:")).toBeVisible();
-  await open(page, "/reflect/new?question=breaking-a-promise");
+  await open(page, "/reflect?question=breaking-a-promise");
   await expect(styleChip(page, "Examine a dilemma")).toBeVisible();
   await expect(page.getByLabel("Your message")).not.toHaveValue("");
 });
 
 test("the new-conversation page asks what is on your mind and puts the message box first", async ({ page }) => {
-  await open(page, "/reflect/new");
-  await expect(page).toHaveTitle("New conversation · Stoa");
+  await open(page, "/reflect");
+  await expect(page).toHaveTitle("Reflect · Stoa");
   const heading = page.getByRole("heading", { level: 1 });
   await expect(heading).toHaveText("What's on your mind?");
   await expect(page.getByText("Bring a question, an idea, or a decision.")).toHaveCount(0);
@@ -100,7 +100,7 @@ test("the new-conversation page asks what is on your mind and puts the message b
 });
 
 test("the style chip and the send button sit inside the message box", async ({ page }) => {
-  await open(page, "/reflect/new");
+  await open(page, "/reflect");
   const outer = (await page.getByLabel("Your message").locator("xpath=..").boundingBox())!;
   const chip = (await styleChip(page).boundingBox())!;
   const send = (await page.getByRole("button", { name: "Send message" }).boundingBox())!;
@@ -115,7 +115,7 @@ test("the style chip and the send button sit inside the message box", async ({ p
 });
 
 test("the send button looks clearly off when empty and clearly on when there is text", async ({ page }) => {
-  await open(page, "/reflect/new");
+  await open(page, "/reflect");
   const send = page.getByRole("button", { name: "Send message" });
   const look = () => send.evaluate((el) => ({ bg: getComputedStyle(el).backgroundColor, opacity: getComputedStyle(el).opacity }));
   await expect(send).toBeDisabled();
@@ -130,7 +130,7 @@ test("the send button looks clearly off when empty and clearly on when there is 
 });
 
 test("the keyboard hint is inside the box on wide screens, and a problem is shown below it", async ({ page, isMobile }) => {
-  await open(page, "/reflect/new");
+  await open(page, "/reflect");
   const hint = page.getByText("Enter to send · Shift+Enter for a new line");
   if (isMobile) await expect(hint).toBeHidden();
   else {
@@ -145,7 +145,7 @@ test("the keyboard hint is inside the box on wide screens, and a problem is show
 });
 
 test("the AI notice is still there, as a quiet line", async ({ page }) => {
-  await open(page, "/reflect/new");
+  await open(page, "/reflect");
   const notice = page.getByText(/not therapy, medical advice, or crisis support/);
   await expect(notice).toBeVisible();
   // No box around it on this page.
@@ -154,7 +154,7 @@ test("the AI notice is still there, as a quiet line", async ({ page }) => {
 
 test("the starter prompts go away once a conversation has begun", async ({ page }) => {
   await page.route("**/api/chat", (route) => route.fulfill({ json: { content: "What do you mean by meaningful?" } }));
-  await open(page, "/reflect/new");
+  await open(page, "/reflect");
   await expect(page.getByRole("heading", { level: 2, name: "Need a place to start?" })).toBeVisible();
   await page.getByLabel("Your message").fill("What makes a life meaningful?");
   await page.getByRole("button", { name: "Send message" }).click();
@@ -163,14 +163,31 @@ test("the starter prompts go away once a conversation has begun", async ({ page 
   await expect(page.getByLabel("Your message")).toBeVisible();
 });
 
-test("the Reflect page has one main button and a way to reframe a worry", async ({ page }) => {
+test("Reflect opens on the message box, with recent conversations and Reframe quietly underneath", async ({ page }) => {
   await open(page, "/reflect");
-  await expect(page.getByRole("link", { name: "New conversation" })).toHaveCount(1);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("What's on your mind?");
+  await expect(page.getByLabel("Your message")).toBeVisible();
+  // There is no separate "new conversation" button: this page is the new conversation.
+  await expect(page.getByRole("link", { name: "New conversation" })).toHaveCount(0);
+
+  const box = (await page.getByLabel("Your message").boundingBox())!;
+  const recent = (await page.getByRole("heading", { level: 2, name: "Recent conversations" }).boundingBox())!;
+  expect(box.y).toBeLessThan(recent.y);
   await expect(page.getByRole("link", { name: "Reframe a worried thought" })).toBeVisible();
+  await expect(page.locator("section[aria-labelledby='recent'] a[href^='/reflect/']")).toHaveCount(3);
+});
+
+test("the old new-conversation address goes to Reflect and keeps its shortcuts", async ({ page }) => {
+  await page.goto("/reflect/new");
+  await expect(page).toHaveURL(/\/reflect$/);
+  await open(page, "/reflect/new?concept=eudaimonia");
+  await expect(page).toHaveURL(/\/reflect\?concept=eudaimonia$/);
+  await expect(page.getByText("Starting from:")).toBeVisible();
+  await expect(page.getByLabel("Your message")).toHaveValue(/Eudaimonia|flourishing/i);
 });
 
 test("every conversation page says the replies are AI-generated and not therapy", async ({ page }) => {
-  await open(page, "/reflect/new");
+  await open(page, "/reflect");
   await expect(page.getByText(/not therapy, medical advice, or crisis support/)).toBeVisible();
   await open(page, "/reflect/demo-worry");
   await expect(page.getByText("AI-generated").first()).toBeVisible();

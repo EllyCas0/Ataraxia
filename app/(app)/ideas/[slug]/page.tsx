@@ -58,7 +58,7 @@ export default async function ConceptPage({ params }: { params: Params }) {
         <p className="mt-2 text-muted-foreground">{concept.philosopher}</p>
         <p className="mt-5 max-w-2xl text-xl leading-relaxed">{concept.summary}</p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link href={`/reflect/new?concept=${encodeURIComponent(concept.slug)}`} className={cn(buttonVariants({ size: "lg" }), "h-11 px-5 text-base")}>
+          <Link href={`/reflect?concept=${encodeURIComponent(concept.slug)}`} className={cn(buttonVariants({ size: "lg" }), "h-11 px-5 text-base")}>
             <MessageCircle data-icon="inline-start" aria-hidden />
             Discuss this idea
           </Link>

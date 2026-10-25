@@ -65,7 +65,7 @@ test("the daily insight opens its reading view with the source", async ({ page }
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.getByText(/^Source:/)).toBeVisible();
   await page.getByRole("link", { name: "Reflect on this" }).click();
-  await expect(page).toHaveURL(/\/reflect\/new/);
+  await expect(page).toHaveURL(/\/reflect(\?|$)/);
 });
 
 test("an unknown insight is a 404", async ({ page }) => {
@@ -76,7 +76,7 @@ test("an unknown insight is a 404", async ({ page }) => {
 test("start thinking opens a new conversation", async ({ page }) => {
   await open(page, "/discover");
   await page.getByRole("link", { name: /Start thinking/ }).click();
-  await expect(page).toHaveURL(/\/reflect\/new$/);
+  await expect(page).toHaveURL(/\/reflect$/);
 });
 
 test("the weekly perspective is still reachable from the idea library", async ({ page }) => {

@@ -14,7 +14,7 @@ test("the main destinations are reachable from the navigation", async ({ page, i
 
   await nav.getByRole("link", { name: "Reflect" }).click();
   await expect(page).toHaveURL(/\/reflect$/);
-  await expect(page.getByRole("heading", { level: 1, name: "Reflect" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: "What's on your mind?" })).toBeVisible();
 
   await nav.getByRole("link", { name: "My Philosophy" }).click();
   await expect(page).toHaveURL(/\/my-philosophy/);
@@ -93,17 +93,15 @@ test("the Natural Law item opens the Natural Law page and is marked on every Eth
   await expect(nav.getByRole("link", { name: "Discover" })).not.toHaveAttribute("aria-current", "page");
 });
 
-test("there is no separate New button: starting a conversation is the main button on Discover and Reflect", async ({ page }) => {
+test("there is no separate New button: Start thinking and Reflect both open the message box", async ({ page }) => {
   for (const path of ["/discover", "/ideas", "/my-philosophy", "/reflect"]) {
     await open(page, path);
     await expect(page.getByRole("link", { name: "Start a new conversation" })).toHaveCount(0);
   }
   await open(page, "/discover");
   await page.getByRole("link", { name: /Start thinking/ }).click();
-  await expect(page).toHaveURL(/\/reflect\/new$/);
-  await open(page, "/reflect");
-  await page.getByRole("link", { name: "New conversation" }).click();
-  await expect(page).toHaveURL(/\/reflect\/new$/);
+  await expect(page).toHaveURL(/\/reflect$/);
+  await expect(page.getByLabel("Your message")).toBeVisible();
 });
 
 test("exactly one navigation item is marked as current, and each covers the pages reached from it", async ({ page }) => {
@@ -117,7 +115,6 @@ test("exactly one navigation item is marked as current, and each covers the page
     ["/ethics/natural-law/perspectives", "Natural Law"],
     ["/insights/socrates-unexamined-life", "Discover"],
     ["/reflect", "Reflect"],
-    ["/reflect/new", "Reflect"],
     ["/my-philosophy", "My Philosophy"],
   ];
   const nav = page.getByRole("navigation", { name: "Primary" }).filter({ visible: true });
@@ -140,7 +137,7 @@ test("the app is called Stoa everywhere people can see it", async ({ page }) => 
   expect(box.x).toBeGreaterThanOrEqual(0);
   expect(box.x + box.width).toBeLessThanOrEqual(page.viewportSize()!.width);
   if (!(await page.locator("aside").isHidden())) expect(box.width).toBeLessThanOrEqual(96);
-  for (const path of ["/discover", "/ideas", "/reflect", "/reflect/new", "/my-philosophy", "/ethics/natural-law", "/reframe", "/insights/socrates-unexamined-life"]) {
+  for (const path of ["/discover", "/ideas", "/reflect", "/my-philosophy", "/ethics/natural-law", "/reframe", "/insights/socrates-unexamined-life"]) {
     await open(page, path);
     expect(await page.title(), path).toMatch(/Stoa$/);
     expect(await page.locator("body").innerText(), path).not.toMatch(/agora/i);

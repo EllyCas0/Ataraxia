@@ -56,7 +56,7 @@ export default async function InsightPage({ params }: { params: Params }) {
 
       <div className="mt-10 flex flex-wrap gap-3">
         <Link
-          href={related ? `/reflect/new?concept=${related.slug}` : "/reflect/new"}
+          href={related ? `/reflect?concept=${related.slug}` : "/reflect"}
           className={cn(buttonVariants({ size: "lg" }), "h-11 px-5 text-base")}
         >
           Reflect on this

@@ -15,9 +15,8 @@ export const navItems: NavItem[] = [
   { href: "/my-philosophy", label: "My Philosophy", icon: BookMarked, matches: ["/my-philosophy"] },
 ];
 
-// The only way into a new conversation is the primary button on Discover and on Reflect: there is no
-// separate "New" button in the navigation.
-export const NEW_CONVERSATION_HREF = "/reflect/new";
+// A new conversation is simply the Reflect page: it opens on the message box. There is no separate "New" button.
+export const NEW_CONVERSATION_HREF = "/reflect";
 
 export function isActive(item: NavItem, pathname: string): boolean {
   return item.matches.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
