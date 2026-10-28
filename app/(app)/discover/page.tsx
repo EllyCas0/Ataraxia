@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { AboutPhilosophy } from "@/components/content/about-philosophy";
 import { InsightCarousel } from "@/components/content/insight-carousel";
 import { buttonVariants } from "@/components/ui/button";
 import { insightImage } from "@/lib/content/insight-image";
@@ -63,6 +64,8 @@ export default function DiscoverPage() {
           <ArrowRight className="size-5" aria-hidden />
         </span>
       </Link>
+
+      <AboutPhilosophy />
     </div>
   );
 }

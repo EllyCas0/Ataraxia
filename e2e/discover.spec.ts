@@ -148,3 +148,42 @@ test("the home page stays simple: at most 13 things can be tabbed to", async ({ 
   );
   expect(focusable.length, focusable.join(" | ")).toBeLessThanOrEqual(13);
 });
+
+test("the home page explains what philosophy is, why it matters, and how it relates to religion", async ({ page }) => {
+  await open(page, "/discover");
+  const section = page.getByRole("region", { name: "What is philosophy?" });
+  await expect(section).toBeVisible();
+  await expect(section.getByText("love of wisdom")).toBeVisible();
+  for (const [id, heading] of [
+    ["what", "Asking big questions carefully"],
+    ["why", "You already live by answers"],
+    ["religion", "Same questions, different ways of answering"],
+  ] as const) {
+    await expect(section.getByTestId(`about-${id}`).getByRole("heading", { level: 3, name: heading })).toBeVisible();
+  }
+  await expect(section.getByText("Stoa takes no side on whether any religion is true.")).toBeVisible();
+  // It is explanation only: nothing in it adds a link or button.
+  expect(await section.locator("a, button").count()).toBe(0);
+  // It sits below the main actions, not above them.
+  const start = (await page.getByRole("link", { name: /Start thinking/ }).boundingBox())!;
+  const about = (await section.boundingBox())!;
+  expect(about.y).toBeGreaterThan(start.y);
+});
+
+test("on a phone the three explanations stack, and none of them is cut off", async ({ page, isMobile }) => {
+  await open(page, "/discover");
+  const blocks = ["what", "why", "religion"].map((id) => page.getByTestId(`about-${id}`));
+  const boxes = await Promise.all(blocks.map((b) => b.boundingBox()));
+  const viewport = page.viewportSize()!;
+  for (const box of boxes) {
+    expect(box!.x).toBeGreaterThanOrEqual(0);
+    expect(box!.x + box!.width).toBeLessThanOrEqual(viewport.width);
+  }
+  if (isMobile) {
+    expect(boxes[1]!.y).toBeGreaterThan(boxes[0]!.y + boxes[0]!.height - 1);
+    expect(boxes[2]!.y).toBeGreaterThan(boxes[1]!.y + boxes[1]!.height - 1);
+  } else {
+    // Side by side on a wide screen.
+    expect(Math.abs(boxes[0]!.y - boxes[1]!.y)).toBeLessThan(5);
+  }
+});
