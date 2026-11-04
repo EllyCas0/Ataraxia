@@ -1,3 +1,4 @@
+import { WomenTimeline } from "@/components/content/women-timeline";
 import { LuminousBanner } from "@/components/content/luminous-women";
 import { AboutIllustration, AncientWomanDrawing } from "@/components/content/about-illustrations";
 import { ABOUT_PHILOSOPHY_INTRO, ANCIENT_WOMEN_TEXT, ANCIENT_WOMEN_TITLE, ancientWomen, aboutPhilosophy } from "@/lib/content/about-philosophy";
@@ -42,6 +43,8 @@ export function AboutPhilosophy() {
           ))}
         </ul>
       </div>
+
+      <WomenTimeline />
     </section>
   );
 }

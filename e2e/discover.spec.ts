@@ -139,14 +139,15 @@ test("both Reframe and Natural Law are within two clicks of the home page, which
   await expect(page).toHaveURL(/\/ethics\/natural-law$/);
 });
 
-test("the home page stays simple: at most 13 things can be tabbed to", async ({ page }) => {
+// 13 before the women's timeline; it adds exactly one (the scroll area itself, which keyboard users need to scroll it).
+test("the home page stays simple: at most 14 things can be tabbed to", async ({ page }) => {
   await open(page, "/discover");
   const focusable = await page.evaluate(() =>
     [...document.querySelectorAll<HTMLElement>("a[href], button, input, select, textarea, [tabindex]")]
       .filter((el) => el.tabIndex >= 0 && !(el as HTMLButtonElement).disabled && !el.closest("[aria-hidden='true']") && el.getClientRects().length > 0 && getComputedStyle(el).visibility !== "hidden")
       .map((el) => (el.getAttribute("aria-label") || el.textContent || el.tagName).replace(/\s+/g, " ").trim().slice(0, 40)),
   );
-  expect(focusable.length, focusable.join(" | ")).toBeLessThanOrEqual(13);
+  expect(focusable.length, focusable.join(" | ")).toBeLessThanOrEqual(14);
 });
 
 test("the home page explains what philosophy is, why it matters, and how it relates to religion", async ({ page }) => {
@@ -162,8 +163,9 @@ test("the home page explains what philosophy is, why it matters, and how it rela
     await expect(section.getByTestId(`about-${id}`).getByRole("heading", { level: 3, name: heading })).toBeVisible();
   }
   await expect(section.getByText("Stoa takes no side on whether any religion is true.")).toBeVisible();
-  // It is explanation only: nothing in it adds a link or button.
-  expect(await section.locator("a, button").count()).toBe(0);
+  // It is explanation only: nothing in it adds a link or button, except the two mouse-only arrows on the timeline.
+  expect(await section.locator("a, button").evaluateAll((els) => els.filter((el) => !el.closest("[data-testid='women-timeline']")).length)).toBe(0);
+  expect(await section.locator("a").count()).toBe(0);
   // Each block has a drawing that is decoration only: hidden from screen readers and not a stop for the keyboard.
   for (const id of ["what", "why", "religion"]) {
     const art = section.getByTestId(`about-art-${id}`);
@@ -227,4 +229,45 @@ test("a faint backdrop of luminous women sits behind the home page without getti
   // Buttons under a figure still work.
   await page.getByRole("link", { name: /Start thinking/ }).click();
   await expect(page).toHaveURL(/\/reflect$/);
+});
+
+test("women's quotes sit on a timeline that scrolls sideways, by mouse, arrow buttons and keyboard", async ({ page, isMobile }) => {
+  await open(page, "/discover");
+  const timeline = page.getByTestId("women-timeline");
+  await timeline.scrollIntoViewIfNeeded();
+  await expect(timeline.getByRole("heading", { level: 3, name: "Their words, across time" })).toBeVisible();
+  const scroller = timeline.getByRole("region", { name: /Timeline of women philosophers/ });
+  const items = scroller.getByRole("listitem");
+  await expect(items).toHaveCount(10);
+
+  // In time order, each with its dates, and quotes show their source.
+  const names = await items.locator("h4").allTextContents();
+  expect(names[0]).toBe("Sappho");
+  expect(names.at(-1)).toBe("Anna Julia Cooper");
+  await expect(timeline.getByText("It is justice, not charity, that is wanting in the world.")).toBeVisible();
+  await expect(timeline.getByText("A Vindication of the Rights of Woman, 1792, chapter 4")).toBeVisible();
+  // Hypatia has no quote on purpose, and the card says why.
+  await expect(page.getByTestId("voice-hypatia").getByRole("blockquote")).toHaveCount(0);
+  await expect(page.getByTestId("voice-hypatia")).toContainText("1908 book by Elbert Hubbard");
+
+  // It really scrolls sideways, and the page itself does not.
+  const metrics = () => scroller.evaluate((el) => ({ left: el.scrollLeft, over: el.scrollWidth - el.clientWidth }));
+  expect((await metrics()).over).toBeGreaterThan(200);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+
+  // Keyboard: one tab stop; arrow keys then scroll it.
+  await scroller.focus();
+  await page.keyboard.press("ArrowRight");
+  await expect.poll(async () => (await metrics()).left).toBeGreaterThan(0);
+
+  if (!isMobile) {
+    // The arrow buttons are for the mouse and are not tab stops.
+    const later = timeline.getByRole("button", { name: "Later voices" });
+    expect(await later.getAttribute("tabindex")).toBe("-1");
+    const before = (await metrics()).left;
+    await later.click();
+    await expect.poll(async () => (await metrics()).left).toBeGreaterThan(before + 100);
+    await timeline.getByRole("button", { name: "Earlier voices" }).click();
+    await expect.poll(async () => (await metrics()).left).toBeLessThan(before + 100);
+  }
 });
