@@ -30,3 +30,16 @@ export const aboutPhilosophy: AboutBlock[] = [
     text: "Religion and philosophy often ask the same questions, such as why we are here and how to live. Religions usually rest on faith, scripture, tradition and community. Philosophy asks for reasons anyone can examine. They are not simply rivals: many philosophers were religious, some traditions blend both, and others are not religious at all. Stoa takes no side on whether any religion is true.",
   },
 ];
+
+// A strip of drawings of women from the ancient Greek-speaking world. Few portraits of them survive, so the
+// drawings are artists' impressions and are labelled by what these women did, not by a name.
+export const ANCIENT_WOMEN_TITLE = "Women were asking these questions too";
+export const ANCIENT_WOMEN_TEXT =
+  "In the ancient Greek-speaking world, women wrote poems, taught students, studied the stars and joined the great debates, from Sappho on Lesbos to Aspasia in Athens and Hypatia in Alexandria. Almost no portraits of them survive, so these drawings are artists’ impressions, not likenesses.";
+export const ancientWomen = [
+  { id: "poet", role: "Poet", detail: "Songs about love and life" },
+  { id: "teacher", role: "Teacher", detail: "Taught students and kept the scrolls" },
+  { id: "astronomer", role: "Astronomer", detail: "Studied the stars and numbers" },
+  { id: "speaker", role: "Speaker", detail: "Argued in public and shaped others’ ideas" },
+] as const;
+export type AncientWomanId = (typeof ancientWomen)[number]["id"];

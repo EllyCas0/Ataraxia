@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { AboutPhilosophy } from "@/components/content/about-philosophy";
+import { AngelicBackdrop } from "@/components/content/luminous-women";
 import { InsightCarousel } from "@/components/content/insight-carousel";
 import { buttonVariants } from "@/components/ui/button";
 import { insightImage } from "@/lib/content/insight-image";
@@ -22,6 +23,7 @@ export default function DiscoverPage() {
 
   return (
     <div className="relative space-y-12 md:space-y-16">
+      <AngelicBackdrop />
       {/* Soft colour blobs behind the headline. Decorative only, the layout clips them so nothing scrolls sideways. */}
       <div aria-hidden className="pointer-events-none absolute -inset-x-6 -top-10 -z-10 h-[34rem]">
         <div className="absolute -left-20 top-0 size-72 rounded-full bg-[oklch(0.7_0.2_330)]/25 blur-3xl" />

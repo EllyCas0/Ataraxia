@@ -164,6 +164,27 @@ test("the home page explains what philosophy is, why it matters, and how it rela
   await expect(section.getByText("Stoa takes no side on whether any religion is true.")).toBeVisible();
   // It is explanation only: nothing in it adds a link or button.
   expect(await section.locator("a, button").count()).toBe(0);
+  // Each block has a drawing that is decoration only: hidden from screen readers and not a stop for the keyboard.
+  for (const id of ["what", "why", "religion"]) {
+    const art = section.getByTestId(`about-art-${id}`);
+    await expect(art).toBeVisible();
+    await expect(art).toHaveAttribute("aria-hidden", "true");
+    await expect(art).toHaveAttribute("focusable", "false");
+  }
+  // A strip of drawings of ancient Greek women, honest that these are impressions, not portraits.
+  const women = section.getByTestId("ancient-women");
+  await expect(women.getByRole("heading", { level: 3, name: "Women were asking these questions too" })).toBeVisible();
+  await expect(women.getByText(/not likenesses/)).toBeVisible();
+  await expect(women.getByRole("listitem")).toHaveCount(4);
+  for (const id of ["poet", "teacher", "astronomer", "speaker"]) {
+    const art = women.getByTestId(`ancient-art-${id}`);
+    await expect(art).toBeVisible();
+    await expect(art).toHaveAttribute("aria-hidden", "true");
+  }
+  // A band of luminous women above the strip: decoration only, no wings or religious symbols to keep Stoa neutral.
+  const banner = section.getByTestId("luminous-banner");
+  await expect(banner).toBeVisible();
+  await expect(banner).toHaveAttribute("aria-hidden", "true");
   // It sits below the main actions, not above them.
   const start = (await page.getByRole("link", { name: /Start thinking/ }).boundingBox())!;
   const about = (await section.boundingBox())!;
@@ -172,7 +193,7 @@ test("the home page explains what philosophy is, why it matters, and how it rela
 
 test("on a phone the three explanations stack, and none of them is cut off", async ({ page, isMobile }) => {
   await open(page, "/discover");
-  const blocks = ["what", "why", "religion"].map((id) => page.getByTestId(`about-${id}`));
+  const blocks = ["what", "why", "religion", "ancient-women"].map((id) => page.getByTestId(id === "ancient-women" ? id : `about-${id}`));
   const boxes = await Promise.all(blocks.map((b) => b.boundingBox()));
   const viewport = page.viewportSize()!;
   for (const box of boxes) {
@@ -182,8 +203,28 @@ test("on a phone the three explanations stack, and none of them is cut off", asy
   if (isMobile) {
     expect(boxes[1]!.y).toBeGreaterThan(boxes[0]!.y + boxes[0]!.height - 1);
     expect(boxes[2]!.y).toBeGreaterThan(boxes[1]!.y + boxes[1]!.height - 1);
+    expect(boxes[3]!.y).toBeGreaterThan(boxes[2]!.y + boxes[2]!.height - 1);
   } else {
     // Side by side on a wide screen.
     expect(Math.abs(boxes[0]!.y - boxes[1]!.y)).toBeLessThan(5);
   }
+});
+
+test("a faint backdrop of luminous women sits behind the home page without getting in the way", async ({ page }) => {
+  await open(page, "/discover");
+  const backdrop = page.getByTestId("angelic-backdrop");
+  await expect(backdrop).toHaveAttribute("aria-hidden", "true");
+  await expect(backdrop).toHaveCSS("pointer-events", "none");
+  await expect(backdrop).toHaveCSS("position", "fixed");
+  // Behind everything, and faint enough that text stays easy to read.
+  expect(Number(await backdrop.evaluate((el) => getComputedStyle(el).zIndex))).toBeLessThan(0);
+  for (const figure of await backdrop.locator("svg").all()) {
+    expect(Number(await figure.evaluate((el) => getComputedStyle(el).opacity))).toBeLessThanOrEqual(0.2);
+  }
+  // It adds nothing to tab through, and the page still does not scroll sideways.
+  expect(await backdrop.locator("a, button, [tabindex]").count()).toBe(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  // Buttons under a figure still work.
+  await page.getByRole("link", { name: /Start thinking/ }).click();
+  await expect(page).toHaveURL(/\/reflect$/);
 });
