@@ -55,16 +55,10 @@ export default async function InsightPage({ params }: { params: Params }) {
       <p className="mt-2 text-sm text-muted-foreground">Source: {insight.source}.</p>
 
       <div className="mt-10 flex flex-wrap gap-3">
-        <Link
-          href={related ? `/reflect?concept=${related.slug}` : "/reflect"}
-          className={cn(buttonVariants({ size: "lg" }), "h-11 px-5 text-base")}
-        >
-          Reflect on this
-          <ArrowRight data-icon="inline-end" aria-hidden />
-        </Link>
         {related && (
-          <Link href={`/ideas/${related.slug}`} className={cn(buttonVariants({ variant: "outline", size: "lg" }), "h-11 px-5 text-base")}>
+          <Link href={`/ideas/${related.slug}`} className={cn(buttonVariants({ size: "lg" }), "h-11 px-5 text-base")}>
             Read about {related.title.toLowerCase()}
+            <ArrowRight data-icon="inline-end" aria-hidden />
           </Link>
         )}
       </div>

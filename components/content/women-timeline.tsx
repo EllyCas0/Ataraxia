@@ -76,7 +76,10 @@ export function WomenTimeline() {
                     <figcaption className="mt-3 text-xs leading-snug text-muted-foreground">{voice.source}</figcaption>
                   </figure>
                 ) : (
-                  <p className="mt-4 text-sm font-medium">{voice.source}</p>
+                  <div className="mt-4 flex flex-1 flex-col">
+                    <p className="text-base leading-relaxed">{voice.idea}</p>
+                    <p className="mt-3 text-xs leading-snug text-muted-foreground">{voice.source}</p>
+                  </div>
                 )}
                 {voice.note && <p className="mt-3 border-t border-border pt-3 text-xs leading-snug text-muted-foreground">{voice.note}</p>}
               </div>

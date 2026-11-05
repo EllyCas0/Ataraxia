@@ -21,7 +21,7 @@ const toggle = (page: Page, n: number) => card(page, n).getByRole("heading", { l
 
 test("Natural Law can be reached from Discover through Ideas", async ({ page }) => {
   await open(page, "/discover");
-  await page.getByRole("link", { name: "Browse ideas" }).click();
+  await page.getByRole("link", { name: "Start thinking" }).click();
   await page.getByRole("link", { name: "Natural Law: a guided tour" }).click();
   await expect(page).toHaveURL(/\/ethics\/natural-law$/);
   await expect(page.getByRole("heading", { level: 1, name: "Natural Law" })).toBeVisible();

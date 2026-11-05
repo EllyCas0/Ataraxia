@@ -43,15 +43,6 @@ test("a concept page shows every section, including objections and sources", asy
   await expect(page.getByText(/may simplify a debate/)).toBeVisible();
 });
 
-test("discussing an idea starts a conversation with that idea as context", async ({ page }) => {
-  await open(page, "/ideas/ubuntu");
-  await page.getByRole("link", { name: "Discuss this idea" }).click();
-  await expect(page).toHaveURL(/\/reflect\?concept=ubuntu/);
-  await expect(page.getByText("Starting from:")).toBeVisible();
-  await expect(page.getByLabel("Your message")).toHaveValue(/Ubuntu/);
-  await expect(page.getByRole("button", { name: /Change style, now Explore an idea/ })).toBeVisible();
-});
-
 test("an unknown idea is a real 404", async ({ page }) => {
   const response = await page.goto("/ideas/not-a-real-idea");
   expect(response?.status()).toBe(404);
@@ -60,6 +51,4 @@ test("an unknown idea is a real 404", async ({ page }) => {
 test("unknown or hostile query values are ignored rather than trusted", async ({ page }) => {
   await open(page, "/ideas?theme=%3Cscript%3Ealert(1)%3C%2Fscript%3E&tradition=nope");
   await expect(page.getByRole("status")).toContainText(/\d+ ideas/);
-  await open(page, "/reflect?concept=%3Cimg%20src%3Dx%20onerror%3Dalert(1)%3E");
-  await expect(page.getByText("Starting from:")).toHaveCount(0);
 });

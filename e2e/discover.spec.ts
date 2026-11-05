@@ -64,8 +64,13 @@ test("the daily insight opens its reading view with the source", async ({ page }
   await expect(page).toHaveURL(/\/insights\/[a-z-]+$/);
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.getByText(/^Source:/)).toBeVisible();
-  await page.getByRole("link", { name: "Reflect on this" }).click();
-  await expect(page).toHaveURL(/\/reflect(\?|$)/);
+  // Some insights point to a related idea; the reading view then offers it.
+  const related = page.getByRole("link", { name: /^Read about / });
+  if (await related.count()) {
+    await related.click();
+    await expect(page).toHaveURL(/\/ideas\/[a-z-]+$/);
+  }
+  expect(await page.locator("a[href^='/reflect']").count()).toBe(0);
 });
 
 test("an unknown insight is a 404", async ({ page }) => {
@@ -73,10 +78,11 @@ test("an unknown insight is a 404", async ({ page }) => {
   expect(response?.status()).toBe(404);
 });
 
-test("start thinking opens a new conversation", async ({ page }) => {
+test("start thinking opens the idea library", async ({ page }) => {
   await open(page, "/discover");
   await page.getByRole("link", { name: /Start thinking/ }).click();
-  await expect(page).toHaveURL(/\/reflect$/);
+  await expect(page).toHaveURL(/\/ideas$/);
+  await expect(page.getByRole("heading", { level: 1, name: "Explore ideas" })).toBeVisible();
 });
 
 test("the weekly perspective is still reachable from the idea library", async ({ page }) => {
@@ -95,12 +101,13 @@ test("the home page has no vibe chips and no search box", async ({ page }) => {
   await expect(page.getByText("Pick a vibe")).toHaveCount(0);
   await expect(page.getByRole("search")).toHaveCount(0);
   await expect(page.getByLabel("Search ideas by topic")).toHaveCount(0);
-  await expect(page.getByRole("link", { name: "Browse ideas" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Start thinking" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Browse ideas" })).toHaveCount(0);
 });
 
 test("search still works on the Ideas page", async ({ page }) => {
   await open(page, "/discover");
-  await page.getByRole("link", { name: "Browse ideas" }).click();
+  await page.getByRole("link", { name: "Start thinking" }).click();
   await expect(page).toHaveURL(/\/ideas$/);
   await page.getByLabel("Search ideas", { exact: true }).fill("justice");
   await page.getByRole("button", { name: "Search" }).click();
@@ -126,15 +133,15 @@ test("there is one secondary card, it is stable on reload, and it opens Reframe 
 });
 
 test("both Reframe and Natural Law are within two clicks of the home page, whichever the card shows", async ({ page }) => {
-  // Reframe: Reflect, then the Reframe link.
+  // Reframe: Start thinking, then the Reframe link.
   await open(page, "/discover");
-  await page.getByRole("navigation", { name: "Primary" }).filter({ visible: true }).getByRole("link", { name: "Reflect" }).click();
+  await page.getByRole("link", { name: "Start thinking" }).click();
   await page.getByRole("link", { name: "Reframe a worried thought" }).click();
   await expect(page).toHaveURL(/\/reframe$/);
 
-  // Natural Law: Browse ideas, then the Natural Law link.
+  // Natural Law: Start thinking, then the Natural Law link.
   await open(page, "/discover");
-  await page.getByRole("link", { name: "Browse ideas" }).click();
+  await page.getByRole("link", { name: "Start thinking" }).click();
   await page.getByRole("link", { name: "Natural Law: a guided tour" }).click();
   await expect(page).toHaveURL(/\/ethics\/natural-law$/);
 });
@@ -228,21 +235,22 @@ test("a faint backdrop of luminous women sits behind the home page without getti
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   // Buttons under a figure still work.
   await page.getByRole("link", { name: /Start thinking/ }).click();
-  await expect(page).toHaveURL(/\/reflect$/);
+  await expect(page).toHaveURL(/\/ideas$/);
 });
 
 test("women's quotes sit on a timeline that scrolls sideways, by mouse, arrow buttons and keyboard", async ({ page, isMobile }) => {
   await open(page, "/discover");
   const timeline = page.getByTestId("women-timeline");
   await timeline.scrollIntoViewIfNeeded();
-  await expect(timeline.getByRole("heading", { level: 3, name: "Their words, across time" })).toBeVisible();
+  await expect(timeline.getByRole("heading", { level: 3, name: "Their ideas, across time" })).toBeVisible();
   const scroller = timeline.getByRole("region", { name: /Timeline of women philosophers/ });
   const items = scroller.getByRole("listitem");
-  await expect(items).toHaveCount(10);
+  await expect(items).toHaveCount(14);
 
   // In time order, each with its dates, and quotes show their source.
   const names = await items.locator("h4").allTextContents();
-  expect(names[0]).toBe("Sappho");
+  expect(names[0]).toBe("G\u0101rg\u012b V\u0101chaknav\u012b");
+  expect(names).toContain("Sappho");
   expect(names.at(-1)).toBe("Anna Julia Cooper");
   await expect(timeline.getByText("It is justice, not charity, that is wanting in the world.")).toBeVisible();
   await expect(timeline.getByText("A Vindication of the Rights of Woman, 1792, chapter 4")).toBeVisible();

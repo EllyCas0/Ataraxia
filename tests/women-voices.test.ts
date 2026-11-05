@@ -4,8 +4,8 @@ import { womenVoices } from "@/lib/content/women-voices";
 const words = (text: string) => text.trim().split(/\s+/).length;
 
 describe("the timeline of women philosophers", () => {
-  it("is in time order and has ten voices", () => {
-    expect(womenVoices).toHaveLength(10);
+  it("is in time order and has fourteen voices", () => {
+    expect(womenVoices).toHaveLength(14);
     const starts = womenVoices.map((v) => v.start);
     expect(starts).toEqual([...starts].sort((a, b) => a - b));
     for (const voice of womenVoices) expect(voice.end, voice.id).toBeGreaterThanOrEqual(voice.start);
@@ -27,6 +27,21 @@ describe("the timeline of women philosophers", () => {
       // A source with a year, a translator, or a named work.
       expect(voice.source, voice.id).toMatch(/\d{4}|translated|Symposium/);
     }
+  });
+
+  it("describes the idea, and says why there is no quote, for every voice without one", () => {
+    const quiet = womenVoices.filter((v) => !v.quote);
+    expect(quiet.map((v) => v.id)).toEqual(["gargi", "ban-zhao", "hypatia", "rabia", "mirabai"]);
+    for (const voice of quiet) {
+      expect(voice.idea, voice.id).toBeTruthy();
+      expect(words(voice.idea!), voice.id).toBeLessThanOrEqual(45);
+      expect(voice.note, voice.id).toBeTruthy();
+    }
+  });
+
+  it("reaches beyond Europe and America", () => {
+    const places = womenVoices.map((v) => v.place).join(" | ");
+    for (const place of ["India", "China", "Iraq", "Egypt", "Mexico"]) expect(places).toMatch(new RegExp(place));
   });
 
   it("does not put an invented quote in Hypatia's mouth", () => {

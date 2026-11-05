@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { BookOpen, Bookmark, MessageCircle, type LucideIcon } from "lucide-react";
-import { demoConversations, demoJournal, demoSaved } from "@/lib/demo/data";
+import { BookOpen, Bookmark, type LucideIcon } from "lucide-react";
+import { demoJournal, demoSaved } from "@/lib/demo/data";
 
 interface HistoryItem {
   id: string;
@@ -16,7 +16,6 @@ const fmt = (iso: string) => new Intl.DateTimeFormat("en-US", { month: "long", d
 // A single timeline of everything you have done here, newest first.
 export function HistoryPanel() {
   const items: HistoryItem[] = [
-    ...demoConversations.map((c) => ({ id: `c-${c.id}`, at: c.updatedAt, kind: "Conversation", title: c.title, href: `/reflect/${c.id}`, icon: MessageCircle })),
     ...demoJournal.map((j) => ({ id: `j-${j.id}`, at: j.createdAt, kind: "Journal entry", title: j.title || "Untitled entry", href: "/my-philosophy?tab=journal", icon: BookOpen })),
     ...demoSaved.map((s) => ({ id: `s-${s.id}`, at: s.createdAt, kind: "Saved", title: s.title, href: s.href ?? "/my-philosophy?tab=saved", icon: Bookmark })),
   ].sort((a, b) => b.at.localeCompare(a.at));

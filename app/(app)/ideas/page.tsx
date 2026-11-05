@@ -40,6 +40,9 @@ export default async function IdeasPage({ searchParams }: { searchParams: Search
           <Link href="/ethics/natural-law" className="text-accent-foreground underline underline-offset-4">
             Natural Law: a guided tour
           </Link>
+          <Link href="/reframe" className="text-accent-foreground underline underline-offset-4">
+            Reframe a worried thought
+          </Link>
         </p>
       </header>
 

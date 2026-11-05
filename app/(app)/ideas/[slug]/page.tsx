@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, MessageCircle } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { ConceptCard } from "@/components/content/concept-card";
 import { SaveButton } from "@/components/content/save-button";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
 import { content } from "@/lib/content/repository";
 import { themes } from "@/lib/content/themes";
 import type { SourceReference } from "@/lib/content/types";
-import { cn } from "@/lib/utils";
 
 type Params = Promise<{ slug: string }>;
 
@@ -58,10 +56,6 @@ export default async function ConceptPage({ params }: { params: Params }) {
         <p className="mt-2 text-muted-foreground">{concept.philosopher}</p>
         <p className="mt-5 max-w-2xl text-xl leading-relaxed">{concept.summary}</p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link href={`/reflect?concept=${encodeURIComponent(concept.slug)}`} className={cn(buttonVariants({ size: "lg" }), "h-11 px-5 text-base")}>
-            <MessageCircle data-icon="inline-start" aria-hidden />
-            Discuss this idea
-          </Link>
           <SaveButton title={concept.title} href={`/ideas/${concept.slug}`} className="h-11 px-5 text-base" />
         </div>
       </div>

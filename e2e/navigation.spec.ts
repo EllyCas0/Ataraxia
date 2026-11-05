@@ -12,10 +12,6 @@ test("the main destinations are reachable from the navigation", async ({ page, i
   const nav = page.getByRole("navigation", { name: "Primary" }).filter({ visible: true });
   await expect(nav.getByRole("link", { name: "Explore ideas" })).toHaveAttribute("aria-current", "page");
 
-  await nav.getByRole("link", { name: "Reflect" }).click();
-  await expect(page).toHaveURL(/\/reflect$/);
-  await expect(page.getByRole("heading", { level: 1, name: "What's on your mind?" })).toBeVisible();
-
   await nav.getByRole("link", { name: "My Philosophy" }).click();
   await expect(page).toHaveURL(/\/my-philosophy/);
   await expect(page.getByRole("heading", { level: 1, name: "My Philosophy" })).toBeVisible();
@@ -61,20 +57,20 @@ test("an unknown page shows a friendly not-found screen", async ({ page }) => {
 });
 
 test("the page does not scroll sideways", async ({ page }) => {
-  for (const path of ["/discover", "/ideas", "/ideas/ubuntu", "/weekly", "/reflect/demo-worry", "/my-philosophy?tab=values"]) {
+  for (const path of ["/discover", "/ideas", "/ideas/ubuntu", "/weekly", "/my-philosophy?tab=values"]) {
     await page.goto(path);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     expect(overflow, `${path} overflows horizontally`).toBeLessThanOrEqual(1);
   }
 });
 
-test("the navigation has four items and every one fits on the screen", async ({ page }) => {
+test("the navigation has three items and every one fits on the screen", async ({ page }) => {
   await open(page, "/discover");
   const nav = page.getByRole("navigation", { name: "Primary" }).filter({ visible: true });
   const viewport = page.viewportSize()!;
   const links = nav.getByRole("link");
-  await expect(links).toHaveText([/Explore ideas/, /Natural Law/, /Reflect/, /My Philosophy/]);
-  for (let i = 0; i < 4; i++) {
+  await expect(links).toHaveText([/Explore ideas/, /Natural Law/, /My Philosophy/]);
+  for (let i = 0; i < 3; i++) {
     const box = (await links.nth(i).boundingBox())!;
     expect(box.x).toBeGreaterThanOrEqual(0);
     expect(box.x + box.width).toBeLessThanOrEqual(viewport.width);
@@ -93,15 +89,18 @@ test("the Natural Law item opens the Natural Law page and is marked on every Eth
   await expect(nav.getByRole("link", { name: "Explore ideas" })).not.toHaveAttribute("aria-current", "page");
 });
 
-test("there is no separate New button: Start thinking and Reflect both open the message box", async ({ page }) => {
-  for (const path of ["/discover", "/ideas", "/my-philosophy", "/reflect"]) {
-    await open(page, path);
-    await expect(page.getByRole("link", { name: "Start a new conversation" })).toHaveCount(0);
-  }
+test("the Reflect page is gone: no navigation item, and its old addresses are real 404s", async ({ page }) => {
   await open(page, "/discover");
-  await page.getByRole("link", { name: /Start thinking/ }).click();
-  await expect(page).toHaveURL(/\/reflect$/);
-  await expect(page.getByLabel("Your message")).toBeVisible();
+  const nav = page.getByRole("navigation", { name: "Primary" }).filter({ visible: true });
+  await expect(nav.getByRole("link", { name: "Reflect" })).toHaveCount(0);
+  for (const path of ["/reflect", "/reflect/new", "/reflect/demo-worry", "/reflect?concept=ubuntu"]) {
+    expect((await page.goto(path))?.status(), path).toBe(404);
+  }
+  // Nothing on the main pages still points at it.
+  for (const path of ["/discover", "/ideas", "/ideas/ubuntu", "/insights/socrates-unexamined-life", "/my-philosophy"]) {
+    await open(page, path);
+    expect(await page.locator("a[href^='/reflect']").count(), path).toBe(0);
+  }
 });
 
 test("exactly one navigation item is marked as current, and each covers the pages reached from it", async ({ page }) => {
@@ -116,7 +115,6 @@ test("exactly one navigation item is marked as current, and each covers the page
     ["/ethics/natural-law/tenets", "Natural Law"],
     ["/ethics/natural-law/perspectives", "Natural Law"],
     ["/insights/socrates-unexamined-life", "Explore ideas"],
-    ["/reflect", "Reflect"],
     ["/my-philosophy", "My Philosophy"],
   ];
   const nav = page.getByRole("navigation", { name: "Primary" }).filter({ visible: true });
@@ -139,12 +137,9 @@ test("the app is called Stoa everywhere people can see it", async ({ page }) => 
   expect(box.x).toBeGreaterThanOrEqual(0);
   expect(box.x + box.width).toBeLessThanOrEqual(page.viewportSize()!.width);
   if (!(await page.locator("aside").isHidden())) expect(box.width).toBeLessThanOrEqual(96);
-  for (const path of ["/discover", "/ideas", "/reflect", "/my-philosophy", "/ethics/natural-law", "/reframe", "/insights/socrates-unexamined-life"]) {
+  for (const path of ["/discover", "/ideas", "/my-philosophy", "/ethics/natural-law", "/reframe", "/insights/socrates-unexamined-life"]) {
     await open(page, path);
     expect(await page.title(), path).toMatch(/Stoa$/);
     expect(await page.locator("body").innerText(), path).not.toMatch(/agora/i);
   }
-  await open(page, "/reflect/demo-worry");
-  // The AI's messages are labelled with the name too.
-  await expect(page.getByRole("region", { name: "Conversation" }).getByText("Stoa", { exact: true }).first()).toBeVisible();
 });

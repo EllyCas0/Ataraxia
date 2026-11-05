@@ -9,7 +9,6 @@ import { insightImage } from "@/lib/content/insight-image";
 import { insights, insightsStartingFrom } from "@/lib/content/insights";
 import { pickTryThis } from "@/lib/content/try-this";
 import { getAppTimezone, zonedDateKey } from "@/lib/time";
-import { NEW_CONVERSATION_HREF } from "@/components/shell/nav-items";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Discover" };
@@ -39,12 +38,9 @@ export default function DiscoverPage() {
           <p className="mt-6 max-w-md text-lg text-muted-foreground">Short, weird, surprisingly useful. Pick a thought and see where your head goes.</p>
 
           <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4">
-            <Link href={NEW_CONVERSATION_HREF} className={cn(buttonVariants({ size: "lg" }), "h-12 rounded-full px-7 text-base font-semibold")}>
+            <Link href="/ideas" className={cn(buttonVariants({ size: "lg" }), "h-12 rounded-full px-7 text-base font-semibold")}>
               Start thinking
               <ArrowRight data-icon="inline-end" aria-hidden />
-            </Link>
-            <Link href="/ideas" className="text-base text-accent-foreground underline-offset-4 hover:underline">
-              Browse ideas
             </Link>
           </div>
         </div>

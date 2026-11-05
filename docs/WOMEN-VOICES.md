@@ -28,6 +28,17 @@ The home page ends with a sideways-scrolling timeline of women thinkers (`lib/co
 Most were checked against Wikiquote rather than the original page, so a human reviewer should compare each against the
 original text before launch.
 
+## Cards without a quote
+Five cards describe an idea instead (field `idea`), and each says why there is no quote:
+
+| Person | Why no quote |
+| --- | --- |
+| Hypatia | No writing survives; the famous line is Elbert Hubbard's (1908). |
+| G\u0101rg\u012b | The story is in the Brihadaranyaka Upanishad 3.6 (M\u00fcller, 1879). We confirmed the chain of questions ("In air, O G\u0101rg\u012b") but not an exact sentence to quote, because the source page was only partly readable. Check Sacred Books of the East vol. 15 and add a quote if it reads well. |
+| Ban Zhao | The standard English translation (Swann, 1932) may still be under copyright, and we found no earlier one. A reviewer could add a short quote from the Chinese with a Stoa translation. |
+| Rabia al-Adawiyya | Her best-known prayer is recorded by later writers and the English versions we found differ. Margaret Smith (1928) is the standard study; check its wording and licence. |
+| Mirabai | No manuscripts from her lifetime survive; the translations we found are modern. |
+
 ## Gaps to fill
-Mostly European and American so far. Candidates with public-domain sources to check next: Hildegard of Bingen,
-Christine de Pizan, Ban Zhao, Rabia al-Adawiyya, Gargi Vachaknavi, Mirabai.
+Still thin on Africa, the Middle East and the Americas before 1800. Candidates to check next: Hildegard of Bingen,
+Christine de Pizan, Avvaiyar, Lalleshwari, al-Khansa.

@@ -40,35 +40,6 @@ test("saved ideas sync between tabs, survive reload and can be removed", async (
   await expect(saved.getByRole("link", { name: "The dichotomy of control", exact: true })).toHaveCount(0);
 });
 
-test("example insights persist without duplicates and can be removed", async ({ page }) => {
-  await open(page, "/reflect");
-  await expect(page.getByRole("heading", { name: "Example conversations", exact: true })).toBeVisible();
-  await expect(page.getByText("Read-only", { exact: true })).toHaveCount(3);
-  await page.getByRole("link", { name: /Worrying about things/ }).click();
-  await expect(page.getByText(/Read-only example. Save responses/)).toBeVisible();
-  await expect(page.getByLabel("Your message")).toBeDisabled();
-  await page.getByRole("button", { name: "Save insight", exact: true }).click();
-  await page.getByRole("button", { name: "Save insight", exact: true }).click();
-  await open(page, "/my-philosophy");
-  const saved = page.getByRole("region", { name: "Saved for later" });
-  await expect(saved.locator("li")).toHaveCount(1);
-  await page.reload();
-  await expect(saved).toContainText("Epictetus");
-  await saved.getByRole("button", { name: /Remove/ }).click();
-  await page.reload();
-  await expect(saved.locator("li")).toHaveCount(0);
-});
-
-test("unavailable chat is explained before input and sends no requests", async ({ page }) => {
-  let requests = 0;
-  page.on("request", (request) => { if (request.url().endsWith("/api/chat")) requests++; });
-  await open(page, "/reflect?concept=dichotomy-of-control");
-  test.skip(await page.getByLabel("Your message").isEnabled(), "This environment has live chat configured");
-  await expect(page.getByRole("status").filter({ hasText: "Chat is not available yet" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Send message", exact: true })).toBeDisabled();
-  expect(requests).toBe(0);
-});
-
 test("failed storage writes keep the journal draft and report failure", async ({ page }) => {
   await page.addInitScript(() => {
     Storage.prototype.setItem = () => { throw new DOMException("Full", "QuotaExceededError"); };
