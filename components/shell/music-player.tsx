@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Volume2, VolumeX } from "lucide-react";
+import { Settings } from "./settings";
 import { DEFAULT_MUSIC_VOLUME, MUSIC_ENABLED_KEY, MUSIC_VOLUME_KEY, TRACK, parseEnabled, parseVolume } from "@/lib/music";
 
 function readSavedVolume(): number {
@@ -83,6 +84,8 @@ export function MusicPlayer() {
   const showPill = playing || failed;
 
   return (
+    <>
+    <Settings playing={playing} failed={failed} volume={volume} onToggle={toggle} onVolumeChange={changeVolume} />
     <div className="group fixed bottom-0 right-0 z-40 flex min-h-14 w-1/5 items-center justify-center border-t border-border bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:bottom-6 md:left-6 md:right-auto md:min-h-0 md:w-auto md:border-0 md:bg-transparent md:pb-0 md:backdrop-blur-none">
       <audio
         ref={audio}
@@ -136,5 +139,6 @@ export function MusicPlayer() {
         </div>
       )}
     </div>
+    </>
   );
 }

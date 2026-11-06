@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { HydrationMarker } from "@/components/hydration-marker";
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "@/components/shell/theme-provider";
 
 export const metadata: Metadata = {
   title: { default: "Stoa", template: "%s · Stoa" },
@@ -16,7 +17,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className="min-h-dvh">
         <a
           href="#main"
@@ -24,8 +25,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to content
         </a>
+        <ThemeProvider>
         {children}
         <Toaster position="bottom-center" />
+        </ThemeProvider>
         <HydrationMarker />
       </body>
     </html>
