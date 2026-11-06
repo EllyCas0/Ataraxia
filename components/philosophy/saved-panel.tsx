@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import type { DemoSavedItem } from "@/lib/demo/data";
 
 const typeLabel: Record<DemoSavedItem["type"], string> = { question: "Question", concept: "Idea", insight: "Insight" };
-const fmt = (iso: string) => new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" }).format(new Date(iso));
+const fmt = (iso: string) => new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(new Date(iso));
 
 export function SavedPanel() {
   const [items, setItems] = useSavedItems();

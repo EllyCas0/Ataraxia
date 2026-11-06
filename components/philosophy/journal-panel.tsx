@@ -25,7 +25,7 @@ import { content } from "@/lib/content/repository";
 
 const MAX_BODY = 20000;
 const MAX_TITLE = 120;
-const fmt = (iso: string) => new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(iso));
+const fmt = (iso: string) => new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(new Date(iso));
 
 export function JournalPanel() {
   const [entries, setEntries] = useJournal();
