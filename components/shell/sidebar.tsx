@@ -13,7 +13,6 @@ export function Sidebar() {
         <span className="flex h-9 items-center justify-center rounded-full bg-gradient-to-br from-[oklch(0.8_0.17_25)] via-[oklch(0.88_0.16_95)] to-[oklch(0.9_0.2_135)] px-3.5 font-serif text-base font-extrabold leading-none tracking-tight text-[oklch(0.2_0.04_285)]">
           Stoa
         </span>
-        <span className="mt-1 block text-center text-[11px] text-muted-foreground">Home</span>
       </Link>
 
       <nav aria-label="Primary" className="flex w-full flex-col items-center gap-1">

@@ -10,7 +10,8 @@ test("the home page leads to Discover", async ({ page }) => {
 test("the main destinations are reachable from the navigation", async ({ page, isMobile }) => {
   await open(page, "/discover");
   const nav = page.getByRole("navigation", { name: "Primary" }).filter({ visible: true });
-  await expect(nav.getByRole("link", { name: "Explore ideas" })).toHaveAttribute("aria-current", "page");
+  await expect(nav.getByRole("link", { name: "Home", exact: true })).toHaveAttribute("aria-current", "page");
+  await expect(nav.getByRole("link", { name: "Explore ideas" })).not.toHaveAttribute("aria-current", "page");
 
   await nav.getByRole("link", { name: "My Philosophy" }).click();
   await expect(page).toHaveURL(/\/my-philosophy/);
@@ -64,13 +65,13 @@ test("the page does not scroll sideways", async ({ page }) => {
   }
 });
 
-test("the navigation has three items and every one fits on the screen", async ({ page }) => {
+test("the navigation has four items and every one fits on the screen", async ({ page }) => {
   await open(page, "/discover");
   const nav = page.getByRole("navigation", { name: "Primary" }).filter({ visible: true });
   const viewport = page.viewportSize()!;
   const links = nav.getByRole("link");
-  await expect(links).toHaveText([/Explore ideas/, /Natural Law/, /My Philosophy/]);
-  for (let i = 0; i < 3; i++) {
+  await expect(links).toHaveText([/^Home$/, /Explore ideas/, /Natural Law/, /My Philosophy/]);
+  for (let i = 0; i < 4; i++) {
     const box = (await links.nth(i).boundingBox())!;
     expect(box.x).toBeGreaterThanOrEqual(0);
     expect(box.x + box.width).toBeLessThanOrEqual(viewport.width);
@@ -107,7 +108,7 @@ test("exactly one navigation item is marked as current, and each covers the page
   // This checks ten full navigations, including server-rendered pages.
   test.setTimeout(90_000);
   const cases: [string, string][] = [
-    ["/discover", "Explore ideas"],
+    ["/discover", "Home"],
     ["/ideas", "Explore ideas"],
     ["/reframe", "Explore ideas"],
     ["/ethics", "Natural Law"],

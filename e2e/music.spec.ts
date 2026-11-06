@@ -95,11 +95,12 @@ test("a missing audio file shows a clear message instead of failing silently", a
   await expect(page.getByRole("status").filter({ hasText: "Audio file not found" })).toBeVisible();
 });
 
-test("the music control sits in the bottom-left corner and does not cover the navigation", async ({ page }) => {
+test("the music control sits at the foot of the navigation without covering its links", async ({ page, isMobile }) => {
   await open(page, "/discover");
   const button = await page.getByRole("button", { name: playButton }).boundingBox();
   const viewport = page.viewportSize()!;
-  expect(button!.x).toBeLessThan(viewport.width / 3);
+  if (isMobile) expect(button!.x).toBeGreaterThan(viewport.width * 0.8);
+  else expect(button!.x + button!.width).toBeLessThanOrEqual(96);
   expect(button!.y).toBeGreaterThan(viewport.height / 2);
   const nav = await page.getByRole("navigation", { name: "Primary" }).filter({ visible: true }).boundingBox();
   const overlaps = button!.x < nav!.x + nav!.width && button!.x + button!.width > nav!.x && button!.y < nav!.y + nav!.height && button!.y + button!.height > nav!.y;

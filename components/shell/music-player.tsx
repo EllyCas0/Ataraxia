@@ -29,7 +29,7 @@ function saveEnabled(enabled: boolean) {
   }
 }
 
-// A small music control in the bottom-left corner. It never starts on a first visit: the round button plays
+// A music control aligned with the navigation footer. It never starts on a first visit: the round button plays
 // and pauses, and the slider sets the volume. If the person left it playing last time, it tries to resume
 // quietly; when the browser refuses (it usually does until the page has been used) it simply stays paused and
 // waits for the button. It lives in the app layout, so the music keeps playing while you move between pages.
@@ -83,7 +83,7 @@ export function MusicPlayer() {
   const showPill = playing || failed;
 
   return (
-    <div className="group fixed bottom-[4.75rem] left-4 z-40 flex items-center gap-3 md:bottom-6 md:left-28">
+    <div className="group fixed bottom-0 right-0 z-40 flex min-h-14 w-1/5 items-center justify-center border-t border-border bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:bottom-6 md:left-6 md:right-auto md:min-h-0 md:w-auto md:border-0 md:bg-transparent md:pb-0 md:backdrop-blur-none">
       <audio
         ref={audio}
         src={TRACK.src}
@@ -102,13 +102,13 @@ export function MusicPlayer() {
         onClick={toggle}
         aria-pressed={playing}
         aria-label={playing ? `Pause music: ${TRACK.title} by ${TRACK.artist}` : `Play music: ${TRACK.title} by ${TRACK.artist}`}
-        className="flex size-12 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg shadow-black/40 transition-transform hover:scale-105 motion-reduce:transition-none"
+        className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg shadow-black/40 transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring motion-reduce:transition-none md:size-12"
       >
         {playing ? <Volume2 className="size-5" aria-hidden /> : <VolumeX className="size-5" aria-hidden />}
       </button>
 
       {showPill && (
-        <div className="hidden h-12 max-w-[calc(100vw-6.5rem)] items-center gap-3 rounded-full border border-border bg-card/90 px-4 backdrop-blur group-hover:flex group-has-[:focus-visible]:flex pointer-coarse:flex">
+        <div className="absolute bottom-full right-0 hidden h-14 w-max max-w-[calc(100vw-2rem)] items-center gap-3 rounded-2xl border border-border bg-card/95 px-4 backdrop-blur group-hover:flex group-has-[:focus-visible]:flex pointer-coarse:flex md:bottom-0 md:left-full md:right-auto md:max-w-[calc(100vw-7rem)]">
           {failed ? (
             <p role="status" className="truncate text-sm text-muted-foreground">
               Audio file not found
